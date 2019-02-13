@@ -118,7 +118,7 @@ def go_union_func($name):
 				["return err"],
 			"}",
 			"var payload interface{}",
-			"switch tmp.__typename {",
+			"switch tmpType.__typename {",
 			(.possibleTypes[] | (
 				(.name | go_name) as $tName |
 				"case \"" + $tName + "\":",

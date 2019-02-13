@@ -42,7 +42,7 @@ type Query struct {
 type Node struct {
 	// ID of the object.
 	ID                                            *string                                        `json:"id,omitempty"`
-	__typename                                    string                                         `json:"__typename,omitempty"`
+	TypeName__                                    string                                         `json:"__typename,omitempty"`
 	ActivitiesAgreedOnGoingPublic                 *ActivitiesAgreedOnGoingPublic                 `json:"-"`
 	ActivitiesBountyAwarded                       *ActivitiesBountyAwarded                       `json:"-"`
 	ActivitiesBountySuggested                     *ActivitiesBountySuggested                     `json:"-"`
@@ -184,7 +184,7 @@ func (u *Node) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "ActivitiesAgreedOnGoingPublic":
 		u.ActivitiesAgreedOnGoingPublic = &ActivitiesAgreedOnGoingPublic{}
 		payload = u.ActivitiesAgreedOnGoingPublic
@@ -581,6 +581,8 @@ func (u *Node) UnmarshalJSON(data []byte) (err error) {
 	case "Weakness":
 		u.Weakness = &Weakness{}
 		payload = u.Weakness
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -597,7 +599,7 @@ type Session struct {
 
 // A HackerOne user
 type User struct {
-	_ID                                  *string                       `json:"_id,omitempty"`
+	ID_                                  *string                       `json:"_id,omitempty"`
 	AccountRecoveryPhoneNumber           *string                       `json:"account_recovery_phone_number,omitempty"`
 	AccountRecoveryPhoneNumberSentAt     *DateTime                     `json:"account_recovery_phone_number_sent_at,omitempty"`
 	AccountRecoveryPhoneNumberVerifiedAt *DateTime                     `json:"account_recovery_phone_number_verified_at,omitempty"`
@@ -676,7 +678,7 @@ type User struct {
 // Represents a type that can be retrieved by a URL.
 type ResourceInterface struct {
 	URL                    *URI                    `json:"url,omitempty"`
-	__typename             string                  `json:"__typename,omitempty"`
+	TypeName__             string                  `json:"__typename,omitempty"`
 	BountyTable            *BountyTable            `json:"-"`
 	BountyTableRow         *BountyTableRow         `json:"-"`
 	CVERequest             *CVERequest             `json:"-"`
@@ -699,7 +701,7 @@ func (u *ResourceInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "BountyTable":
 		u.BountyTable = &BountyTable{}
 		payload = u.BountyTable
@@ -739,6 +741,8 @@ func (u *ResourceInterface) UnmarshalJSON(data []byte) (err error) {
 	case "User":
 		u.User = &User{}
 		payload = u.User
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -749,7 +753,7 @@ func (u *ResourceInterface) UnmarshalJSON(data []byte) (err error) {
 
 // A HackerOne user's address used for submitting swag
 type Address struct {
-	_ID         *string   `json:"_id,omitempty"`
+	ID_         *string   `json:"_id,omitempty"`
 	City        *string   `json:"city,omitempty"`
 	Country     *string   `json:"country,omitempty"`
 	CreatedAt   *DateTime `json:"created_at,omitempty"`
@@ -851,7 +855,7 @@ const (
 
 // A user can have payout preferences for different payment services
 type PayoutPreferenceUnion struct {
-	__typename                                    string                                         `json:"__typename,omitempty"`
+	TypeName__                                    string                                         `json:"__typename,omitempty"`
 	CoinbasePayoutPreferenceType                  *CoinbasePayoutPreferenceType                  `json:"-"`
 	CurrencycloudBankTransferPayoutPreferenceType *CurrencycloudBankTransferPayoutPreferenceType `json:"-"`
 	PaypalPayoutPreferenceType                    *PaypalPayoutPreferenceType                    `json:"-"`
@@ -865,7 +869,7 @@ func (u *PayoutPreferenceUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "CoinbasePayoutPreferenceType":
 		u.CoinbasePayoutPreferenceType = &CoinbasePayoutPreferenceType{}
 		payload = u.CoinbasePayoutPreferenceType
@@ -878,6 +882,8 @@ func (u *PayoutPreferenceUnion) UnmarshalJSON(data []byte) (err error) {
 	case "HackeronePayrollPayoutPreferenceType":
 		u.HackeronePayrollPayoutPreferenceType = &HackeronePayrollPayoutPreferenceType{}
 		payload = u.HackeronePayrollPayoutPreferenceType
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -888,7 +894,7 @@ func (u *PayoutPreferenceUnion) UnmarshalJSON(data []byte) (err error) {
 
 // A Coinbase Payout Preference
 type CoinbasePayoutPreferenceType struct {
-	_ID     *string `json:"_id,omitempty"`
+	ID_     *string `json:"_id,omitempty"`
 	Default *bool   `json:"default,omitempty"`
 	Email   *string `json:"email,omitempty"`
 	ID      *string `json:"id,omitempty"`
@@ -896,10 +902,10 @@ type CoinbasePayoutPreferenceType struct {
 
 // A interface for the common fields on an Payout Preference
 type PayoutPreferenceInterface struct {
-	_ID                                           *string                                        `json:"_id,omitempty"`
+	ID_                                           *string                                        `json:"_id,omitempty"`
 	Default                                       *bool                                          `json:"default,omitempty"`
 	ID                                            *string                                        `json:"id,omitempty"`
-	__typename                                    string                                         `json:"__typename,omitempty"`
+	TypeName__                                    string                                         `json:"__typename,omitempty"`
 	CoinbasePayoutPreferenceType                  *CoinbasePayoutPreferenceType                  `json:"-"`
 	CurrencycloudBankTransferPayoutPreferenceType *CurrencycloudBankTransferPayoutPreferenceType `json:"-"`
 	HackeronePayrollPayoutPreferenceType          *HackeronePayrollPayoutPreferenceType          `json:"-"`
@@ -913,7 +919,7 @@ func (u *PayoutPreferenceInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "CoinbasePayoutPreferenceType":
 		u.CoinbasePayoutPreferenceType = &CoinbasePayoutPreferenceType{}
 		payload = u.CoinbasePayoutPreferenceType
@@ -926,6 +932,8 @@ func (u *PayoutPreferenceInterface) UnmarshalJSON(data []byte) (err error) {
 	case "PaypalPayoutPreferenceType":
 		u.PaypalPayoutPreferenceType = &PaypalPayoutPreferenceType{}
 		payload = u.PaypalPayoutPreferenceType
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -936,7 +944,7 @@ func (u *PayoutPreferenceInterface) UnmarshalJSON(data []byte) (err error) {
 
 // A CurrencyCloud Bank Transfer Payout Preference
 type CurrencycloudBankTransferPayoutPreferenceType struct {
-	_ID     *string `json:"_id,omitempty"`
+	ID_     *string `json:"_id,omitempty"`
 	Default *bool   `json:"default,omitempty"`
 	ID      *string `json:"id,omitempty"`
 	Name    *string `json:"name,omitempty"`
@@ -944,7 +952,7 @@ type CurrencycloudBankTransferPayoutPreferenceType struct {
 
 // A Paypal Payout Preference
 type PaypalPayoutPreferenceType struct {
-	_ID     *string `json:"_id,omitempty"`
+	ID_     *string `json:"_id,omitempty"`
 	Default *bool   `json:"default,omitempty"`
 	Email   *string `json:"email,omitempty"`
 	ID      *string `json:"id,omitempty"`
@@ -952,7 +960,7 @@ type PaypalPayoutPreferenceType struct {
 
 // A HackeronePayroll Payout Preference
 type HackeronePayrollPayoutPreferenceType struct {
-	_ID     *string `json:"_id,omitempty"`
+	ID_     *string `json:"_id,omitempty"`
 	Default *bool   `json:"default,omitempty"`
 	Email   *string `json:"email,omitempty"`
 	ID      *string `json:"id,omitempty"`
@@ -970,7 +978,7 @@ const (
 // A HackerOne team member
 type TeamMember struct {
 	// The primary key from the database
-	_ID           *string   `json:"_id,omitempty"`
+	ID_           *string   `json:"_id,omitempty"`
 	AutoSubscribe *bool     `json:"auto_subscribe,omitempty"`
 	Concealed     *bool     `json:"concealed,omitempty"`
 	CreatedAt     *DateTime `json:"created_at,omitempty"`
@@ -985,7 +993,7 @@ type TeamMember struct {
 // A HackerOne team
 type Team struct {
 	// The primary key from the database
-	_ID                               *string             `json:"_id,omitempty"`
+	ID_                               *string             `json:"_id,omitempty"`
 	About                             *string             `json:"about,omitempty"`
 	Abuse                             *bool               `json:"abuse,omitempty"`
 	Activities                        *ActivityConnection `json:"activities,omitempty"`
@@ -1226,7 +1234,7 @@ type SlackChannel struct {
 // Slack user
 type SlackUser struct {
 	// The id provided by Slack
-	_ID         *string `json:"_id,omitempty"`
+	ID_         *string `json:"_id,omitempty"`
 	AvatarSmall *string `json:"avatar_small,omitempty"`
 	Deleted     *bool   `json:"deleted,omitempty"`
 	Email       *string `json:"email,omitempty"`
@@ -1430,8 +1438,8 @@ const (
 )
 
 type FiltersTeamFilterInput struct {
-	_Or                          []*FiltersTeamFilterInput             `json:"_or,omitempty"`
-	_And                         []*FiltersTeamFilterInput             `json:"_and,omitempty"`
+	Or_                          []*FiltersTeamFilterInput             `json:"_or,omitempty"`
+	And_                         []*FiltersTeamFilterInput             `json:"_and,omitempty"`
 	ID                           *IntPredicateInput                    `json:"id,omitempty"`
 	Name                         *StringPredicateInput                 `json:"name,omitempty"`
 	Handle                       *StringPredicateInput                 `json:"handle,omitempty"`
@@ -1451,63 +1459,63 @@ type FiltersTeamFilterInput struct {
 }
 
 type IntPredicateInput struct {
-	_Eq     *int32   `json:"_eq,omitempty"`
-	_Neq    *int32   `json:"_neq,omitempty"`
-	_Gt     *int32   `json:"_gt,omitempty"`
-	_Lt     *int32   `json:"_lt,omitempty"`
-	_Gte    *int32   `json:"_gte,omitempty"`
-	_Lte    *int32   `json:"_lte,omitempty"`
-	_In     []*int32 `json:"_in,omitempty"`
-	_Nin    []*int32 `json:"_nin,omitempty"`
-	_IsNull *bool    `json:"_is_null,omitempty"`
+	Eq_     *int32   `json:"_eq,omitempty"`
+	Neq_    *int32   `json:"_neq,omitempty"`
+	Gt_     *int32   `json:"_gt,omitempty"`
+	Lt_     *int32   `json:"_lt,omitempty"`
+	Gte_    *int32   `json:"_gte,omitempty"`
+	Lte_    *int32   `json:"_lte,omitempty"`
+	In_     []*int32 `json:"_in,omitempty"`
+	Nin_    []*int32 `json:"_nin,omitempty"`
+	IsNull_ *bool    `json:"_is_null,omitempty"`
 }
 
 type StringPredicateInput struct {
-	_Eq       *string   `json:"_eq,omitempty"`
-	_Neq      *string   `json:"_neq,omitempty"`
-	_Gt       *string   `json:"_gt,omitempty"`
-	_Lt       *string   `json:"_lt,omitempty"`
-	_Gte      *string   `json:"_gte,omitempty"`
-	_Lte      *string   `json:"_lte,omitempty"`
-	_In       []*string `json:"_in,omitempty"`
-	_Nin      []*string `json:"_nin,omitempty"`
-	_Like     *string   `json:"_like,omitempty"`
-	_Nlike    *string   `json:"_nlike,omitempty"`
-	_Ilike    *string   `json:"_ilike,omitempty"`
-	_Nilike   *string   `json:"_nilike,omitempty"`
-	_Similar  *string   `json:"_similar,omitempty"`
-	_Nsimilar *string   `json:"_nsimilar,omitempty"`
-	_IsNull   *bool     `json:"_is_null,omitempty"`
+	Eq_       *string   `json:"_eq,omitempty"`
+	Neq_      *string   `json:"_neq,omitempty"`
+	Gt_       *string   `json:"_gt,omitempty"`
+	Lt_       *string   `json:"_lt,omitempty"`
+	Gte_      *string   `json:"_gte,omitempty"`
+	Lte_      *string   `json:"_lte,omitempty"`
+	In_       []*string `json:"_in,omitempty"`
+	Nin_      []*string `json:"_nin,omitempty"`
+	Like_     *string   `json:"_like,omitempty"`
+	Nlike_    *string   `json:"_nlike,omitempty"`
+	Ilike_    *string   `json:"_ilike,omitempty"`
+	Nilike_   *string   `json:"_nilike,omitempty"`
+	Similar_  *string   `json:"_similar,omitempty"`
+	Nsimilar_ *string   `json:"_nsimilar,omitempty"`
+	IsNull_   *bool     `json:"_is_null,omitempty"`
 }
 
 type TeamStatePredicateInput struct {
-	_Eq     *TeamState   `json:"_eq,omitempty"`
-	_Neq    *TeamState   `json:"_neq,omitempty"`
-	_Gt     *TeamState   `json:"_gt,omitempty"`
-	_Lt     *TeamState   `json:"_lt,omitempty"`
-	_Gte    *TeamState   `json:"_gte,omitempty"`
-	_Lte    *TeamState   `json:"_lte,omitempty"`
-	_In     []*TeamState `json:"_in,omitempty"`
-	_Nin    []*TeamState `json:"_nin,omitempty"`
-	_IsNull *bool        `json:"_is_null,omitempty"`
+	Eq_     *TeamState   `json:"_eq,omitempty"`
+	Neq_    *TeamState   `json:"_neq,omitempty"`
+	Gt_     *TeamState   `json:"_gt,omitempty"`
+	Lt_     *TeamState   `json:"_lt,omitempty"`
+	Gte_    *TeamState   `json:"_gte,omitempty"`
+	Lte_    *TeamState   `json:"_lte,omitempty"`
+	In_     []*TeamState `json:"_in,omitempty"`
+	Nin_    []*TeamState `json:"_nin,omitempty"`
+	IsNull_ *bool        `json:"_is_null,omitempty"`
 }
 
 type BooleanPredicateInput struct {
-	_Eq     *bool `json:"_eq,omitempty"`
-	_Neq    *bool `json:"_neq,omitempty"`
-	_IsNull *bool `json:"_is_null,omitempty"`
+	Eq_     *bool `json:"_eq,omitempty"`
+	Neq_    *bool `json:"_neq,omitempty"`
+	IsNull_ *bool `json:"_is_null,omitempty"`
 }
 
 type SubmissionStateEnumPredicateInput struct {
-	_Eq     *SubmissionStateEnum   `json:"_eq,omitempty"`
-	_Neq    *SubmissionStateEnum   `json:"_neq,omitempty"`
-	_Gt     *SubmissionStateEnum   `json:"_gt,omitempty"`
-	_Lt     *SubmissionStateEnum   `json:"_lt,omitempty"`
-	_Gte    *SubmissionStateEnum   `json:"_gte,omitempty"`
-	_Lte    *SubmissionStateEnum   `json:"_lte,omitempty"`
-	_In     []*SubmissionStateEnum `json:"_in,omitempty"`
-	_Nin    []*SubmissionStateEnum `json:"_nin,omitempty"`
-	_IsNull *bool                  `json:"_is_null,omitempty"`
+	Eq_     *SubmissionStateEnum   `json:"_eq,omitempty"`
+	Neq_    *SubmissionStateEnum   `json:"_neq,omitempty"`
+	Gt_     *SubmissionStateEnum   `json:"_gt,omitempty"`
+	Lt_     *SubmissionStateEnum   `json:"_lt,omitempty"`
+	Gte_    *SubmissionStateEnum   `json:"_gte,omitempty"`
+	Lte_    *SubmissionStateEnum   `json:"_lte,omitempty"`
+	In_     []*SubmissionStateEnum `json:"_in,omitempty"`
+	Nin_    []*SubmissionStateEnum `json:"_nin,omitempty"`
+	IsNull_ *bool                  `json:"_is_null,omitempty"`
 }
 
 // Submission states
@@ -1520,8 +1528,8 @@ const (
 )
 
 type FiltersExternalProgramFilterInput struct {
-	_Or           []*FiltersExternalProgramFilterInput `json:"_or,omitempty"`
-	_And          []*FiltersExternalProgramFilterInput `json:"_and,omitempty"`
+	Or_           []*FiltersExternalProgramFilterInput `json:"_or,omitempty"`
+	And_          []*FiltersExternalProgramFilterInput `json:"_and,omitempty"`
 	ID            *IntPredicateInput                   `json:"id,omitempty"`
 	OffersRewards *BooleanPredicateInput               `json:"offers_rewards,omitempty"`
 	Policy        *StringPredicateInput                `json:"policy,omitempty"`
@@ -1530,23 +1538,23 @@ type FiltersExternalProgramFilterInput struct {
 }
 
 type FiltersStructuredScopeFilterInput struct {
-	_Or             []*FiltersStructuredScopeFilterInput        `json:"_or,omitempty"`
-	_And            []*FiltersStructuredScopeFilterInput        `json:"_and,omitempty"`
+	Or_             []*FiltersStructuredScopeFilterInput        `json:"_or,omitempty"`
+	And_            []*FiltersStructuredScopeFilterInput        `json:"_and,omitempty"`
 	ID              *IntPredicateInput                          `json:"id,omitempty"`
 	AssetIdentifier *StringPredicateInput                       `json:"asset_identifier,omitempty"`
 	AssetType       *StructuredScopeAssetTypeEnumPredicateInput `json:"asset_type,omitempty"`
 }
 
 type StructuredScopeAssetTypeEnumPredicateInput struct {
-	_Eq     *StructuredScopeAssetTypeEnum   `json:"_eq,omitempty"`
-	_Neq    *StructuredScopeAssetTypeEnum   `json:"_neq,omitempty"`
-	_Gt     *StructuredScopeAssetTypeEnum   `json:"_gt,omitempty"`
-	_Lt     *StructuredScopeAssetTypeEnum   `json:"_lt,omitempty"`
-	_Gte    *StructuredScopeAssetTypeEnum   `json:"_gte,omitempty"`
-	_Lte    *StructuredScopeAssetTypeEnum   `json:"_lte,omitempty"`
-	_In     []*StructuredScopeAssetTypeEnum `json:"_in,omitempty"`
-	_Nin    []*StructuredScopeAssetTypeEnum `json:"_nin,omitempty"`
-	_IsNull *bool                           `json:"_is_null,omitempty"`
+	Eq_     *StructuredScopeAssetTypeEnum   `json:"_eq,omitempty"`
+	Neq_    *StructuredScopeAssetTypeEnum   `json:"_neq,omitempty"`
+	Gt_     *StructuredScopeAssetTypeEnum   `json:"_gt,omitempty"`
+	Lt_     *StructuredScopeAssetTypeEnum   `json:"_lt,omitempty"`
+	Gte_    *StructuredScopeAssetTypeEnum   `json:"_gte,omitempty"`
+	Lte_    *StructuredScopeAssetTypeEnum   `json:"_lte,omitempty"`
+	In_     []*StructuredScopeAssetTypeEnum `json:"_in,omitempty"`
+	Nin_    []*StructuredScopeAssetTypeEnum `json:"_nin,omitempty"`
+	IsNull_ *bool                           `json:"_is_null,omitempty"`
 }
 
 // Structured Scope asset type enum
@@ -1568,16 +1576,16 @@ const (
 )
 
 type FiltersUserFilterInput struct {
-	_Or      []*FiltersUserFilterInput `json:"_or,omitempty"`
-	_And     []*FiltersUserFilterInput `json:"_and,omitempty"`
+	Or_      []*FiltersUserFilterInput `json:"_or,omitempty"`
+	And_     []*FiltersUserFilterInput `json:"_and,omitempty"`
 	ID       *IntPredicateInput        `json:"id,omitempty"`
 	Username *StringPredicateInput     `json:"username,omitempty"`
 	IsMe     *bool                     `json:"is_me,omitempty"`
 }
 
 type FiltersTriageSubscriptionFilterInput struct {
-	_Or      []*FiltersTriageSubscriptionFilterInput `json:"_or,omitempty"`
-	_And     []*FiltersTriageSubscriptionFilterInput `json:"_and,omitempty"`
+	Or_      []*FiltersTriageSubscriptionFilterInput `json:"_or,omitempty"`
+	And_     []*FiltersTriageSubscriptionFilterInput `json:"_and,omitempty"`
 	ID       *IntPredicateInput                      `json:"id,omitempty"`
 	IsActive *bool                                   `json:"is_active,omitempty"`
 }
@@ -1610,7 +1618,7 @@ type EmbeddedSubmissionDomainEdge struct {
 
 // Allowed domains for embedded submission forms
 type EmbeddedSubmissionDomain struct {
-	_ID       *string `json:"_id,omitempty"`
+	ID_       *string `json:"_id,omitempty"`
 	CreatedBy *User   `json:"created_by,omitempty"`
 	Domain    *string `json:"domain,omitempty"`
 	ID        *string `json:"id,omitempty"`
@@ -1664,7 +1672,7 @@ type CredentialEdge struct {
 
 // Credentials of a team
 type Credential struct {
-	_ID            *string `json:"_id,omitempty"`
+	ID_            *string `json:"_id,omitempty"`
 	AccountDetails *string `json:"account_details,omitempty"`
 	Credentials    *string `json:"credentials,omitempty"`
 	ID             *string `json:"id,omitempty"`
@@ -1785,7 +1793,7 @@ type ReportsCountPerWeakness struct {
 
 // The type of vulnerability on a HackerOne report
 type Weakness struct {
-	_ID         *string            `json:"_id,omitempty"`
+	ID_         *string            `json:"_id,omitempty"`
 	Clusters    *ClusterConnection `json:"clusters,omitempty"`
 	CreatedAt   *DateTime          `json:"created_at,omitempty"`
 	Description *string            `json:"description,omitempty"`
@@ -1953,7 +1961,7 @@ const (
 
 // Cached metrics of a Team
 type TeamCachedProfile struct {
-	_ID                               *string   `json:"_id,omitempty"`
+	ID_                               *string   `json:"_id,omitempty"`
 	DisclosedReportsInLastYearCount   *int32    `json:"disclosed_reports_in_last_year_count,omitempty"`
 	HackersAcceptedAllTimeCount       *int32    `json:"hackers_accepted_all_time_count,omitempty"`
 	HackersInvitedAllTimeCount        *int32    `json:"hackers_invited_all_time_count,omitempty"`
@@ -1986,7 +1994,7 @@ type ActivityUnionEdge struct {
 
 // Activities can be of multiple types
 type ActivityUnion struct {
-	__typename                                string                                     `json:"__typename,omitempty"`
+	TypeName__                                string                                     `json:"__typename,omitempty"`
 	ActivitiesAgreedOnGoingPublic             *ActivitiesAgreedOnGoingPublic             `json:"-"`
 	ActivitiesBountyAwarded                   *ActivitiesBountyAwarded                   `json:"-"`
 	ActivitiesBountySuggested                 *ActivitiesBountySuggested                 `json:"-"`
@@ -2042,7 +2050,7 @@ func (u *ActivityUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "ActivitiesAgreedOnGoingPublic":
 		u.ActivitiesAgreedOnGoingPublic = &ActivitiesAgreedOnGoingPublic{}
 		payload = u.ActivitiesAgreedOnGoingPublic
@@ -2181,6 +2189,8 @@ func (u *ActivityUnion) UnmarshalJSON(data []byte) (err error) {
 	case "ActivitiesUserCompletedRetest":
 		u.ActivitiesUserCompletedRetest = &ActivitiesUserCompletedRetest{}
 		payload = u.ActivitiesUserCompletedRetest
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -2191,7 +2201,7 @@ func (u *ActivityUnion) UnmarshalJSON(data []byte) (err error) {
 
 // A Activities::AgreedOnGoingPublic activity for a report
 type ActivitiesAgreedOnGoingPublic struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -2210,7 +2220,7 @@ type ActivitiesAgreedOnGoingPublic struct {
 
 // A interface for the common fields on an HackerOne Activity
 type ActivityInterface struct {
-	_ID                                       *string                                    `json:"_id,omitempty"`
+	ID_                                       *string                                    `json:"_id,omitempty"`
 	Actor                                     *ActorUnion                                `json:"actor,omitempty"`
 	CreatedAt                                 *DateTime                                  `json:"created_at,omitempty"`
 	ICanEdit                                  *bool                                      `json:"i_can_edit,omitempty"`
@@ -2218,7 +2228,7 @@ type ActivityInterface struct {
 	MarkdownMessage                           *string                                    `json:"markdown_message,omitempty"`
 	Message                                   *string                                    `json:"message,omitempty"`
 	UpdatedAt                                 *DateTime                                  `json:"updated_at,omitempty"`
-	__typename                                string                                     `json:"__typename,omitempty"`
+	TypeName__                                string                                     `json:"__typename,omitempty"`
 	ActivitiesAgreedOnGoingPublic             *ActivitiesAgreedOnGoingPublic             `json:"-"`
 	ActivitiesBountyAwarded                   *ActivitiesBountyAwarded                   `json:"-"`
 	ActivitiesBountySuggested                 *ActivitiesBountySuggested                 `json:"-"`
@@ -2274,7 +2284,7 @@ func (u *ActivityInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "ActivitiesAgreedOnGoingPublic":
 		u.ActivitiesAgreedOnGoingPublic = &ActivitiesAgreedOnGoingPublic{}
 		payload = u.ActivitiesAgreedOnGoingPublic
@@ -2413,6 +2423,8 @@ func (u *ActivityInterface) UnmarshalJSON(data []byte) (err error) {
 	case "ActivitiesUserJoined":
 		u.ActivitiesUserJoined = &ActivitiesUserJoined{}
 		payload = u.ActivitiesUserJoined
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -2423,7 +2435,7 @@ func (u *ActivityInterface) UnmarshalJSON(data []byte) (err error) {
 
 // The actor of an activity can be multiple types
 type ActorUnion struct {
-	__typename string `json:"__typename,omitempty"`
+	TypeName__ string `json:"__typename,omitempty"`
 	User       *User  `json:"-"`
 	Team       *Team  `json:"-"`
 }
@@ -2435,13 +2447,15 @@ func (u *ActorUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "User":
 		u.User = &User{}
 		payload = u.User
 	case "Team":
 		u.Team = &Team{}
 		payload = u.Team
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -2457,7 +2471,7 @@ type ReportActivityInterface struct {
 	// DEPRECATED: This is about to be replaced by .genius_execution
 	GeniusExecutionID                         *string                                    `json:"genius_execution_id,omitempty"`
 	Report                                    *Report                                    `json:"report,omitempty"`
-	__typename                                string                                     `json:"__typename,omitempty"`
+	TypeName__                                string                                     `json:"__typename,omitempty"`
 	ActivitiesAgreedOnGoingPublic             *ActivitiesAgreedOnGoingPublic             `json:"-"`
 	ActivitiesBountyAwarded                   *ActivitiesBountyAwarded                   `json:"-"`
 	ActivitiesBountySuggested                 *ActivitiesBountySuggested                 `json:"-"`
@@ -2511,7 +2525,7 @@ func (u *ReportActivityInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "ActivitiesAgreedOnGoingPublic":
 		u.ActivitiesAgreedOnGoingPublic = &ActivitiesAgreedOnGoingPublic{}
 		payload = u.ActivitiesAgreedOnGoingPublic
@@ -2644,6 +2658,8 @@ func (u *ReportActivityInterface) UnmarshalJSON(data []byte) (err error) {
 	case "ActivitiesUserCompletedRetest":
 		u.ActivitiesUserCompletedRetest = &ActivitiesUserCompletedRetest{}
 		payload = u.ActivitiesUserCompletedRetest
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -2654,7 +2670,7 @@ func (u *ReportActivityInterface) UnmarshalJSON(data []byte) (err error) {
 
 // A HackerOne report
 type Report struct {
-	_ID                              *string             `json:"_id,omitempty"`
+	ID_                              *string             `json:"_id,omitempty"`
 	Activities                       *ActivityConnection `json:"activities,omitempty"`
 	AllowSingularDisclosureAfter     *string             `json:"allow_singular_disclosure_after,omitempty"`
 	AllowSingularDisclosureAt        *DateTime           `json:"allow_singular_disclosure_at,omitempty"`
@@ -2712,7 +2728,7 @@ type Report struct {
 
 // Report can be assigned to either a user or a team member group
 type AssigneeUnion struct {
-	__typename      string           `json:"__typename,omitempty"`
+	TypeName__      string           `json:"__typename,omitempty"`
 	User            *User            `json:"-"`
 	TeamMemberGroup *TeamMemberGroup `json:"-"`
 }
@@ -2724,13 +2740,15 @@ func (u *AssigneeUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "User":
 		u.User = &User{}
 		payload = u.User
 	case "TeamMemberGroup":
 		u.TeamMemberGroup = &TeamMemberGroup{}
 		payload = u.TeamMemberGroup
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -2741,7 +2759,7 @@ func (u *AssigneeUnion) UnmarshalJSON(data []byte) (err error) {
 
 // A HackerOne team member group
 type TeamMemberGroup struct {
-	_ID         *string       `json:"_id,omitempty"`
+	ID_         *string       `json:"_id,omitempty"`
 	CreatedAt   *DateTime     `json:"created_at,omitempty"`
 	ID          *string       `json:"id,omitempty"`
 	Immutable   *bool         `json:"immutable,omitempty"`
@@ -2753,7 +2771,7 @@ type TeamMemberGroup struct {
 
 // A HackerOne severity for a report
 type Severity struct {
-	_ID                *string                         `json:"_id,omitempty"`
+	ID_                *string                         `json:"_id,omitempty"`
 	AttackComplexity   *SeverityAttackComplexityEnum   `json:"attack_complexity,omitempty"`
 	AttackVector       *SeverityAttackVectorEnum       `json:"attack_vector,omitempty"`
 	AuthorType         *SeverityAuthorEnum             `json:"author_type,omitempty"`
@@ -2857,7 +2875,7 @@ type TriageMeta struct {
 
 // A defined scope of a HackerOne program
 type StructuredScope struct {
-	_ID                                  *string                           `json:"_id,omitempty"`
+	ID_                                  *string                           `json:"_id,omitempty"`
 	ArchivedAt                           *DateTime                         `json:"archived_at,omitempty"`
 	AssetIdentifier                      *string                           `json:"asset_identifier,omitempty"`
 	AssetType                            *StructuredScopeAssetTypeEnum     `json:"asset_type,omitempty"`
@@ -2914,7 +2932,7 @@ type StructuredScopeVersionEdge struct {
 
 // A versioned log of a scope of a HackerOne program
 type StructuredScopeVersion struct {
-	_ID         *string   `json:"_id,omitempty"`
+	ID_         *string   `json:"_id,omitempty"`
 	ArchivedAt  *DateTime `json:"archived_at,omitempty"`
 	CreatedAt   *DateTime `json:"created_at,omitempty"`
 	ID          *string   `json:"id,omitempty"`
@@ -2947,8 +2965,8 @@ type ReportEdge struct {
 }
 
 type FiltersReportFilterInput struct {
-	_Or                      []*FiltersReportFilterInput    `json:"_or,omitempty"`
-	_And                     []*FiltersReportFilterInput    `json:"_and,omitempty"`
+	Or_                      []*FiltersReportFilterInput    `json:"_or,omitempty"`
+	And_                     []*FiltersReportFilterInput    `json:"_and,omitempty"`
 	ID                       *IntPredicateInput             `json:"id,omitempty"`
 	Title                    *StringPredicateInput          `json:"title,omitempty"`
 	VulnerabilityInformation *StringPredicateInput          `json:"vulnerability_information,omitempty"`
@@ -2962,15 +2980,15 @@ type FiltersReportFilterInput struct {
 }
 
 type ReportStateEnumPredicateInput struct {
-	_Eq     *ReportStateEnum   `json:"_eq,omitempty"`
-	_Neq    *ReportStateEnum   `json:"_neq,omitempty"`
-	_Gt     *ReportStateEnum   `json:"_gt,omitempty"`
-	_Lt     *ReportStateEnum   `json:"_lt,omitempty"`
-	_Gte    *ReportStateEnum   `json:"_gte,omitempty"`
-	_Lte    *ReportStateEnum   `json:"_lte,omitempty"`
-	_In     []*ReportStateEnum `json:"_in,omitempty"`
-	_Nin    []*ReportStateEnum `json:"_nin,omitempty"`
-	_IsNull *bool              `json:"_is_null,omitempty"`
+	Eq_     *ReportStateEnum   `json:"_eq,omitempty"`
+	Neq_    *ReportStateEnum   `json:"_neq,omitempty"`
+	Gt_     *ReportStateEnum   `json:"_gt,omitempty"`
+	Lt_     *ReportStateEnum   `json:"_lt,omitempty"`
+	Gte_    *ReportStateEnum   `json:"_gte,omitempty"`
+	Lte_    *ReportStateEnum   `json:"_lte,omitempty"`
+	In_     []*ReportStateEnum `json:"_in,omitempty"`
+	Nin_    []*ReportStateEnum `json:"_nin,omitempty"`
+	IsNull_ *bool              `json:"_is_null,omitempty"`
 }
 
 // States a report can be in
@@ -2991,20 +3009,20 @@ const (
 )
 
 type DateTimePredicateInput struct {
-	_Eq     *DateTime   `json:"_eq,omitempty"`
-	_Neq    *DateTime   `json:"_neq,omitempty"`
-	_Gt     *DateTime   `json:"_gt,omitempty"`
-	_Lt     *DateTime   `json:"_lt,omitempty"`
-	_Gte    *DateTime   `json:"_gte,omitempty"`
-	_Lte    *DateTime   `json:"_lte,omitempty"`
-	_In     []*DateTime `json:"_in,omitempty"`
-	_Nin    []*DateTime `json:"_nin,omitempty"`
-	_IsNull *bool       `json:"_is_null,omitempty"`
+	Eq_     *DateTime   `json:"_eq,omitempty"`
+	Neq_    *DateTime   `json:"_neq,omitempty"`
+	Gt_     *DateTime   `json:"_gt,omitempty"`
+	Lt_     *DateTime   `json:"_lt,omitempty"`
+	Gte_    *DateTime   `json:"_gte,omitempty"`
+	Lte_    *DateTime   `json:"_lte,omitempty"`
+	In_     []*DateTime `json:"_in,omitempty"`
+	Nin_    []*DateTime `json:"_nin,omitempty"`
+	IsNull_ *bool       `json:"_is_null,omitempty"`
 }
 
 type FiltersWeaknessFilterInput struct {
-	_Or  []*FiltersWeaknessFilterInput `json:"_or,omitempty"`
-	_And []*FiltersWeaknessFilterInput `json:"_and,omitempty"`
+	Or_  []*FiltersWeaknessFilterInput `json:"_or,omitempty"`
+	And_ []*FiltersWeaknessFilterInput `json:"_and,omitempty"`
 	ID   *IntPredicateInput            `json:"id,omitempty"`
 	Name *StringPredicateInput         `json:"name,omitempty"`
 }
@@ -3093,7 +3111,7 @@ type ReportFilterInput struct {
 
 // A HackerOne swag awarded for a report
 type Swag struct {
-	_ID       *string   `json:"_id,omitempty"`
+	ID_       *string   `json:"_id,omitempty"`
 	CreatedAt *DateTime `json:"created_at,omitempty"`
 	ID        *string   `json:"id,omitempty"`
 	Report    *Report   `json:"report,omitempty"`
@@ -3104,7 +3122,7 @@ type Swag struct {
 
 // A HackerOne attachment for a report
 type Attachment struct {
-	_ID         *string   `json:"_id,omitempty"`
+	ID_         *string   `json:"_id,omitempty"`
 	ContentType *string   `json:"content_type,omitempty"`
 	CreatedAt   *DateTime `json:"created_at,omitempty"`
 	ExpiringURL *string   `json:"expiring_url,omitempty"`
@@ -3115,7 +3133,7 @@ type Attachment struct {
 
 // A HackerOne bounty for a report
 type Bounty struct {
-	_ID                *string           `json:"_id,omitempty"`
+	ID_                *string           `json:"_id,omitempty"`
 	Amount             *string           `json:"amount,omitempty"`
 	AwardedAmount      *string           `json:"awarded_amount,omitempty"`
 	AwardedBonusAmount *string           `json:"awarded_bonus_amount,omitempty"`
@@ -3151,7 +3169,7 @@ const (
 
 // A HackerOne summary for a report
 type Summary struct {
-	_ID *string `json:"_id,omitempty"`
+	ID_ *string `json:"_id,omitempty"`
 	// DEPRECATED: The implementation of this field contains hard to reason about polymorphism
 	Category  *string   `json:"category,omitempty"`
 	Content   *string   `json:"content,omitempty"`
@@ -3163,7 +3181,7 @@ type Summary struct {
 
 // Trigger
 type Trigger struct {
-	_ID                *string               `json:"_id,omitempty"`
+	ID_                *string               `json:"_id,omitempty"`
 	ActionMessage      *string               `json:"action_message,omitempty"`
 	ActionType         *string               `json:"action_type,omitempty"`
 	CreatedAt          *DateTime             `json:"created_at,omitempty"`
@@ -3198,7 +3216,7 @@ type ExpressionEdge struct {
 
 // Trigger Expression
 type Expression struct {
-	_ID        *string  `json:"_id,omitempty"`
+	ID_        *string  `json:"_id,omitempty"`
 	ID         *string  `json:"id,omitempty"`
 	LeftValue  *string  `json:"left_value,omitempty"`
 	Operand    *string  `json:"operand,omitempty"`
@@ -3227,7 +3245,7 @@ type TriggerActionLogEdge struct {
 
 // TriggerActionLog
 type TriggerActionLog struct {
-	_ID *string `json:"_id,omitempty"`
+	ID_ *string `json:"_id,omitempty"`
 	ID  *string `json:"id,omitempty"`
 }
 
@@ -3319,7 +3337,7 @@ type VoteEdge struct {
 // A Vote for a hacktivity item
 type Vote struct {
 	// The primary key from the database
-	_ID    *string `json:"_id,omitempty"`
+	ID_    *string `json:"_id,omitempty"`
 	ID     *string `json:"id,omitempty"`
 	Report *Report `json:"report,omitempty"`
 	User   *User   `json:"user,omitempty"`
@@ -3327,7 +3345,7 @@ type Vote struct {
 
 // A Activities::BountyAwarded activity for a report
 type ActivitiesBountyAwarded struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3348,7 +3366,7 @@ type ActivitiesBountyAwarded struct {
 
 // A Activities::BountySuggested activity for a report
 type ActivitiesBountySuggested struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3369,7 +3387,7 @@ type ActivitiesBountySuggested struct {
 
 // A Activities::BugCloned activity for a report
 type ActivitiesBugCloned struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3390,7 +3408,7 @@ type ActivitiesBugCloned struct {
 
 // A Activities::BugDuplicate activity for a report
 type ActivitiesBugDuplicate struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3411,7 +3429,7 @@ type ActivitiesBugDuplicate struct {
 
 // A Activities::BugInformative activity for a report
 type ActivitiesBugInformative struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3429,7 +3447,7 @@ type ActivitiesBugInformative struct {
 
 // A Activities::BugNeedsMoreInfo activity for a report
 type ActivitiesBugNeedsMoreInfo struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3447,7 +3465,7 @@ type ActivitiesBugNeedsMoreInfo struct {
 
 // A Activities::BugNew activity for a report
 type ActivitiesBugNew struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3465,7 +3483,7 @@ type ActivitiesBugNew struct {
 
 // A Activities::BugNotApplicable activity for a report
 type ActivitiesBugNotApplicable struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3483,7 +3501,7 @@ type ActivitiesBugNotApplicable struct {
 
 // A Activities::BugInactive activity for a report
 type ActivitiesBugInactive struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3501,7 +3519,7 @@ type ActivitiesBugInactive struct {
 
 // A Activities::BugReopened activity for a report
 type ActivitiesBugReopened struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3519,7 +3537,7 @@ type ActivitiesBugReopened struct {
 
 // A Activities::BugResolved activity for a report
 type ActivitiesBugResolved struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3537,7 +3555,7 @@ type ActivitiesBugResolved struct {
 
 // A Activities::BugSpam activity for a report
 type ActivitiesBugSpam struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3555,7 +3573,7 @@ type ActivitiesBugSpam struct {
 
 // A Activities::BugTriaged activity for a report
 type ActivitiesBugTriaged struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3573,7 +3591,7 @@ type ActivitiesBugTriaged struct {
 
 // A Activities::BugFiled activity for a report
 type ActivitiesBugFiled struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3591,7 +3609,7 @@ type ActivitiesBugFiled struct {
 
 // A Activities::CancelledDisclosureRequest activity for a report
 type ActivitiesCancelledDisclosureRequest struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3609,7 +3627,7 @@ type ActivitiesCancelledDisclosureRequest struct {
 
 // A Activities::ChangedScope activity for a report
 type ActivitiesChangedScope struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3629,7 +3647,7 @@ type ActivitiesChangedScope struct {
 
 // A Activities::Comment activity for a report
 type ActivitiesComment struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3647,7 +3665,7 @@ type ActivitiesComment struct {
 
 // A Activities::CommentsClosed activity for a report
 type ActivitiesCommentsClosed struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3665,7 +3683,7 @@ type ActivitiesCommentsClosed struct {
 
 // A Activities::ExternalUserInvitationCancelled activity for a report
 type ActivitiesExternalUserInvitationCancelled struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3684,7 +3702,7 @@ type ActivitiesExternalUserInvitationCancelled struct {
 
 // A Activities::ExternalAdvisoryAdded activity for a report
 type ActivitiesExternalAdvisoryAdded struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3702,7 +3720,7 @@ type ActivitiesExternalAdvisoryAdded struct {
 
 // A Activities::ExternalUserInvited activity for a report
 type ActivitiesExternalUserInvited struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3721,7 +3739,7 @@ type ActivitiesExternalUserInvited struct {
 
 // A Activities::ExternalUserJoined activity for a report
 type ActivitiesExternalUserJoined struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3742,7 +3760,7 @@ type ActivitiesExternalUserJoined struct {
 
 // A Activities::ExternalUserRemoved activity for a report
 type ActivitiesExternalUserRemoved struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3761,7 +3779,7 @@ type ActivitiesExternalUserRemoved struct {
 
 // A Activities::GroupAssignedToBug activity for a report
 type ActivitiesGroupAssignedToBug struct {
-	_ID               *string          `json:"_id,omitempty"`
+	ID_               *string          `json:"_id,omitempty"`
 	Actor             *ActorUnion      `json:"actor,omitempty"`
 	AssignedGroup     *TeamMemberGroup `json:"assigned_group,omitempty"`
 	Attachments       []*Attachment    `json:"attachments,omitempty"`
@@ -3782,7 +3800,7 @@ type ActivitiesGroupAssignedToBug struct {
 
 // A Activities::HackerRequestedMediation activity for a report
 type ActivitiesHackerRequestedMediation struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3800,7 +3818,7 @@ type ActivitiesHackerRequestedMediation struct {
 
 // A Activities::ManuallyDisclosed activity for a report
 type ActivitiesManuallyDisclosed struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3818,7 +3836,7 @@ type ActivitiesManuallyDisclosed struct {
 
 // A Activities::MediationRequested activity for a report
 type ActivitiesMediationRequested struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3836,7 +3854,7 @@ type ActivitiesMediationRequested struct {
 
 // A Activities::NotEligibleForBounty activity for a report
 type ActivitiesNotEligibleForBounty struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3854,7 +3872,7 @@ type ActivitiesNotEligibleForBounty struct {
 
 // A Activities::ReferenceIdAdded activity for a report
 type ActivitiesReferenceIDAdded struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3874,7 +3892,7 @@ type ActivitiesReferenceIDAdded struct {
 
 // A Activities::CveIdAdded activity for a report
 type ActivitiesCVEIDAdded struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3893,7 +3911,7 @@ type ActivitiesCVEIDAdded struct {
 
 // A Activities::ReassignedToTeam activity for a report
 type ActivitiesReassignedToTeam struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3911,7 +3929,7 @@ type ActivitiesReassignedToTeam struct {
 
 // A Activities::ReportBecamePublic activity for a report
 type ActivitiesReportBecamePublic struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3929,7 +3947,7 @@ type ActivitiesReportBecamePublic struct {
 
 // A Activities::ReportTitleUpdated activity for a report
 type ActivitiesReportTitleUpdated struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3949,7 +3967,7 @@ type ActivitiesReportTitleUpdated struct {
 
 // A Activities::ReportVulnerabilityTypesUpdated activity for a report
 type ActivitiesReportVulnerabilityTypesUpdated struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3969,7 +3987,7 @@ type ActivitiesReportVulnerabilityTypesUpdated struct {
 
 // A Activities::ReportSeverityUpdated activity for a report
 type ActivitiesReportSeverityUpdated struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -3987,7 +4005,7 @@ type ActivitiesReportSeverityUpdated struct {
 
 // A Activities::ReportCollaboratorInvited activity for a report
 type ActivitiesReportCollaboratorInvited struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -4005,7 +4023,7 @@ type ActivitiesReportCollaboratorInvited struct {
 
 // A Activities::ReportCollaboratorJoined activity for a report
 type ActivitiesReportCollaboratorJoined struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -4023,7 +4041,7 @@ type ActivitiesReportCollaboratorJoined struct {
 
 // A Activities::SwagAwarded activity for a report
 type ActivitiesSwagAwarded struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -4042,7 +4060,7 @@ type ActivitiesSwagAwarded struct {
 
 // A Activities::TeamPublished activity for a team
 type ActivitiesTeamPublished struct {
-	_ID             *string     `json:"_id,omitempty"`
+	ID_             *string     `json:"_id,omitempty"`
 	Actor           *ActorUnion `json:"actor,omitempty"`
 	CreatedAt       *DateTime   `json:"created_at,omitempty"`
 	ICanEdit        *bool       `json:"i_can_edit,omitempty"`
@@ -4055,7 +4073,7 @@ type ActivitiesTeamPublished struct {
 
 // A Activities::UserAssignedToBug activity for a report
 type ActivitiesUserAssignedToBug struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	AssignedUser      *User         `json:"assigned_user,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
@@ -4074,7 +4092,7 @@ type ActivitiesUserAssignedToBug struct {
 
 // A Activities::UserBannedFromProgram activity for a report
 type ActivitiesUserBannedFromProgram struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -4093,7 +4111,7 @@ type ActivitiesUserBannedFromProgram struct {
 
 // A Activities::UserJoined activity for a user
 type ActivitiesUserJoined struct {
-	_ID             *string     `json:"_id,omitempty"`
+	ID_             *string     `json:"_id,omitempty"`
 	Actor           *ActorUnion `json:"actor,omitempty"`
 	CreatedAt       *DateTime   `json:"created_at,omitempty"`
 	ICanEdit        *bool       `json:"i_can_edit,omitempty"`
@@ -4106,7 +4124,7 @@ type ActivitiesUserJoined struct {
 
 // An Activities::NobodyAssignedToBug activity for a report
 type ActivitiesNobodyAssignedToBug struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -4124,7 +4142,7 @@ type ActivitiesNobodyAssignedToBug struct {
 
 // A Activities::ProgramInactive activity for a report
 type ActivitiesProgramInactive struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -4142,7 +4160,7 @@ type ActivitiesProgramInactive struct {
 
 // A Activities::UserCompletedRetest activity for a report
 type ActivitiesUserCompletedRetest struct {
-	_ID               *string       `json:"_id,omitempty"`
+	ID_               *string       `json:"_id,omitempty"`
 	Actor             *ActorUnion   `json:"actor,omitempty"`
 	Attachments       []*Attachment `json:"attachments,omitempty"`
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
@@ -4180,7 +4198,7 @@ type SlackPipelineEdge struct {
 // A Slack Pipeline Configuration for notifications
 type SlackPipeline struct {
 	// The primary key from the database
-	_ID                                    *string   `json:"_id,omitempty"`
+	ID_                                    *string   `json:"_id,omitempty"`
 	Channel                                *string   `json:"channel,omitempty"`
 	DescriptiveLabel                       *string   `json:"descriptive_label,omitempty"`
 	ID                                     *string   `json:"id,omitempty"`
@@ -4320,7 +4338,7 @@ type TeamInboxViewEdge struct {
 
 // A team report filter preset
 type TeamInboxView struct {
-	_ID                *string             `json:"_id,omitempty"`
+	ID_                *string             `json:"_id,omitempty"`
 	AssignedToGroupIds []*int32            `json:"assigned_to_group_ids,omitempty"`
 	AssignedToUserIds  []*int32            `json:"assigned_to_user_ids,omitempty"`
 	BuiltIn            *bool               `json:"built_in,omitempty"`
@@ -4396,7 +4414,7 @@ type CommonResponseEdge struct {
 // A common response
 type CommonResponse struct {
 	// The primary key from the database
-	_ID       *string   `json:"_id,omitempty"`
+	ID_       *string   `json:"_id,omitempty"`
 	CreatedAt *DateTime `json:"created_at,omitempty"`
 	ID        *string   `json:"id,omitempty"`
 	Message   *string   `json:"message,omitempty"`
@@ -4497,7 +4515,7 @@ type InvitationUnionEdge struct {
 
 // Invitations can be of multiple types
 type InvitationUnion struct {
-	__typename            string                 `json:"__typename,omitempty"`
+	TypeName__            string                 `json:"__typename,omitempty"`
 	InvitationsSoftLaunch *InvitationsSoftLaunch `json:"-"`
 }
 
@@ -4508,10 +4526,12 @@ func (u *InvitationUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "InvitationsSoftLaunch":
 		u.InvitationsSoftLaunch = &InvitationsSoftLaunch{}
 		payload = u.InvitationsSoftLaunch
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -4522,7 +4542,7 @@ func (u *InvitationUnion) UnmarshalJSON(data []byte) (err error) {
 
 // An invitation to join a private team as a hacker
 type InvitationsSoftLaunch struct {
-	_ID             *string               `json:"_id,omitempty"`
+	ID_             *string               `json:"_id,omitempty"`
 	ExpiresAt       *DateTime             `json:"expires_at,omitempty"`
 	ID              *string               `json:"id,omitempty"`
 	MarkdownMessage *string               `json:"markdown_message,omitempty"`
@@ -4535,8 +4555,8 @@ type InvitationsSoftLaunch struct {
 
 // An interface for the common fields on a HackerOne Invitation
 type InvitationInterface struct {
-	_ID                   *string                `json:"_id,omitempty"`
-	__typename            string                 `json:"__typename,omitempty"`
+	ID_                   *string                `json:"_id,omitempty"`
+	TypeName__            string                 `json:"__typename,omitempty"`
 	InvitationsRetest     *InvitationsRetest     `json:"-"`
 	InvitationsSoftLaunch *InvitationsSoftLaunch `json:"-"`
 }
@@ -4548,13 +4568,15 @@ func (u *InvitationInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "InvitationsRetest":
 		u.InvitationsRetest = &InvitationsRetest{}
 		payload = u.InvitationsRetest
 	case "InvitationsSoftLaunch":
 		u.InvitationsSoftLaunch = &InvitationsSoftLaunch{}
 		payload = u.InvitationsSoftLaunch
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -4616,7 +4638,7 @@ type SurveyAnswerEdge struct {
 
 // A survey filled out by a hacker
 type SurveyAnswer struct {
-	_ID                       *string                             `json:"_id,omitempty"`
+	ID_                       *string                             `json:"_id,omitempty"`
 	CreatedAt                 *DateTime                           `json:"created_at,omitempty"`
 	Feedback                  *string                             `json:"feedback,omitempty"`
 	ID                        *string                             `json:"id,omitempty"`
@@ -4648,7 +4670,7 @@ type SurveyStructuredResponseEdge struct {
 
 // Prepared survey response reasons
 type SurveyStructuredResponse struct {
-	_ID        *string `json:"_id,omitempty"`
+	ID_        *string `json:"_id,omitempty"`
 	Enabled    *bool   `json:"enabled,omitempty"`
 	HelperText *string `json:"helper_text,omitempty"`
 	ID         *string `json:"id,omitempty"`
@@ -4704,7 +4726,7 @@ const (
 // An External Program
 type ExternalProgram struct {
 	// The primary key from the database
-	_ID            *string `json:"_id,omitempty"`
+	ID_            *string `json:"_id,omitempty"`
 	About          *string `json:"about,omitempty"`
 	Handle         *string `json:"handle,omitempty"`
 	ID             *string `json:"id,omitempty"`
@@ -4771,7 +4793,7 @@ type StaticParticipantEdge struct {
 
 // A static participant for a team
 type StaticParticipant struct {
-	_ID         *string `json:"_id,omitempty"`
+	ID_         *string `json:"_id,omitempty"`
 	Avatar      *string `json:"avatar,omitempty"`
 	Bio         *string `json:"bio,omitempty"`
 	ExternalURL *string `json:"external_url,omitempty"`
@@ -4829,7 +4851,7 @@ const (
 
 // Display options for a HackerOne team
 type TeamDisplayOptions struct {
-	_ID                             *string `json:"_id,omitempty"`
+	ID_                             *string `json:"_id,omitempty"`
 	ID                              *string `json:"id,omitempty"`
 	ShowAverageBounty               *bool   `json:"show_average_bounty,omitempty"`
 	ShowMeanBountyTime              *bool   `json:"show_mean_bounty_time,omitempty"`
@@ -4846,7 +4868,7 @@ type TeamDisplayOptions struct {
 
 // Resolution SLA settings for a HackerOne team
 type SLASetting struct {
-	_ID                                        *string `json:"_id,omitempty"`
+	ID_                                        *string `json:"_id,omitempty"`
 	CriticalSeverityResolvedStalenessThreshold *int32  `json:"critical_severity_resolved_staleness_threshold,omitempty"`
 	HighSeverityResolvedStalenessThreshold     *int32  `json:"high_severity_resolved_staleness_threshold,omitempty"`
 	ID                                         *string `json:"id,omitempty"`
@@ -4865,7 +4887,7 @@ type SubmissionRequirements struct {
 
 // BountyTable
 type BountyTable struct {
-	_ID             *string                   `json:"_id,omitempty"`
+	ID_             *string                   `json:"_id,omitempty"`
 	BountyTableRows *BountyTableRowConnection `json:"bounty_table_rows,omitempty"`
 	CriticalLabel   *string                   `json:"critical_label,omitempty"`
 	Description     *string                   `json:"description,omitempty"`
@@ -4899,7 +4921,7 @@ type BountyTableRowEdge struct {
 
 // BountyTableRow
 type BountyTableRow struct {
-	_ID             *string          `json:"_id,omitempty"`
+	ID_             *string          `json:"_id,omitempty"`
 	Critical        *int32           `json:"critical,omitempty"`
 	High            *int32           `json:"high,omitempty"`
 	ID              *string          `json:"id,omitempty"`
@@ -4961,7 +4983,7 @@ type CVERequestEdge struct {
 
 // A request for a CVE
 type CVERequest struct {
-	_ID                       *string              `json:"_id,omitempty"`
+	ID_                       *string              `json:"_id,omitempty"`
 	CreatedAt                 *DateTime            `json:"created_at,omitempty"`
 	CVEIdentifier             *string              `json:"cve_identifier,omitempty"`
 	Description               *string              `json:"description,omitempty"`
@@ -5013,7 +5035,7 @@ type NewFeatureNotification struct {
 
 // A HackerOne feature
 type Feature struct {
-	_ID     *string `json:"_id,omitempty"`
+	ID_     *string `json:"_id,omitempty"`
 	Enabled *bool   `json:"enabled,omitempty"`
 	ID      *string `json:"id,omitempty"`
 	Key     *string `json:"key,omitempty"`
@@ -5117,7 +5139,7 @@ type BadgesUsersEdge struct {
 
 // Represents a badge earned by a user
 type BadgesUsers struct {
-	_ID       *string   `json:"_id,omitempty"`
+	ID_       *string   `json:"_id,omitempty"`
 	Badge     *Badge    `json:"badge,omitempty"`
 	CreatedAt *DateTime `json:"created_at,omitempty"`
 	ID        *string   `json:"id,omitempty"`
@@ -5126,7 +5148,7 @@ type BadgesUsers struct {
 
 // A HackerOne badge
 type Badge struct {
-	_ID         *string `json:"_id,omitempty"`
+	ID_         *string `json:"_id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	ID          *string `json:"id,omitempty"`
 	ImagePath   *string `json:"image_path,omitempty"`
@@ -5224,7 +5246,7 @@ type InvitationQueueEdge struct {
 
 // A HackerOne invitation queue slot earned by a hacker
 type InvitationQueue struct {
-	_ID *string `json:"_id,omitempty"`
+	ID_ *string `json:"_id,omitempty"`
 	ID  *string `json:"id,omitempty"`
 }
 
@@ -5249,7 +5271,7 @@ type UserSessionEdge struct {
 
 // A HackerOne user's session history
 type UserSession struct {
-	_ID                  *string             `json:"_id,omitempty"`
+	ID_                  *string             `json:"_id,omitempty"`
 	AbbreviatedUserAgent *string             `json:"abbreviated_user_agent,omitempty"`
 	Country              *UserSessionCountry `json:"country,omitempty"`
 	CreatedAt            *DateTime           `json:"created_at,omitempty"`
@@ -5294,7 +5316,7 @@ type ReportRetestUserEdge struct {
 
 // A report retest user
 type ReportRetestUser struct {
-	_ID                      *string            `json:"_id,omitempty"`
+	ID_                      *string            `json:"_id,omitempty"`
 	AnsweredCanBeReproduced  *bool              `json:"answered_can_be_reproduced,omitempty"`
 	AnsweredFixCanBeBypassed *bool              `json:"answered_fix_can_be_bypassed,omitempty"`
 	BypassReportID           *int32             `json:"bypass_report_id,omitempty"`
@@ -5308,7 +5330,7 @@ type ReportRetestUser struct {
 
 // A report retest
 type ReportRetest struct {
-	_ID               *string                     `json:"_id,omitempty"`
+	ID_               *string                     `json:"_id,omitempty"`
 	AwardAmount       *string                     `json:"award_amount,omitempty"`
 	CreatedAt         *DateTime                   `json:"created_at,omitempty"`
 	CreatedBy         *User                       `json:"created_by,omitempty"`
@@ -5319,7 +5341,7 @@ type ReportRetest struct {
 
 // An invitation to perform a retest of a report
 type InvitationsRetest struct {
-	_ID        *string   `json:"_id,omitempty"`
+	ID_        *string   `json:"_id,omitempty"`
 	AcceptedAt *DateTime `json:"accepted_at,omitempty"`
 	ExpiresAt  *DateTime `json:"expires_at,omitempty"`
 	ID         *string   `json:"id,omitempty"`
@@ -5529,7 +5551,7 @@ type HacktivityItemUnionEdge struct {
 
 // Hacktivities can be of multiple types
 type HacktivityItemUnion struct {
-	__typename        string             `json:"__typename,omitempty"`
+	TypeName__        string             `json:"__typename,omitempty"`
 	PubliclyDisclosed *PubliclyDisclosed `json:"-"`
 	Undisclosed       *Undisclosed       `json:"-"`
 	HackerPublished   *HackerPublished   `json:"-"`
@@ -5542,7 +5564,7 @@ func (u *HacktivityItemUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "PubliclyDisclosed":
 		u.PubliclyDisclosed = &PubliclyDisclosed{}
 		payload = u.PubliclyDisclosed
@@ -5552,6 +5574,8 @@ func (u *HacktivityItemUnion) UnmarshalJSON(data []byte) (err error) {
 	case "HackerPublished":
 		u.HackerPublished = &HackerPublished{}
 		payload = u.HackerPublished
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -5562,7 +5586,7 @@ func (u *HacktivityItemUnion) UnmarshalJSON(data []byte) (err error) {
 
 // A HacktivityItems::PubliclyDisclosed for a report
 type PubliclyDisclosed struct {
-	_ID                         *string             `json:"_id,omitempty"`
+	ID_                         *string             `json:"_id,omitempty"`
 	CreatedAt                   *DateTime           `json:"created_at,omitempty"`
 	Currency                    *string             `json:"currency,omitempty"`
 	ID                          *string             `json:"id,omitempty"`
@@ -5579,12 +5603,12 @@ type PubliclyDisclosed struct {
 
 // A HackerOne hacktivity item interface
 type HacktivityItemInterface struct {
-	_ID                  *string            `json:"_id,omitempty"`
+	ID_                  *string            `json:"_id,omitempty"`
 	CreatedAt            *DateTime          `json:"created_at,omitempty"`
 	ID                   *string            `json:"id,omitempty"`
 	UpvotedByCurrentUser *bool              `json:"upvoted_by_current_user,omitempty"`
 	Votes                *VoteConnection    `json:"votes,omitempty"`
-	__typename           string             `json:"__typename,omitempty"`
+	TypeName__           string             `json:"__typename,omitempty"`
 	HackerPublished      *HackerPublished   `json:"-"`
 	PubliclyDisclosed    *PubliclyDisclosed `json:"-"`
 	Undisclosed          *Undisclosed       `json:"-"`
@@ -5597,7 +5621,7 @@ func (u *HacktivityItemInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "HackerPublished":
 		u.HackerPublished = &HackerPublished{}
 		payload = u.HackerPublished
@@ -5607,6 +5631,8 @@ func (u *HacktivityItemInterface) UnmarshalJSON(data []byte) (err error) {
 	case "Undisclosed":
 		u.Undisclosed = &Undisclosed{}
 		payload = u.Undisclosed
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -5617,7 +5643,7 @@ func (u *HacktivityItemInterface) UnmarshalJSON(data []byte) (err error) {
 
 // A HacktivityItems::Undisclosed for a report
 type Undisclosed struct {
-	_ID                         *string         `json:"_id,omitempty"`
+	ID_                         *string         `json:"_id,omitempty"`
 	CreatedAt                   *DateTime       `json:"created_at,omitempty"`
 	Currency                    *string         `json:"currency,omitempty"`
 	ID                          *string         `json:"id,omitempty"`
@@ -5633,7 +5659,7 @@ type Undisclosed struct {
 
 // A HacktivityItems::HackerPublished for a report
 type HackerPublished struct {
-	_ID                         *string             `json:"_id,omitempty"`
+	ID_                         *string             `json:"_id,omitempty"`
 	CreatedAt                   *DateTime           `json:"created_at,omitempty"`
 	ID                          *string             `json:"id,omitempty"`
 	LatestDisclosableActivityAt *DateTime           `json:"latest_disclosable_activity_at,omitempty"`
@@ -5670,8 +5696,8 @@ const (
 )
 
 type FiltersHacktivityItemFilterInput struct {
-	_Or                []*FiltersHacktivityItemFilterInput `json:"_or,omitempty"`
-	_And               []*FiltersHacktivityItemFilterInput `json:"_and,omitempty"`
+	Or_                []*FiltersHacktivityItemFilterInput `json:"_or,omitempty"`
+	And_               []*FiltersHacktivityItemFilterInput `json:"_and,omitempty"`
 	ID                 *IntPredicateInput                  `json:"id,omitempty"`
 	TotalAwardedAmount *StringPredicateInput               `json:"total_awarded_amount,omitempty"`
 	Team               *FiltersTeamFilterInput             `json:"team,omitempty"`
@@ -5819,7 +5845,7 @@ type UpdateUserTypePayload struct {
 type MutationResult struct {
 	Errors                                                 *ErrorConnection                                        `json:"errors,omitempty"`
 	WasSuccessful                                          *bool                                                   `json:"was_successful,omitempty"`
-	__typename                                             string                                                  `json:"__typename,omitempty"`
+	TypeName__                                             string                                                  `json:"__typename,omitempty"`
 	AcknowledgeProgramHealthAcknowledgementPayload         *AcknowledgeProgramHealthAcknowledgementPayload         `json:"-"`
 	ArchiveStructuredScopePayload                          *ArchiveStructuredScopePayload                          `json:"-"`
 	CancelTwoFactorAuthenticationResetPayload              *CancelTwoFactorAuthenticationResetPayload              `json:"-"`
@@ -5910,7 +5936,7 @@ func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch u.__typename {
+	switch u.TypeName__ {
 	case "AcknowledgeProgramHealthAcknowledgementPayload":
 		u.AcknowledgeProgramHealthAcknowledgementPayload = &AcknowledgeProgramHealthAcknowledgementPayload{}
 		payload = u.AcknowledgeProgramHealthAcknowledgementPayload
@@ -6154,6 +6180,8 @@ func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
 	case "VerifyAccountRecoveryPhoneNumberPayload":
 		u.VerifyAccountRecoveryPhoneNumberPayload = &VerifyAccountRecoveryPhoneNumberPayload{}
 		payload = u.VerifyAccountRecoveryPhoneNumberPayload
+	default:
+		return nil
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -8522,51 +8550,51 @@ type DeleteUserSessionInput struct {
 }
 
 // A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.
-type _Schema struct {
+type Schema_ struct {
 	// A list of all directives supported by this server.
-	Directives []*_Directive `json:"directives,omitempty"`
+	Directives []*Directive_ `json:"directives,omitempty"`
 	// If this server supports mutation, the type that mutation operations will be rooted at.
-	MutationType *_Type `json:"mutationType,omitempty"`
+	MutationType *Type_ `json:"mutationType,omitempty"`
 	// The type that query operations will be rooted at.
-	QueryType *_Type `json:"queryType,omitempty"`
+	QueryType *Type_ `json:"queryType,omitempty"`
 	// If this server support subscription, the type that subscription operations will be rooted at.
-	SubscriptionType *_Type `json:"subscriptionType,omitempty"`
+	SubscriptionType *Type_ `json:"subscriptionType,omitempty"`
 	// A list of all types supported by this server.
-	Types []*_Type `json:"types,omitempty"`
+	Types []*Type_ `json:"types,omitempty"`
 }
 
 // The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
 //
 // Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name and description, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
-type _Type struct {
+type Type_ struct {
 	Description   *string        `json:"description,omitempty"`
-	EnumValues    []*_EnumValue  `json:"enumValues,omitempty"`
-	Fields        []*_Field      `json:"fields,omitempty"`
-	InputFields   []*_InputValue `json:"inputFields,omitempty"`
-	Interfaces    []*_Type       `json:"interfaces,omitempty"`
-	Kind          *_TypeKind     `json:"kind,omitempty"`
+	EnumValues    []*EnumValue_  `json:"enumValues,omitempty"`
+	Fields        []*Field_      `json:"fields,omitempty"`
+	InputFields   []*InputValue_ `json:"inputFields,omitempty"`
+	Interfaces    []*Type_       `json:"interfaces,omitempty"`
+	Kind          *TypeKind_     `json:"kind,omitempty"`
 	Name          *string        `json:"name,omitempty"`
-	OfType        *_Type         `json:"ofType,omitempty"`
-	PossibleTypes []*_Type       `json:"possibleTypes,omitempty"`
+	OfType        *Type_         `json:"ofType,omitempty"`
+	PossibleTypes []*Type_       `json:"possibleTypes,omitempty"`
 }
 
 // Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.
-type _Field struct {
-	Args              []*_InputValue `json:"args,omitempty"`
+type Field_ struct {
+	Args              []*InputValue_ `json:"args,omitempty"`
 	DeprecationReason *string        `json:"deprecationReason,omitempty"`
 	Description       *string        `json:"description,omitempty"`
 	IsDeprecated      *bool          `json:"isDeprecated,omitempty"`
 	Name              *string        `json:"name,omitempty"`
-	Type              *_Type         `json:"type,omitempty"`
+	Type              *Type_         `json:"type,omitempty"`
 }
 
 // A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.
 //
 // In some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.
-type _Directive struct {
-	Args        []*_InputValue        `json:"args,omitempty"`
+type Directive_ struct {
+	Args        []*InputValue_        `json:"args,omitempty"`
 	Description *string               `json:"description,omitempty"`
-	Locations   []*_DirectiveLocation `json:"locations,omitempty"`
+	Locations   []*DirectiveLocation_ `json:"locations,omitempty"`
 	Name        *string               `json:"name,omitempty"`
 	// DEPRECATED: Use `locations`.
 	OnField *bool `json:"onField,omitempty"`
@@ -8577,7 +8605,7 @@ type _Directive struct {
 }
 
 // One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.
-type _EnumValue struct {
+type EnumValue_ struct {
 	DeprecationReason *string `json:"deprecationReason,omitempty"`
 	Description       *string `json:"description,omitempty"`
 	IsDeprecated      *bool   `json:"isDeprecated,omitempty"`
@@ -8585,74 +8613,74 @@ type _EnumValue struct {
 }
 
 // Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.
-type _InputValue struct {
+type InputValue_ struct {
 	// A GraphQL-formatted string representing the default value for this input value.
 	DefaultValue *string `json:"defaultValue,omitempty"`
 	Description  *string `json:"description,omitempty"`
 	Name         *string `json:"name,omitempty"`
-	Type         *_Type  `json:"type,omitempty"`
+	Type         *Type_  `json:"type,omitempty"`
 }
 
 // An enum describing what kind of type a given `__Type` is.
-type _TypeKind string
+type TypeKind_ string
 
 const (
 	// Indicates this type is a scalar.
-	_TypeKindSCALAR _TypeKind = "SCALAR"
+	TypeKind_SCALAR TypeKind_ = "SCALAR"
 	// Indicates this type is an object. `fields` and `interfaces` are valid fields.
-	_TypeKindOBJECT _TypeKind = "OBJECT"
+	TypeKind_OBJECT TypeKind_ = "OBJECT"
 	// Indicates this type is an interface. `fields` and `possibleTypes` are valid fields.
-	_TypeKindINTERFACE _TypeKind = "INTERFACE"
+	TypeKind_INTERFACE TypeKind_ = "INTERFACE"
 	// Indicates this type is a union. `possibleTypes` is a valid field.
-	_TypeKindUNION _TypeKind = "UNION"
+	TypeKind_UNION TypeKind_ = "UNION"
 	// Indicates this type is an enum. `enumValues` is a valid field.
-	_TypeKindENUM _TypeKind = "ENUM"
+	TypeKind_ENUM TypeKind_ = "ENUM"
 	// Indicates this type is an input object. `inputFields` is a valid field.
-	_TypeKindINPUTOBJECT _TypeKind = "INPUT_OBJECT"
+	TypeKind_INPUTOBJECT TypeKind_ = "INPUT_OBJECT"
 	// Indicates this type is a list. `ofType` is a valid field.
-	_TypeKindLIST _TypeKind = "LIST"
+	TypeKind_LIST TypeKind_ = "LIST"
 	// Indicates this type is a non-null. `ofType` is a valid field.
-	_TypeKindNONNULL _TypeKind = "NON_NULL"
+	TypeKind_NONNULL TypeKind_ = "NON_NULL"
 )
 
 // A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.
-type _DirectiveLocation string
+type DirectiveLocation_ string
 
 const (
 	// Location adjacent to a query operation.
-	_DirectiveLocationQUERY _DirectiveLocation = "QUERY"
+	DirectiveLocation_QUERY DirectiveLocation_ = "QUERY"
 	// Location adjacent to a mutation operation.
-	_DirectiveLocationMUTATION _DirectiveLocation = "MUTATION"
+	DirectiveLocation_MUTATION DirectiveLocation_ = "MUTATION"
 	// Location adjacent to a subscription operation.
-	_DirectiveLocationSUBSCRIPTION _DirectiveLocation = "SUBSCRIPTION"
+	DirectiveLocation_SUBSCRIPTION DirectiveLocation_ = "SUBSCRIPTION"
 	// Location adjacent to a field.
-	_DirectiveLocationFIELD _DirectiveLocation = "FIELD"
+	DirectiveLocation_FIELD DirectiveLocation_ = "FIELD"
 	// Location adjacent to a fragment definition.
-	_DirectiveLocationFRAGMENTDEFINITION _DirectiveLocation = "FRAGMENT_DEFINITION"
+	DirectiveLocation_FRAGMENTDEFINITION DirectiveLocation_ = "FRAGMENT_DEFINITION"
 	// Location adjacent to a fragment spread.
-	_DirectiveLocationFRAGMENTSPREAD _DirectiveLocation = "FRAGMENT_SPREAD"
+	DirectiveLocation_FRAGMENTSPREAD DirectiveLocation_ = "FRAGMENT_SPREAD"
 	// Location adjacent to an inline fragment.
-	_DirectiveLocationINLINEFRAGMENT _DirectiveLocation = "INLINE_FRAGMENT"
+	DirectiveLocation_INLINEFRAGMENT DirectiveLocation_ = "INLINE_FRAGMENT"
 	// Location adjacent to a schema definition.
-	_DirectiveLocationSCHEMA _DirectiveLocation = "SCHEMA"
+	DirectiveLocation_SCHEMA DirectiveLocation_ = "SCHEMA"
 	// Location adjacent to a scalar definition.
-	_DirectiveLocationSCALAR _DirectiveLocation = "SCALAR"
+	DirectiveLocation_SCALAR DirectiveLocation_ = "SCALAR"
 	// Location adjacent to an object type definition.
-	_DirectiveLocationOBJECT _DirectiveLocation = "OBJECT"
+	DirectiveLocation_OBJECT DirectiveLocation_ = "OBJECT"
 	// Location adjacent to a field definition.
-	_DirectiveLocationFIELDDEFINITION _DirectiveLocation = "FIELD_DEFINITION"
+	DirectiveLocation_FIELDDEFINITION DirectiveLocation_ = "FIELD_DEFINITION"
 	// Location adjacent to an argument definition.
-	_DirectiveLocationARGUMENTDEFINITION _DirectiveLocation = "ARGUMENT_DEFINITION"
+	DirectiveLocation_ARGUMENTDEFINITION DirectiveLocation_ = "ARGUMENT_DEFINITION"
 	// Location adjacent to an interface definition.
-	_DirectiveLocationINTERFACE _DirectiveLocation = "INTERFACE"
+	DirectiveLocation_INTERFACE DirectiveLocation_ = "INTERFACE"
 	// Location adjacent to a union definition.
-	_DirectiveLocationUNION _DirectiveLocation = "UNION"
+	DirectiveLocation_UNION DirectiveLocation_ = "UNION"
 	// Location adjacent to an enum definition.
-	_DirectiveLocationENUM _DirectiveLocation = "ENUM"
+	DirectiveLocation_ENUM DirectiveLocation_ = "ENUM"
 	// Location adjacent to an enum value definition.
-	_DirectiveLocationENUMVALUE _DirectiveLocation = "ENUM_VALUE"
+	DirectiveLocation_ENUMVALUE DirectiveLocation_ = "ENUM_VALUE"
 	// Location adjacent to an input object type definition.
-	_DirectiveLocationINPUTOBJECT _DirectiveLocation = "INPUT_OBJECT"
+	DirectiveLocation_INPUTOBJECT DirectiveLocation_ = "INPUT_OBJECT"
 	// Location adjacent to an input object field definition.
-	_DirectiveLocationINPUTFIELDDEFINITION _DirectiveLocation = "INPUT_FIELD_DEFINITION"
+	DirectiveLocation_INPUTFIELDDEFINITION DirectiveLocation_ = "INPUT_FIELD_DEFINITION"
 )

@@ -1,10 +1,13 @@
 # go_name takes a string and converts it to pascal case and replaces some strings
 def go_name:
+	. as $name |
 	# Prefix a _ causing the first char to be uppercase
 	"_" + . | gsub("[_-]+(?<a>[A-Za-z])"; .a|ascii_upcase) | 
 	# These words are abbreviatons, should be in all caps
 	# Add your own as you see fit for your use-case
-	gsub("(?<a>(Id|Sla|Url|Cve|Otp|Csrf|Totp))(?=[A-Z]|$)"; .a|ascii_upcase);
+	gsub("(?<a>(Id|Sla|Url|Cve|Otp|Csrf|Totp))(?=[A-Z]|$)"; .a|ascii_upcase) |
+	# Re-add a _ prefix if there was one present already 
+	if ($name | startswith("_")) then "_" + . else . end;
 
 # go_custom_type handles specific scalars that map to existing go types
 def go_custom_type:
@@ -15,11 +18,11 @@ def go_custom_type:
 	elif . == "ID" then
 		"string"
 	elif . == "Hash" then
-		"string""
+		"string"
 	elif . == "Int" then
 		"int32"
 	elif . == "CountBySeverity" then
-		"int32
+		"int32"
 	elif . == "Float" then
 		"float64"
 	elif . == "Boolean" then

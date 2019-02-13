@@ -1,5 +1,8 @@
 package h1
 
+// GraphQLEndpoint exports the default H1 URL
+const GraphQLEndpoint = "https://hackerone.com/graphql"
+
 // Bool allocates a new bool value to store v at and returns a pointer to it.
 func Bool(v bool) *bool { return &v }
 

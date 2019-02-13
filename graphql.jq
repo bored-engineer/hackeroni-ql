@@ -4,7 +4,7 @@ def go_name:
 	"_" + . | gsub("[_-]+(?<a>[A-Za-z])"; .a|ascii_upcase) | 
 	# These words are abbreviatons, should be in all caps
 	# Add your own as you see fit for your use-case
-	gsub("(?<a>(Id|Sla|Url|Cve|Otp|Csrf))(?=[A-Z]|$)"; .a|ascii_upcase);
+	gsub("(?<a>(Id|Sla|Url|Cve|Otp|Csrf|Totp))(?=[A-Z]|$)"; .a|ascii_upcase);
 
 # go_custom_type handles specific scalars that map to existing go types
 def go_custom_type:
@@ -12,7 +12,7 @@ def go_custom_type:
 	# Add your own as you see fit for your use-case
 	if . == "String" then
 		"string"
-	elif . == "Id" then
+	elif . == "ID" then
 		"string"
 	elif . == "Hash" then
 		"string"

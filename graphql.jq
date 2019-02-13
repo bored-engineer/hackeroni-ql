@@ -167,6 +167,7 @@ def go_schema:
 	(.types | map(["", ""] +
 		if 
 		 .kind == "OBJECT" or 
+		 .kind == "INTERFACE" or
 		 .kind == "INPUT_OBJECT" or
 		 .kind == "UNION" 
 		then

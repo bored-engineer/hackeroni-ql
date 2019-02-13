@@ -184,7 +184,7 @@ func (u *Node) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "ActivitiesAgreedOnGoingPublic":
 		u.ActivitiesAgreedOnGoingPublic = &ActivitiesAgreedOnGoingPublic{}
 		payload = u.ActivitiesAgreedOnGoingPublic
@@ -699,7 +699,7 @@ func (u *ResourceInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "BountyTable":
 		u.BountyTable = &BountyTable{}
 		payload = u.BountyTable
@@ -865,7 +865,7 @@ func (u *PayoutPreferenceUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "CoinbasePayoutPreferenceType":
 		u.CoinbasePayoutPreferenceType = &CoinbasePayoutPreferenceType{}
 		payload = u.CoinbasePayoutPreferenceType
@@ -913,7 +913,7 @@ func (u *PayoutPreferenceInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "CoinbasePayoutPreferenceType":
 		u.CoinbasePayoutPreferenceType = &CoinbasePayoutPreferenceType{}
 		payload = u.CoinbasePayoutPreferenceType
@@ -2042,7 +2042,7 @@ func (u *ActivityUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "ActivitiesAgreedOnGoingPublic":
 		u.ActivitiesAgreedOnGoingPublic = &ActivitiesAgreedOnGoingPublic{}
 		payload = u.ActivitiesAgreedOnGoingPublic
@@ -2274,7 +2274,7 @@ func (u *ActivityInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "ActivitiesAgreedOnGoingPublic":
 		u.ActivitiesAgreedOnGoingPublic = &ActivitiesAgreedOnGoingPublic{}
 		payload = u.ActivitiesAgreedOnGoingPublic
@@ -2435,7 +2435,7 @@ func (u *ActorUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "User":
 		u.User = &User{}
 		payload = u.User
@@ -2511,7 +2511,7 @@ func (u *ReportActivityInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "ActivitiesAgreedOnGoingPublic":
 		u.ActivitiesAgreedOnGoingPublic = &ActivitiesAgreedOnGoingPublic{}
 		payload = u.ActivitiesAgreedOnGoingPublic
@@ -2724,7 +2724,7 @@ func (u *AssigneeUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "User":
 		u.User = &User{}
 		payload = u.User
@@ -4508,7 +4508,7 @@ func (u *InvitationUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "InvitationsSoftLaunch":
 		u.InvitationsSoftLaunch = &InvitationsSoftLaunch{}
 		payload = u.InvitationsSoftLaunch
@@ -4548,7 +4548,7 @@ func (u *InvitationInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "InvitationsRetest":
 		u.InvitationsRetest = &InvitationsRetest{}
 		payload = u.InvitationsRetest
@@ -5542,7 +5542,7 @@ func (u *HacktivityItemUnion) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "PubliclyDisclosed":
 		u.PubliclyDisclosed = &PubliclyDisclosed{}
 		payload = u.PubliclyDisclosed
@@ -5597,7 +5597,7 @@ func (u *HacktivityItemInterface) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "HackerPublished":
 		u.HackerPublished = &HackerPublished{}
 		payload = u.HackerPublished
@@ -5910,7 +5910,7 @@ func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	var payload interface{}
-	switch tmp.__typename {
+	switch tmpType.__typename {
 	case "AcknowledgeProgramHealthAcknowledgementPayload":
 		u.AcknowledgeProgramHealthAcknowledgementPayload = &AcknowledgeProgramHealthAcknowledgementPayload{}
 		payload = u.AcknowledgeProgramHealthAcknowledgementPayload

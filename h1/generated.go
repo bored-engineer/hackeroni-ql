@@ -38,6 +38,557 @@ type Query struct {
 	Users *UserConnection `json:"users,omitempty"`
 }
 
+// An object with an ID.
+type Node struct {
+	// ID of the object.
+	ID                                            *string                                        `json:"id,omitempty"`
+	__typename                                    string                                         `json:"__typename,omitempty"`
+	ActivitiesAgreedOnGoingPublic                 *ActivitiesAgreedOnGoingPublic                 `json:"-"`
+	ActivitiesBountyAwarded                       *ActivitiesBountyAwarded                       `json:"-"`
+	ActivitiesBountySuggested                     *ActivitiesBountySuggested                     `json:"-"`
+	ActivitiesBugCloned                           *ActivitiesBugCloned                           `json:"-"`
+	ActivitiesBugDuplicate                        *ActivitiesBugDuplicate                        `json:"-"`
+	ActivitiesBugFiled                            *ActivitiesBugFiled                            `json:"-"`
+	ActivitiesBugInactive                         *ActivitiesBugInactive                         `json:"-"`
+	ActivitiesBugInformative                      *ActivitiesBugInformative                      `json:"-"`
+	ActivitiesBugNeedsMoreInfo                    *ActivitiesBugNeedsMoreInfo                    `json:"-"`
+	ActivitiesBugNew                              *ActivitiesBugNew                              `json:"-"`
+	ActivitiesBugNotApplicable                    *ActivitiesBugNotApplicable                    `json:"-"`
+	ActivitiesBugReopened                         *ActivitiesBugReopened                         `json:"-"`
+	ActivitiesBugResolved                         *ActivitiesBugResolved                         `json:"-"`
+	ActivitiesBugSpam                             *ActivitiesBugSpam                             `json:"-"`
+	ActivitiesBugTriaged                          *ActivitiesBugTriaged                          `json:"-"`
+	ActivitiesCancelledDisclosureRequest          *ActivitiesCancelledDisclosureRequest          `json:"-"`
+	ActivitiesChangedScope                        *ActivitiesChangedScope                        `json:"-"`
+	ActivitiesComment                             *ActivitiesComment                             `json:"-"`
+	ActivitiesCommentsClosed                      *ActivitiesCommentsClosed                      `json:"-"`
+	ActivitiesCVEIDAdded                          *ActivitiesCVEIDAdded                          `json:"-"`
+	ActivitiesExternalAdvisoryAdded               *ActivitiesExternalAdvisoryAdded               `json:"-"`
+	ActivitiesExternalUserInvitationCancelled     *ActivitiesExternalUserInvitationCancelled     `json:"-"`
+	ActivitiesExternalUserInvited                 *ActivitiesExternalUserInvited                 `json:"-"`
+	ActivitiesExternalUserJoined                  *ActivitiesExternalUserJoined                  `json:"-"`
+	ActivitiesExternalUserRemoved                 *ActivitiesExternalUserRemoved                 `json:"-"`
+	ActivitiesGroupAssignedToBug                  *ActivitiesGroupAssignedToBug                  `json:"-"`
+	ActivitiesHackerRequestedMediation            *ActivitiesHackerRequestedMediation            `json:"-"`
+	ActivitiesManuallyDisclosed                   *ActivitiesManuallyDisclosed                   `json:"-"`
+	ActivitiesMediationRequested                  *ActivitiesMediationRequested                  `json:"-"`
+	ActivitiesNobodyAssignedToBug                 *ActivitiesNobodyAssignedToBug                 `json:"-"`
+	ActivitiesNotEligibleForBounty                *ActivitiesNotEligibleForBounty                `json:"-"`
+	ActivitiesProgramInactive                     *ActivitiesProgramInactive                     `json:"-"`
+	ActivitiesReassignedToTeam                    *ActivitiesReassignedToTeam                    `json:"-"`
+	ActivitiesReferenceIDAdded                    *ActivitiesReferenceIDAdded                    `json:"-"`
+	ActivitiesReportBecamePublic                  *ActivitiesReportBecamePublic                  `json:"-"`
+	ActivitiesReportCollaboratorInvited           *ActivitiesReportCollaboratorInvited           `json:"-"`
+	ActivitiesReportCollaboratorJoined            *ActivitiesReportCollaboratorJoined            `json:"-"`
+	ActivitiesReportSeverityUpdated               *ActivitiesReportSeverityUpdated               `json:"-"`
+	ActivitiesReportTitleUpdated                  *ActivitiesReportTitleUpdated                  `json:"-"`
+	ActivitiesReportVulnerabilityTypesUpdated     *ActivitiesReportVulnerabilityTypesUpdated     `json:"-"`
+	ActivitiesSwagAwarded                         *ActivitiesSwagAwarded                         `json:"-"`
+	ActivitiesTeamPublished                       *ActivitiesTeamPublished                       `json:"-"`
+	ActivitiesUserAssignedToBug                   *ActivitiesUserAssignedToBug                   `json:"-"`
+	ActivitiesUserBannedFromProgram               *ActivitiesUserBannedFromProgram               `json:"-"`
+	ActivitiesUserCompletedRetest                 *ActivitiesUserCompletedRetest                 `json:"-"`
+	ActivitiesUserJoined                          *ActivitiesUserJoined                          `json:"-"`
+	Address                                       *Address                                       `json:"-"`
+	Application                                   *Application                                   `json:"-"`
+	Attachment                                    *Attachment                                    `json:"-"`
+	Badge                                         *Badge                                         `json:"-"`
+	BadgesUsers                                   *BadgesUsers                                   `json:"-"`
+	BankTransferReference                         *BankTransferReference                         `json:"-"`
+	BeneficiaryRequiredDetail                     *BeneficiaryRequiredDetail                     `json:"-"`
+	BeneficiaryRequiredDetails                    *BeneficiaryRequiredDetails                    `json:"-"`
+	BeneficiaryRequiredField                      *BeneficiaryRequiredField                      `json:"-"`
+	Bounty                                        *Bounty                                        `json:"-"`
+	BountyTable                                   *BountyTable                                   `json:"-"`
+	BountyTableRow                                *BountyTableRow                                `json:"-"`
+	ChallengeSetting                              *ChallengeSetting                              `json:"-"`
+	Cluster                                       *Cluster                                       `json:"-"`
+	CoinbasePayoutPreferenceType                  *CoinbasePayoutPreferenceType                  `json:"-"`
+	CommonResponse                                *CommonResponse                                `json:"-"`
+	Country                                       *Country                                       `json:"-"`
+	Credential                                    *Credential                                    `json:"-"`
+	Currency                                      *Currency                                      `json:"-"`
+	CurrencycloudBankTransferPayoutPreferenceType *CurrencycloudBankTransferPayoutPreferenceType `json:"-"`
+	CVERequest                                    *CVERequest                                    `json:"-"`
+	EmbeddedSubmissionForm                        *EmbeddedSubmissionForm                        `json:"-"`
+	Error                                         *Error                                         `json:"-"`
+	Expression                                    *Expression                                    `json:"-"`
+	ExternalProgram                               *ExternalProgram                               `json:"-"`
+	Feature                                       *Feature                                       `json:"-"`
+	HackerInvitationsProfile                      *HackerInvitationsProfile                      `json:"-"`
+	HackerPublished                               *HackerPublished                               `json:"-"`
+	HackeronePayrollPayoutPreferenceType          *HackeronePayrollPayoutPreferenceType          `json:"-"`
+	HackeroneToJiraEventsConfiguration            *HackeroneToJiraEventsConfiguration            `json:"-"`
+	InvitationQueue                               *InvitationQueue                               `json:"-"`
+	InvitationsRetest                             *InvitationsRetest                             `json:"-"`
+	InvitationsSoftLaunch                         *InvitationsSoftLaunch                         `json:"-"`
+	JiraIntegration                               *JiraIntegration                               `json:"-"`
+	JiraOauth                                     *JiraOauth                                     `json:"-"`
+	JiraPriorityToSeverityRating                  *JiraPriorityToSeverityRating                  `json:"-"`
+	JiraWebhook                                   *JiraWebhook                                   `json:"-"`
+	LufthansaAccount                              *LufthansaAccount                              `json:"-"`
+	NewFeatureNotification                        *NewFeatureNotification                        `json:"-"`
+	PaypalPayoutPreferenceType                    *PaypalPayoutPreferenceType                    `json:"-"`
+	PhabricatorIntegration                        *PhabricatorIntegration                        `json:"-"`
+	ProfileMetricsSnapshot                        *ProfileMetricsSnapshot                        `json:"-"`
+	ProgramHealthAcknowledgement                  *ProgramHealthAcknowledgement                  `json:"-"`
+	ProgramStatistic                              *ProgramStatistic                              `json:"-"`
+	PubliclyDisclosed                             *PubliclyDisclosed                             `json:"-"`
+	Query                                         *Query                                         `json:"-"`
+	Report                                        *Report                                        `json:"-"`
+	ReportsCountPerScope                          *ReportsCountPerScope                          `json:"-"`
+	ReportsCountPerWeakness                       *ReportsCountPerWeakness                       `json:"-"`
+	Session                                       *Session                                       `json:"-"`
+	Severity                                      *Severity                                      `json:"-"`
+	SeverityCalculator                            *SeverityCalculator                            `json:"-"`
+	SLASnapshot                                   *SLASnapshot                                   `json:"-"`
+	SLAStatus                                     *SLAStatus                                     `json:"-"`
+	SlackChannel                                  *SlackChannel                                  `json:"-"`
+	SlackIntegration                              *SlackIntegration                              `json:"-"`
+	SlackPipeline                                 *SlackPipeline                                 `json:"-"`
+	SlackUser                                     *SlackUser                                     `json:"-"`
+	StaticParticipant                             *StaticParticipant                             `json:"-"`
+	StructuredPolicy                              *StructuredPolicy                              `json:"-"`
+	StructuredScope                               *StructuredScope                               `json:"-"`
+	StructuredScopeVersion                        *StructuredScopeVersion                        `json:"-"`
+	SubmissionRequirements                        *SubmissionRequirements                        `json:"-"`
+	Summary                                       *Summary                                       `json:"-"`
+	Survey                                        *Survey                                        `json:"-"`
+	SurveyAnswer                                  *SurveyAnswer                                  `json:"-"`
+	SurveyStructuredResponse                      *SurveyStructuredResponse                      `json:"-"`
+	Swag                                          *Swag                                          `json:"-"`
+	TaxForm                                       *TaxForm                                       `json:"-"`
+	Team                                          *Team                                          `json:"-"`
+	TeamInboxView                                 *TeamInboxView                                 `json:"-"`
+	TeamMember                                    *TeamMember                                    `json:"-"`
+	TeamMemberGroup                               *TeamMemberGroup                               `json:"-"`
+	TeamWeakness                                  *TeamWeakness                                  `json:"-"`
+	TriageMeta                                    *TriageMeta                                    `json:"-"`
+	Trigger                                       *Trigger                                       `json:"-"`
+	TriggerActionLog                              *TriggerActionLog                              `json:"-"`
+	TwoFactorAuthenticationCredentials            *TwoFactorAuthenticationCredentials            `json:"-"`
+	Undisclosed                                   *Undisclosed                                   `json:"-"`
+	User                                          *User                                          `json:"-"`
+	UserSession                                   *UserSession                                   `json:"-"`
+	UserSessionCountry                            *UserSessionCountry                            `json:"-"`
+	Vote                                          *Vote                                          `json:"-"`
+	VpnCredential                                 *VpnCredential                                 `json:"-"`
+	VpnInstance                                   *VpnInstance                                   `json:"-"`
+	Weakness                                      *Weakness                                      `json:"-"`
+}
+
+func (u *Node) UnmarshalJSON(data []byte) (err error) {
+	type tmpType Node
+	err = json.Unmarshal(data, (*tmpType)(u))
+	if err != nil {
+		return err
+	}
+	var payload interface{}
+	switch tmp.__typename {
+	case "ActivitiesAgreedOnGoingPublic":
+		u.ActivitiesAgreedOnGoingPublic = &ActivitiesAgreedOnGoingPublic{}
+		payload = u.ActivitiesAgreedOnGoingPublic
+	case "ActivitiesBountyAwarded":
+		u.ActivitiesBountyAwarded = &ActivitiesBountyAwarded{}
+		payload = u.ActivitiesBountyAwarded
+	case "ActivitiesBountySuggested":
+		u.ActivitiesBountySuggested = &ActivitiesBountySuggested{}
+		payload = u.ActivitiesBountySuggested
+	case "ActivitiesBugCloned":
+		u.ActivitiesBugCloned = &ActivitiesBugCloned{}
+		payload = u.ActivitiesBugCloned
+	case "ActivitiesBugDuplicate":
+		u.ActivitiesBugDuplicate = &ActivitiesBugDuplicate{}
+		payload = u.ActivitiesBugDuplicate
+	case "ActivitiesBugFiled":
+		u.ActivitiesBugFiled = &ActivitiesBugFiled{}
+		payload = u.ActivitiesBugFiled
+	case "ActivitiesBugInactive":
+		u.ActivitiesBugInactive = &ActivitiesBugInactive{}
+		payload = u.ActivitiesBugInactive
+	case "ActivitiesBugInformative":
+		u.ActivitiesBugInformative = &ActivitiesBugInformative{}
+		payload = u.ActivitiesBugInformative
+	case "ActivitiesBugNeedsMoreInfo":
+		u.ActivitiesBugNeedsMoreInfo = &ActivitiesBugNeedsMoreInfo{}
+		payload = u.ActivitiesBugNeedsMoreInfo
+	case "ActivitiesBugNew":
+		u.ActivitiesBugNew = &ActivitiesBugNew{}
+		payload = u.ActivitiesBugNew
+	case "ActivitiesBugNotApplicable":
+		u.ActivitiesBugNotApplicable = &ActivitiesBugNotApplicable{}
+		payload = u.ActivitiesBugNotApplicable
+	case "ActivitiesBugReopened":
+		u.ActivitiesBugReopened = &ActivitiesBugReopened{}
+		payload = u.ActivitiesBugReopened
+	case "ActivitiesBugResolved":
+		u.ActivitiesBugResolved = &ActivitiesBugResolved{}
+		payload = u.ActivitiesBugResolved
+	case "ActivitiesBugSpam":
+		u.ActivitiesBugSpam = &ActivitiesBugSpam{}
+		payload = u.ActivitiesBugSpam
+	case "ActivitiesBugTriaged":
+		u.ActivitiesBugTriaged = &ActivitiesBugTriaged{}
+		payload = u.ActivitiesBugTriaged
+	case "ActivitiesCancelledDisclosureRequest":
+		u.ActivitiesCancelledDisclosureRequest = &ActivitiesCancelledDisclosureRequest{}
+		payload = u.ActivitiesCancelledDisclosureRequest
+	case "ActivitiesChangedScope":
+		u.ActivitiesChangedScope = &ActivitiesChangedScope{}
+		payload = u.ActivitiesChangedScope
+	case "ActivitiesComment":
+		u.ActivitiesComment = &ActivitiesComment{}
+		payload = u.ActivitiesComment
+	case "ActivitiesCommentsClosed":
+		u.ActivitiesCommentsClosed = &ActivitiesCommentsClosed{}
+		payload = u.ActivitiesCommentsClosed
+	case "ActivitiesCVEIDAdded":
+		u.ActivitiesCVEIDAdded = &ActivitiesCVEIDAdded{}
+		payload = u.ActivitiesCVEIDAdded
+	case "ActivitiesExternalAdvisoryAdded":
+		u.ActivitiesExternalAdvisoryAdded = &ActivitiesExternalAdvisoryAdded{}
+		payload = u.ActivitiesExternalAdvisoryAdded
+	case "ActivitiesExternalUserInvitationCancelled":
+		u.ActivitiesExternalUserInvitationCancelled = &ActivitiesExternalUserInvitationCancelled{}
+		payload = u.ActivitiesExternalUserInvitationCancelled
+	case "ActivitiesExternalUserInvited":
+		u.ActivitiesExternalUserInvited = &ActivitiesExternalUserInvited{}
+		payload = u.ActivitiesExternalUserInvited
+	case "ActivitiesExternalUserJoined":
+		u.ActivitiesExternalUserJoined = &ActivitiesExternalUserJoined{}
+		payload = u.ActivitiesExternalUserJoined
+	case "ActivitiesExternalUserRemoved":
+		u.ActivitiesExternalUserRemoved = &ActivitiesExternalUserRemoved{}
+		payload = u.ActivitiesExternalUserRemoved
+	case "ActivitiesGroupAssignedToBug":
+		u.ActivitiesGroupAssignedToBug = &ActivitiesGroupAssignedToBug{}
+		payload = u.ActivitiesGroupAssignedToBug
+	case "ActivitiesHackerRequestedMediation":
+		u.ActivitiesHackerRequestedMediation = &ActivitiesHackerRequestedMediation{}
+		payload = u.ActivitiesHackerRequestedMediation
+	case "ActivitiesManuallyDisclosed":
+		u.ActivitiesManuallyDisclosed = &ActivitiesManuallyDisclosed{}
+		payload = u.ActivitiesManuallyDisclosed
+	case "ActivitiesMediationRequested":
+		u.ActivitiesMediationRequested = &ActivitiesMediationRequested{}
+		payload = u.ActivitiesMediationRequested
+	case "ActivitiesNobodyAssignedToBug":
+		u.ActivitiesNobodyAssignedToBug = &ActivitiesNobodyAssignedToBug{}
+		payload = u.ActivitiesNobodyAssignedToBug
+	case "ActivitiesNotEligibleForBounty":
+		u.ActivitiesNotEligibleForBounty = &ActivitiesNotEligibleForBounty{}
+		payload = u.ActivitiesNotEligibleForBounty
+	case "ActivitiesProgramInactive":
+		u.ActivitiesProgramInactive = &ActivitiesProgramInactive{}
+		payload = u.ActivitiesProgramInactive
+	case "ActivitiesReassignedToTeam":
+		u.ActivitiesReassignedToTeam = &ActivitiesReassignedToTeam{}
+		payload = u.ActivitiesReassignedToTeam
+	case "ActivitiesReferenceIDAdded":
+		u.ActivitiesReferenceIDAdded = &ActivitiesReferenceIDAdded{}
+		payload = u.ActivitiesReferenceIDAdded
+	case "ActivitiesReportBecamePublic":
+		u.ActivitiesReportBecamePublic = &ActivitiesReportBecamePublic{}
+		payload = u.ActivitiesReportBecamePublic
+	case "ActivitiesReportCollaboratorInvited":
+		u.ActivitiesReportCollaboratorInvited = &ActivitiesReportCollaboratorInvited{}
+		payload = u.ActivitiesReportCollaboratorInvited
+	case "ActivitiesReportCollaboratorJoined":
+		u.ActivitiesReportCollaboratorJoined = &ActivitiesReportCollaboratorJoined{}
+		payload = u.ActivitiesReportCollaboratorJoined
+	case "ActivitiesReportSeverityUpdated":
+		u.ActivitiesReportSeverityUpdated = &ActivitiesReportSeverityUpdated{}
+		payload = u.ActivitiesReportSeverityUpdated
+	case "ActivitiesReportTitleUpdated":
+		u.ActivitiesReportTitleUpdated = &ActivitiesReportTitleUpdated{}
+		payload = u.ActivitiesReportTitleUpdated
+	case "ActivitiesReportVulnerabilityTypesUpdated":
+		u.ActivitiesReportVulnerabilityTypesUpdated = &ActivitiesReportVulnerabilityTypesUpdated{}
+		payload = u.ActivitiesReportVulnerabilityTypesUpdated
+	case "ActivitiesSwagAwarded":
+		u.ActivitiesSwagAwarded = &ActivitiesSwagAwarded{}
+		payload = u.ActivitiesSwagAwarded
+	case "ActivitiesTeamPublished":
+		u.ActivitiesTeamPublished = &ActivitiesTeamPublished{}
+		payload = u.ActivitiesTeamPublished
+	case "ActivitiesUserAssignedToBug":
+		u.ActivitiesUserAssignedToBug = &ActivitiesUserAssignedToBug{}
+		payload = u.ActivitiesUserAssignedToBug
+	case "ActivitiesUserBannedFromProgram":
+		u.ActivitiesUserBannedFromProgram = &ActivitiesUserBannedFromProgram{}
+		payload = u.ActivitiesUserBannedFromProgram
+	case "ActivitiesUserCompletedRetest":
+		u.ActivitiesUserCompletedRetest = &ActivitiesUserCompletedRetest{}
+		payload = u.ActivitiesUserCompletedRetest
+	case "ActivitiesUserJoined":
+		u.ActivitiesUserJoined = &ActivitiesUserJoined{}
+		payload = u.ActivitiesUserJoined
+	case "Address":
+		u.Address = &Address{}
+		payload = u.Address
+	case "Application":
+		u.Application = &Application{}
+		payload = u.Application
+	case "Attachment":
+		u.Attachment = &Attachment{}
+		payload = u.Attachment
+	case "Badge":
+		u.Badge = &Badge{}
+		payload = u.Badge
+	case "BadgesUsers":
+		u.BadgesUsers = &BadgesUsers{}
+		payload = u.BadgesUsers
+	case "BankTransferReference":
+		u.BankTransferReference = &BankTransferReference{}
+		payload = u.BankTransferReference
+	case "BeneficiaryRequiredDetail":
+		u.BeneficiaryRequiredDetail = &BeneficiaryRequiredDetail{}
+		payload = u.BeneficiaryRequiredDetail
+	case "BeneficiaryRequiredDetails":
+		u.BeneficiaryRequiredDetails = &BeneficiaryRequiredDetails{}
+		payload = u.BeneficiaryRequiredDetails
+	case "BeneficiaryRequiredField":
+		u.BeneficiaryRequiredField = &BeneficiaryRequiredField{}
+		payload = u.BeneficiaryRequiredField
+	case "Bounty":
+		u.Bounty = &Bounty{}
+		payload = u.Bounty
+	case "BountyTable":
+		u.BountyTable = &BountyTable{}
+		payload = u.BountyTable
+	case "BountyTableRow":
+		u.BountyTableRow = &BountyTableRow{}
+		payload = u.BountyTableRow
+	case "ChallengeSetting":
+		u.ChallengeSetting = &ChallengeSetting{}
+		payload = u.ChallengeSetting
+	case "Cluster":
+		u.Cluster = &Cluster{}
+		payload = u.Cluster
+	case "CoinbasePayoutPreferenceType":
+		u.CoinbasePayoutPreferenceType = &CoinbasePayoutPreferenceType{}
+		payload = u.CoinbasePayoutPreferenceType
+	case "CommonResponse":
+		u.CommonResponse = &CommonResponse{}
+		payload = u.CommonResponse
+	case "Country":
+		u.Country = &Country{}
+		payload = u.Country
+	case "Credential":
+		u.Credential = &Credential{}
+		payload = u.Credential
+	case "Currency":
+		u.Currency = &Currency{}
+		payload = u.Currency
+	case "CurrencycloudBankTransferPayoutPreferenceType":
+		u.CurrencycloudBankTransferPayoutPreferenceType = &CurrencycloudBankTransferPayoutPreferenceType{}
+		payload = u.CurrencycloudBankTransferPayoutPreferenceType
+	case "CVERequest":
+		u.CVERequest = &CVERequest{}
+		payload = u.CVERequest
+	case "EmbeddedSubmissionForm":
+		u.EmbeddedSubmissionForm = &EmbeddedSubmissionForm{}
+		payload = u.EmbeddedSubmissionForm
+	case "Error":
+		u.Error = &Error{}
+		payload = u.Error
+	case "Expression":
+		u.Expression = &Expression{}
+		payload = u.Expression
+	case "ExternalProgram":
+		u.ExternalProgram = &ExternalProgram{}
+		payload = u.ExternalProgram
+	case "Feature":
+		u.Feature = &Feature{}
+		payload = u.Feature
+	case "HackerInvitationsProfile":
+		u.HackerInvitationsProfile = &HackerInvitationsProfile{}
+		payload = u.HackerInvitationsProfile
+	case "HackerPublished":
+		u.HackerPublished = &HackerPublished{}
+		payload = u.HackerPublished
+	case "HackeronePayrollPayoutPreferenceType":
+		u.HackeronePayrollPayoutPreferenceType = &HackeronePayrollPayoutPreferenceType{}
+		payload = u.HackeronePayrollPayoutPreferenceType
+	case "HackeroneToJiraEventsConfiguration":
+		u.HackeroneToJiraEventsConfiguration = &HackeroneToJiraEventsConfiguration{}
+		payload = u.HackeroneToJiraEventsConfiguration
+	case "InvitationQueue":
+		u.InvitationQueue = &InvitationQueue{}
+		payload = u.InvitationQueue
+	case "InvitationsRetest":
+		u.InvitationsRetest = &InvitationsRetest{}
+		payload = u.InvitationsRetest
+	case "InvitationsSoftLaunch":
+		u.InvitationsSoftLaunch = &InvitationsSoftLaunch{}
+		payload = u.InvitationsSoftLaunch
+	case "JiraIntegration":
+		u.JiraIntegration = &JiraIntegration{}
+		payload = u.JiraIntegration
+	case "JiraOauth":
+		u.JiraOauth = &JiraOauth{}
+		payload = u.JiraOauth
+	case "JiraPriorityToSeverityRating":
+		u.JiraPriorityToSeverityRating = &JiraPriorityToSeverityRating{}
+		payload = u.JiraPriorityToSeverityRating
+	case "JiraWebhook":
+		u.JiraWebhook = &JiraWebhook{}
+		payload = u.JiraWebhook
+	case "LufthansaAccount":
+		u.LufthansaAccount = &LufthansaAccount{}
+		payload = u.LufthansaAccount
+	case "NewFeatureNotification":
+		u.NewFeatureNotification = &NewFeatureNotification{}
+		payload = u.NewFeatureNotification
+	case "PaypalPayoutPreferenceType":
+		u.PaypalPayoutPreferenceType = &PaypalPayoutPreferenceType{}
+		payload = u.PaypalPayoutPreferenceType
+	case "PhabricatorIntegration":
+		u.PhabricatorIntegration = &PhabricatorIntegration{}
+		payload = u.PhabricatorIntegration
+	case "ProfileMetricsSnapshot":
+		u.ProfileMetricsSnapshot = &ProfileMetricsSnapshot{}
+		payload = u.ProfileMetricsSnapshot
+	case "ProgramHealthAcknowledgement":
+		u.ProgramHealthAcknowledgement = &ProgramHealthAcknowledgement{}
+		payload = u.ProgramHealthAcknowledgement
+	case "ProgramStatistic":
+		u.ProgramStatistic = &ProgramStatistic{}
+		payload = u.ProgramStatistic
+	case "PubliclyDisclosed":
+		u.PubliclyDisclosed = &PubliclyDisclosed{}
+		payload = u.PubliclyDisclosed
+	case "Query":
+		u.Query = &Query{}
+		payload = u.Query
+	case "Report":
+		u.Report = &Report{}
+		payload = u.Report
+	case "ReportsCountPerScope":
+		u.ReportsCountPerScope = &ReportsCountPerScope{}
+		payload = u.ReportsCountPerScope
+	case "ReportsCountPerWeakness":
+		u.ReportsCountPerWeakness = &ReportsCountPerWeakness{}
+		payload = u.ReportsCountPerWeakness
+	case "Session":
+		u.Session = &Session{}
+		payload = u.Session
+	case "Severity":
+		u.Severity = &Severity{}
+		payload = u.Severity
+	case "SeverityCalculator":
+		u.SeverityCalculator = &SeverityCalculator{}
+		payload = u.SeverityCalculator
+	case "SLASnapshot":
+		u.SLASnapshot = &SLASnapshot{}
+		payload = u.SLASnapshot
+	case "SLAStatus":
+		u.SLAStatus = &SLAStatus{}
+		payload = u.SLAStatus
+	case "SlackChannel":
+		u.SlackChannel = &SlackChannel{}
+		payload = u.SlackChannel
+	case "SlackIntegration":
+		u.SlackIntegration = &SlackIntegration{}
+		payload = u.SlackIntegration
+	case "SlackPipeline":
+		u.SlackPipeline = &SlackPipeline{}
+		payload = u.SlackPipeline
+	case "SlackUser":
+		u.SlackUser = &SlackUser{}
+		payload = u.SlackUser
+	case "StaticParticipant":
+		u.StaticParticipant = &StaticParticipant{}
+		payload = u.StaticParticipant
+	case "StructuredPolicy":
+		u.StructuredPolicy = &StructuredPolicy{}
+		payload = u.StructuredPolicy
+	case "StructuredScope":
+		u.StructuredScope = &StructuredScope{}
+		payload = u.StructuredScope
+	case "StructuredScopeVersion":
+		u.StructuredScopeVersion = &StructuredScopeVersion{}
+		payload = u.StructuredScopeVersion
+	case "SubmissionRequirements":
+		u.SubmissionRequirements = &SubmissionRequirements{}
+		payload = u.SubmissionRequirements
+	case "Summary":
+		u.Summary = &Summary{}
+		payload = u.Summary
+	case "Survey":
+		u.Survey = &Survey{}
+		payload = u.Survey
+	case "SurveyAnswer":
+		u.SurveyAnswer = &SurveyAnswer{}
+		payload = u.SurveyAnswer
+	case "SurveyStructuredResponse":
+		u.SurveyStructuredResponse = &SurveyStructuredResponse{}
+		payload = u.SurveyStructuredResponse
+	case "Swag":
+		u.Swag = &Swag{}
+		payload = u.Swag
+	case "TaxForm":
+		u.TaxForm = &TaxForm{}
+		payload = u.TaxForm
+	case "Team":
+		u.Team = &Team{}
+		payload = u.Team
+	case "TeamInboxView":
+		u.TeamInboxView = &TeamInboxView{}
+		payload = u.TeamInboxView
+	case "TeamMember":
+		u.TeamMember = &TeamMember{}
+		payload = u.TeamMember
+	case "TeamMemberGroup":
+		u.TeamMemberGroup = &TeamMemberGroup{}
+		payload = u.TeamMemberGroup
+	case "TeamWeakness":
+		u.TeamWeakness = &TeamWeakness{}
+		payload = u.TeamWeakness
+	case "TriageMeta":
+		u.TriageMeta = &TriageMeta{}
+		payload = u.TriageMeta
+	case "Trigger":
+		u.Trigger = &Trigger{}
+		payload = u.Trigger
+	case "TriggerActionLog":
+		u.TriggerActionLog = &TriggerActionLog{}
+		payload = u.TriggerActionLog
+	case "TwoFactorAuthenticationCredentials":
+		u.TwoFactorAuthenticationCredentials = &TwoFactorAuthenticationCredentials{}
+		payload = u.TwoFactorAuthenticationCredentials
+	case "Undisclosed":
+		u.Undisclosed = &Undisclosed{}
+		payload = u.Undisclosed
+	case "User":
+		u.User = &User{}
+		payload = u.User
+	case "UserSession":
+		u.UserSession = &UserSession{}
+		payload = u.UserSession
+	case "UserSessionCountry":
+		u.UserSessionCountry = &UserSessionCountry{}
+		payload = u.UserSessionCountry
+	case "Vote":
+		u.Vote = &Vote{}
+		payload = u.Vote
+	case "VpnCredential":
+		u.VpnCredential = &VpnCredential{}
+		payload = u.VpnCredential
+	case "VpnInstance":
+		u.VpnInstance = &VpnInstance{}
+		payload = u.VpnInstance
+	case "Weakness":
+		u.Weakness = &Weakness{}
+		payload = u.Weakness
+	}
+	err = json.Unmarshal(data, payload)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // A HackerOne session
 type Session struct {
 	CSRFToken *string `json:"csrf_token,omitempty"`
@@ -120,6 +671,80 @@ type User struct {
 	Website                       *string                                 `json:"website,omitempty"`
 	WhitelistedTeams              *WhitelistedTeamConnection              `json:"whitelisted_teams,omitempty"`
 	YearInReviewPublishedAt       *DateTime                               `json:"year_in_review_published_at,omitempty"`
+}
+
+// Represents a type that can be retrieved by a URL.
+type ResourceInterface struct {
+	URL                    *URI                    `json:"url,omitempty"`
+	__typename             string                  `json:"__typename,omitempty"`
+	BountyTable            *BountyTable            `json:"-"`
+	BountyTableRow         *BountyTableRow         `json:"-"`
+	CVERequest             *CVERequest             `json:"-"`
+	Report                 *Report                 `json:"-"`
+	SlackPipeline          *SlackPipeline          `json:"-"`
+	StructuredPolicy       *StructuredPolicy       `json:"-"`
+	StructuredScope        *StructuredScope        `json:"-"`
+	StructuredScopeVersion *StructuredScopeVersion `json:"-"`
+	Survey                 *Survey                 `json:"-"`
+	Team                   *Team                   `json:"-"`
+	TriageMeta             *TriageMeta             `json:"-"`
+	Trigger                *Trigger                `json:"-"`
+	User                   *User                   `json:"-"`
+}
+
+func (u *ResourceInterface) UnmarshalJSON(data []byte) (err error) {
+	type tmpType ResourceInterface
+	err = json.Unmarshal(data, (*tmpType)(u))
+	if err != nil {
+		return err
+	}
+	var payload interface{}
+	switch tmp.__typename {
+	case "BountyTable":
+		u.BountyTable = &BountyTable{}
+		payload = u.BountyTable
+	case "BountyTableRow":
+		u.BountyTableRow = &BountyTableRow{}
+		payload = u.BountyTableRow
+	case "CVERequest":
+		u.CVERequest = &CVERequest{}
+		payload = u.CVERequest
+	case "Report":
+		u.Report = &Report{}
+		payload = u.Report
+	case "SlackPipeline":
+		u.SlackPipeline = &SlackPipeline{}
+		payload = u.SlackPipeline
+	case "StructuredPolicy":
+		u.StructuredPolicy = &StructuredPolicy{}
+		payload = u.StructuredPolicy
+	case "StructuredScope":
+		u.StructuredScope = &StructuredScope{}
+		payload = u.StructuredScope
+	case "StructuredScopeVersion":
+		u.StructuredScopeVersion = &StructuredScopeVersion{}
+		payload = u.StructuredScopeVersion
+	case "Survey":
+		u.Survey = &Survey{}
+		payload = u.Survey
+	case "Team":
+		u.Team = &Team{}
+		payload = u.Team
+	case "TriageMeta":
+		u.TriageMeta = &TriageMeta{}
+		payload = u.TriageMeta
+	case "Trigger":
+		u.Trigger = &Trigger{}
+		payload = u.Trigger
+	case "User":
+		u.User = &User{}
+		payload = u.User
+	}
+	err = json.Unmarshal(data, payload)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // A HackerOne user's address used for submitting swag
@@ -267,6 +892,46 @@ type CoinbasePayoutPreferenceType struct {
 	Default *bool   `json:"default,omitempty"`
 	Email   *string `json:"email,omitempty"`
 	ID      *string `json:"id,omitempty"`
+}
+
+// A interface for the common fields on an Payout Preference
+type PayoutPreferenceInterface struct {
+	_ID                                           *string                                        `json:"_id,omitempty"`
+	Default                                       *bool                                          `json:"default,omitempty"`
+	ID                                            *string                                        `json:"id,omitempty"`
+	__typename                                    string                                         `json:"__typename,omitempty"`
+	CoinbasePayoutPreferenceType                  *CoinbasePayoutPreferenceType                  `json:"-"`
+	CurrencycloudBankTransferPayoutPreferenceType *CurrencycloudBankTransferPayoutPreferenceType `json:"-"`
+	HackeronePayrollPayoutPreferenceType          *HackeronePayrollPayoutPreferenceType          `json:"-"`
+	PaypalPayoutPreferenceType                    *PaypalPayoutPreferenceType                    `json:"-"`
+}
+
+func (u *PayoutPreferenceInterface) UnmarshalJSON(data []byte) (err error) {
+	type tmpType PayoutPreferenceInterface
+	err = json.Unmarshal(data, (*tmpType)(u))
+	if err != nil {
+		return err
+	}
+	var payload interface{}
+	switch tmp.__typename {
+	case "CoinbasePayoutPreferenceType":
+		u.CoinbasePayoutPreferenceType = &CoinbasePayoutPreferenceType{}
+		payload = u.CoinbasePayoutPreferenceType
+	case "CurrencycloudBankTransferPayoutPreferenceType":
+		u.CurrencycloudBankTransferPayoutPreferenceType = &CurrencycloudBankTransferPayoutPreferenceType{}
+		payload = u.CurrencycloudBankTransferPayoutPreferenceType
+	case "HackeronePayrollPayoutPreferenceType":
+		u.HackeronePayrollPayoutPreferenceType = &HackeronePayrollPayoutPreferenceType{}
+		payload = u.HackeronePayrollPayoutPreferenceType
+	case "PaypalPayoutPreferenceType":
+		u.PaypalPayoutPreferenceType = &PaypalPayoutPreferenceType{}
+		payload = u.PaypalPayoutPreferenceType
+	}
+	err = json.Unmarshal(data, payload)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // A CurrencyCloud Bank Transfer Payout Preference
@@ -1543,6 +2208,219 @@ type ActivitiesAgreedOnGoingPublic struct {
 	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
 }
 
+// A interface for the common fields on an HackerOne Activity
+type ActivityInterface struct {
+	_ID                                       *string                                    `json:"_id,omitempty"`
+	Actor                                     *ActorUnion                                `json:"actor,omitempty"`
+	CreatedAt                                 *DateTime                                  `json:"created_at,omitempty"`
+	ICanEdit                                  *bool                                      `json:"i_can_edit,omitempty"`
+	Internal                                  *bool                                      `json:"internal,omitempty"`
+	MarkdownMessage                           *string                                    `json:"markdown_message,omitempty"`
+	Message                                   *string                                    `json:"message,omitempty"`
+	UpdatedAt                                 *DateTime                                  `json:"updated_at,omitempty"`
+	__typename                                string                                     `json:"__typename,omitempty"`
+	ActivitiesAgreedOnGoingPublic             *ActivitiesAgreedOnGoingPublic             `json:"-"`
+	ActivitiesBountyAwarded                   *ActivitiesBountyAwarded                   `json:"-"`
+	ActivitiesBountySuggested                 *ActivitiesBountySuggested                 `json:"-"`
+	ActivitiesBugCloned                       *ActivitiesBugCloned                       `json:"-"`
+	ActivitiesBugDuplicate                    *ActivitiesBugDuplicate                    `json:"-"`
+	ActivitiesBugFiled                        *ActivitiesBugFiled                        `json:"-"`
+	ActivitiesBugInactive                     *ActivitiesBugInactive                     `json:"-"`
+	ActivitiesBugInformative                  *ActivitiesBugInformative                  `json:"-"`
+	ActivitiesBugNeedsMoreInfo                *ActivitiesBugNeedsMoreInfo                `json:"-"`
+	ActivitiesBugNew                          *ActivitiesBugNew                          `json:"-"`
+	ActivitiesBugNotApplicable                *ActivitiesBugNotApplicable                `json:"-"`
+	ActivitiesBugReopened                     *ActivitiesBugReopened                     `json:"-"`
+	ActivitiesBugResolved                     *ActivitiesBugResolved                     `json:"-"`
+	ActivitiesBugSpam                         *ActivitiesBugSpam                         `json:"-"`
+	ActivitiesBugTriaged                      *ActivitiesBugTriaged                      `json:"-"`
+	ActivitiesCancelledDisclosureRequest      *ActivitiesCancelledDisclosureRequest      `json:"-"`
+	ActivitiesChangedScope                    *ActivitiesChangedScope                    `json:"-"`
+	ActivitiesComment                         *ActivitiesComment                         `json:"-"`
+	ActivitiesCommentsClosed                  *ActivitiesCommentsClosed                  `json:"-"`
+	ActivitiesCVEIDAdded                      *ActivitiesCVEIDAdded                      `json:"-"`
+	ActivitiesExternalAdvisoryAdded           *ActivitiesExternalAdvisoryAdded           `json:"-"`
+	ActivitiesExternalUserInvitationCancelled *ActivitiesExternalUserInvitationCancelled `json:"-"`
+	ActivitiesExternalUserInvited             *ActivitiesExternalUserInvited             `json:"-"`
+	ActivitiesExternalUserJoined              *ActivitiesExternalUserJoined              `json:"-"`
+	ActivitiesExternalUserRemoved             *ActivitiesExternalUserRemoved             `json:"-"`
+	ActivitiesGroupAssignedToBug              *ActivitiesGroupAssignedToBug              `json:"-"`
+	ActivitiesHackerRequestedMediation        *ActivitiesHackerRequestedMediation        `json:"-"`
+	ActivitiesManuallyDisclosed               *ActivitiesManuallyDisclosed               `json:"-"`
+	ActivitiesMediationRequested              *ActivitiesMediationRequested              `json:"-"`
+	ActivitiesNobodyAssignedToBug             *ActivitiesNobodyAssignedToBug             `json:"-"`
+	ActivitiesNotEligibleForBounty            *ActivitiesNotEligibleForBounty            `json:"-"`
+	ActivitiesProgramInactive                 *ActivitiesProgramInactive                 `json:"-"`
+	ActivitiesReassignedToTeam                *ActivitiesReassignedToTeam                `json:"-"`
+	ActivitiesReferenceIDAdded                *ActivitiesReferenceIDAdded                `json:"-"`
+	ActivitiesReportBecamePublic              *ActivitiesReportBecamePublic              `json:"-"`
+	ActivitiesReportCollaboratorInvited       *ActivitiesReportCollaboratorInvited       `json:"-"`
+	ActivitiesReportCollaboratorJoined        *ActivitiesReportCollaboratorJoined        `json:"-"`
+	ActivitiesReportSeverityUpdated           *ActivitiesReportSeverityUpdated           `json:"-"`
+	ActivitiesReportTitleUpdated              *ActivitiesReportTitleUpdated              `json:"-"`
+	ActivitiesReportVulnerabilityTypesUpdated *ActivitiesReportVulnerabilityTypesUpdated `json:"-"`
+	ActivitiesSwagAwarded                     *ActivitiesSwagAwarded                     `json:"-"`
+	ActivitiesTeamPublished                   *ActivitiesTeamPublished                   `json:"-"`
+	ActivitiesUserAssignedToBug               *ActivitiesUserAssignedToBug               `json:"-"`
+	ActivitiesUserBannedFromProgram           *ActivitiesUserBannedFromProgram           `json:"-"`
+	ActivitiesUserCompletedRetest             *ActivitiesUserCompletedRetest             `json:"-"`
+	ActivitiesUserJoined                      *ActivitiesUserJoined                      `json:"-"`
+}
+
+func (u *ActivityInterface) UnmarshalJSON(data []byte) (err error) {
+	type tmpType ActivityInterface
+	err = json.Unmarshal(data, (*tmpType)(u))
+	if err != nil {
+		return err
+	}
+	var payload interface{}
+	switch tmp.__typename {
+	case "ActivitiesAgreedOnGoingPublic":
+		u.ActivitiesAgreedOnGoingPublic = &ActivitiesAgreedOnGoingPublic{}
+		payload = u.ActivitiesAgreedOnGoingPublic
+	case "ActivitiesBountyAwarded":
+		u.ActivitiesBountyAwarded = &ActivitiesBountyAwarded{}
+		payload = u.ActivitiesBountyAwarded
+	case "ActivitiesBountySuggested":
+		u.ActivitiesBountySuggested = &ActivitiesBountySuggested{}
+		payload = u.ActivitiesBountySuggested
+	case "ActivitiesBugCloned":
+		u.ActivitiesBugCloned = &ActivitiesBugCloned{}
+		payload = u.ActivitiesBugCloned
+	case "ActivitiesBugDuplicate":
+		u.ActivitiesBugDuplicate = &ActivitiesBugDuplicate{}
+		payload = u.ActivitiesBugDuplicate
+	case "ActivitiesBugFiled":
+		u.ActivitiesBugFiled = &ActivitiesBugFiled{}
+		payload = u.ActivitiesBugFiled
+	case "ActivitiesBugInactive":
+		u.ActivitiesBugInactive = &ActivitiesBugInactive{}
+		payload = u.ActivitiesBugInactive
+	case "ActivitiesBugInformative":
+		u.ActivitiesBugInformative = &ActivitiesBugInformative{}
+		payload = u.ActivitiesBugInformative
+	case "ActivitiesBugNeedsMoreInfo":
+		u.ActivitiesBugNeedsMoreInfo = &ActivitiesBugNeedsMoreInfo{}
+		payload = u.ActivitiesBugNeedsMoreInfo
+	case "ActivitiesBugNew":
+		u.ActivitiesBugNew = &ActivitiesBugNew{}
+		payload = u.ActivitiesBugNew
+	case "ActivitiesBugNotApplicable":
+		u.ActivitiesBugNotApplicable = &ActivitiesBugNotApplicable{}
+		payload = u.ActivitiesBugNotApplicable
+	case "ActivitiesBugReopened":
+		u.ActivitiesBugReopened = &ActivitiesBugReopened{}
+		payload = u.ActivitiesBugReopened
+	case "ActivitiesBugResolved":
+		u.ActivitiesBugResolved = &ActivitiesBugResolved{}
+		payload = u.ActivitiesBugResolved
+	case "ActivitiesBugSpam":
+		u.ActivitiesBugSpam = &ActivitiesBugSpam{}
+		payload = u.ActivitiesBugSpam
+	case "ActivitiesBugTriaged":
+		u.ActivitiesBugTriaged = &ActivitiesBugTriaged{}
+		payload = u.ActivitiesBugTriaged
+	case "ActivitiesCancelledDisclosureRequest":
+		u.ActivitiesCancelledDisclosureRequest = &ActivitiesCancelledDisclosureRequest{}
+		payload = u.ActivitiesCancelledDisclosureRequest
+	case "ActivitiesChangedScope":
+		u.ActivitiesChangedScope = &ActivitiesChangedScope{}
+		payload = u.ActivitiesChangedScope
+	case "ActivitiesComment":
+		u.ActivitiesComment = &ActivitiesComment{}
+		payload = u.ActivitiesComment
+	case "ActivitiesCommentsClosed":
+		u.ActivitiesCommentsClosed = &ActivitiesCommentsClosed{}
+		payload = u.ActivitiesCommentsClosed
+	case "ActivitiesCVEIDAdded":
+		u.ActivitiesCVEIDAdded = &ActivitiesCVEIDAdded{}
+		payload = u.ActivitiesCVEIDAdded
+	case "ActivitiesExternalAdvisoryAdded":
+		u.ActivitiesExternalAdvisoryAdded = &ActivitiesExternalAdvisoryAdded{}
+		payload = u.ActivitiesExternalAdvisoryAdded
+	case "ActivitiesExternalUserInvitationCancelled":
+		u.ActivitiesExternalUserInvitationCancelled = &ActivitiesExternalUserInvitationCancelled{}
+		payload = u.ActivitiesExternalUserInvitationCancelled
+	case "ActivitiesExternalUserInvited":
+		u.ActivitiesExternalUserInvited = &ActivitiesExternalUserInvited{}
+		payload = u.ActivitiesExternalUserInvited
+	case "ActivitiesExternalUserJoined":
+		u.ActivitiesExternalUserJoined = &ActivitiesExternalUserJoined{}
+		payload = u.ActivitiesExternalUserJoined
+	case "ActivitiesExternalUserRemoved":
+		u.ActivitiesExternalUserRemoved = &ActivitiesExternalUserRemoved{}
+		payload = u.ActivitiesExternalUserRemoved
+	case "ActivitiesGroupAssignedToBug":
+		u.ActivitiesGroupAssignedToBug = &ActivitiesGroupAssignedToBug{}
+		payload = u.ActivitiesGroupAssignedToBug
+	case "ActivitiesHackerRequestedMediation":
+		u.ActivitiesHackerRequestedMediation = &ActivitiesHackerRequestedMediation{}
+		payload = u.ActivitiesHackerRequestedMediation
+	case "ActivitiesManuallyDisclosed":
+		u.ActivitiesManuallyDisclosed = &ActivitiesManuallyDisclosed{}
+		payload = u.ActivitiesManuallyDisclosed
+	case "ActivitiesMediationRequested":
+		u.ActivitiesMediationRequested = &ActivitiesMediationRequested{}
+		payload = u.ActivitiesMediationRequested
+	case "ActivitiesNobodyAssignedToBug":
+		u.ActivitiesNobodyAssignedToBug = &ActivitiesNobodyAssignedToBug{}
+		payload = u.ActivitiesNobodyAssignedToBug
+	case "ActivitiesNotEligibleForBounty":
+		u.ActivitiesNotEligibleForBounty = &ActivitiesNotEligibleForBounty{}
+		payload = u.ActivitiesNotEligibleForBounty
+	case "ActivitiesProgramInactive":
+		u.ActivitiesProgramInactive = &ActivitiesProgramInactive{}
+		payload = u.ActivitiesProgramInactive
+	case "ActivitiesReassignedToTeam":
+		u.ActivitiesReassignedToTeam = &ActivitiesReassignedToTeam{}
+		payload = u.ActivitiesReassignedToTeam
+	case "ActivitiesReferenceIDAdded":
+		u.ActivitiesReferenceIDAdded = &ActivitiesReferenceIDAdded{}
+		payload = u.ActivitiesReferenceIDAdded
+	case "ActivitiesReportBecamePublic":
+		u.ActivitiesReportBecamePublic = &ActivitiesReportBecamePublic{}
+		payload = u.ActivitiesReportBecamePublic
+	case "ActivitiesReportCollaboratorInvited":
+		u.ActivitiesReportCollaboratorInvited = &ActivitiesReportCollaboratorInvited{}
+		payload = u.ActivitiesReportCollaboratorInvited
+	case "ActivitiesReportCollaboratorJoined":
+		u.ActivitiesReportCollaboratorJoined = &ActivitiesReportCollaboratorJoined{}
+		payload = u.ActivitiesReportCollaboratorJoined
+	case "ActivitiesReportSeverityUpdated":
+		u.ActivitiesReportSeverityUpdated = &ActivitiesReportSeverityUpdated{}
+		payload = u.ActivitiesReportSeverityUpdated
+	case "ActivitiesReportTitleUpdated":
+		u.ActivitiesReportTitleUpdated = &ActivitiesReportTitleUpdated{}
+		payload = u.ActivitiesReportTitleUpdated
+	case "ActivitiesReportVulnerabilityTypesUpdated":
+		u.ActivitiesReportVulnerabilityTypesUpdated = &ActivitiesReportVulnerabilityTypesUpdated{}
+		payload = u.ActivitiesReportVulnerabilityTypesUpdated
+	case "ActivitiesSwagAwarded":
+		u.ActivitiesSwagAwarded = &ActivitiesSwagAwarded{}
+		payload = u.ActivitiesSwagAwarded
+	case "ActivitiesTeamPublished":
+		u.ActivitiesTeamPublished = &ActivitiesTeamPublished{}
+		payload = u.ActivitiesTeamPublished
+	case "ActivitiesUserAssignedToBug":
+		u.ActivitiesUserAssignedToBug = &ActivitiesUserAssignedToBug{}
+		payload = u.ActivitiesUserAssignedToBug
+	case "ActivitiesUserBannedFromProgram":
+		u.ActivitiesUserBannedFromProgram = &ActivitiesUserBannedFromProgram{}
+		payload = u.ActivitiesUserBannedFromProgram
+	case "ActivitiesUserCompletedRetest":
+		u.ActivitiesUserCompletedRetest = &ActivitiesUserCompletedRetest{}
+		payload = u.ActivitiesUserCompletedRetest
+	case "ActivitiesUserJoined":
+		u.ActivitiesUserJoined = &ActivitiesUserJoined{}
+		payload = u.ActivitiesUserJoined
+	}
+	err = json.Unmarshal(data, payload)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // The actor of an activity can be multiple types
 type ActorUnion struct {
 	__typename string `json:"__typename,omitempty"`
@@ -1564,6 +2442,208 @@ func (u *ActorUnion) UnmarshalJSON(data []byte) (err error) {
 	case "Team":
 		u.Team = &Team{}
 		payload = u.Team
+	}
+	err = json.Unmarshal(data, payload)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// A interface for the common fields on an HackerOne Report Activity
+type ReportActivityInterface struct {
+	Attachments       []*Attachment `json:"attachments,omitempty"`
+	AutomatedResponse *bool         `json:"automated_response,omitempty"`
+	// DEPRECATED: This is about to be replaced by .genius_execution
+	GeniusExecutionID                         *string                                    `json:"genius_execution_id,omitempty"`
+	Report                                    *Report                                    `json:"report,omitempty"`
+	__typename                                string                                     `json:"__typename,omitempty"`
+	ActivitiesAgreedOnGoingPublic             *ActivitiesAgreedOnGoingPublic             `json:"-"`
+	ActivitiesBountyAwarded                   *ActivitiesBountyAwarded                   `json:"-"`
+	ActivitiesBountySuggested                 *ActivitiesBountySuggested                 `json:"-"`
+	ActivitiesBugCloned                       *ActivitiesBugCloned                       `json:"-"`
+	ActivitiesBugDuplicate                    *ActivitiesBugDuplicate                    `json:"-"`
+	ActivitiesBugFiled                        *ActivitiesBugFiled                        `json:"-"`
+	ActivitiesBugInactive                     *ActivitiesBugInactive                     `json:"-"`
+	ActivitiesBugInformative                  *ActivitiesBugInformative                  `json:"-"`
+	ActivitiesBugNeedsMoreInfo                *ActivitiesBugNeedsMoreInfo                `json:"-"`
+	ActivitiesBugNew                          *ActivitiesBugNew                          `json:"-"`
+	ActivitiesBugNotApplicable                *ActivitiesBugNotApplicable                `json:"-"`
+	ActivitiesBugReopened                     *ActivitiesBugReopened                     `json:"-"`
+	ActivitiesBugResolved                     *ActivitiesBugResolved                     `json:"-"`
+	ActivitiesBugSpam                         *ActivitiesBugSpam                         `json:"-"`
+	ActivitiesBugTriaged                      *ActivitiesBugTriaged                      `json:"-"`
+	ActivitiesCancelledDisclosureRequest      *ActivitiesCancelledDisclosureRequest      `json:"-"`
+	ActivitiesChangedScope                    *ActivitiesChangedScope                    `json:"-"`
+	ActivitiesComment                         *ActivitiesComment                         `json:"-"`
+	ActivitiesCommentsClosed                  *ActivitiesCommentsClosed                  `json:"-"`
+	ActivitiesCVEIDAdded                      *ActivitiesCVEIDAdded                      `json:"-"`
+	ActivitiesExternalAdvisoryAdded           *ActivitiesExternalAdvisoryAdded           `json:"-"`
+	ActivitiesExternalUserInvitationCancelled *ActivitiesExternalUserInvitationCancelled `json:"-"`
+	ActivitiesExternalUserInvited             *ActivitiesExternalUserInvited             `json:"-"`
+	ActivitiesExternalUserJoined              *ActivitiesExternalUserJoined              `json:"-"`
+	ActivitiesExternalUserRemoved             *ActivitiesExternalUserRemoved             `json:"-"`
+	ActivitiesGroupAssignedToBug              *ActivitiesGroupAssignedToBug              `json:"-"`
+	ActivitiesHackerRequestedMediation        *ActivitiesHackerRequestedMediation        `json:"-"`
+	ActivitiesManuallyDisclosed               *ActivitiesManuallyDisclosed               `json:"-"`
+	ActivitiesMediationRequested              *ActivitiesMediationRequested              `json:"-"`
+	ActivitiesNobodyAssignedToBug             *ActivitiesNobodyAssignedToBug             `json:"-"`
+	ActivitiesNotEligibleForBounty            *ActivitiesNotEligibleForBounty            `json:"-"`
+	ActivitiesProgramInactive                 *ActivitiesProgramInactive                 `json:"-"`
+	ActivitiesReassignedToTeam                *ActivitiesReassignedToTeam                `json:"-"`
+	ActivitiesReferenceIDAdded                *ActivitiesReferenceIDAdded                `json:"-"`
+	ActivitiesReportBecamePublic              *ActivitiesReportBecamePublic              `json:"-"`
+	ActivitiesReportCollaboratorInvited       *ActivitiesReportCollaboratorInvited       `json:"-"`
+	ActivitiesReportCollaboratorJoined        *ActivitiesReportCollaboratorJoined        `json:"-"`
+	ActivitiesReportSeverityUpdated           *ActivitiesReportSeverityUpdated           `json:"-"`
+	ActivitiesReportTitleUpdated              *ActivitiesReportTitleUpdated              `json:"-"`
+	ActivitiesReportVulnerabilityTypesUpdated *ActivitiesReportVulnerabilityTypesUpdated `json:"-"`
+	ActivitiesSwagAwarded                     *ActivitiesSwagAwarded                     `json:"-"`
+	ActivitiesUserAssignedToBug               *ActivitiesUserAssignedToBug               `json:"-"`
+	ActivitiesUserBannedFromProgram           *ActivitiesUserBannedFromProgram           `json:"-"`
+	ActivitiesUserCompletedRetest             *ActivitiesUserCompletedRetest             `json:"-"`
+}
+
+func (u *ReportActivityInterface) UnmarshalJSON(data []byte) (err error) {
+	type tmpType ReportActivityInterface
+	err = json.Unmarshal(data, (*tmpType)(u))
+	if err != nil {
+		return err
+	}
+	var payload interface{}
+	switch tmp.__typename {
+	case "ActivitiesAgreedOnGoingPublic":
+		u.ActivitiesAgreedOnGoingPublic = &ActivitiesAgreedOnGoingPublic{}
+		payload = u.ActivitiesAgreedOnGoingPublic
+	case "ActivitiesBountyAwarded":
+		u.ActivitiesBountyAwarded = &ActivitiesBountyAwarded{}
+		payload = u.ActivitiesBountyAwarded
+	case "ActivitiesBountySuggested":
+		u.ActivitiesBountySuggested = &ActivitiesBountySuggested{}
+		payload = u.ActivitiesBountySuggested
+	case "ActivitiesBugCloned":
+		u.ActivitiesBugCloned = &ActivitiesBugCloned{}
+		payload = u.ActivitiesBugCloned
+	case "ActivitiesBugDuplicate":
+		u.ActivitiesBugDuplicate = &ActivitiesBugDuplicate{}
+		payload = u.ActivitiesBugDuplicate
+	case "ActivitiesBugFiled":
+		u.ActivitiesBugFiled = &ActivitiesBugFiled{}
+		payload = u.ActivitiesBugFiled
+	case "ActivitiesBugInactive":
+		u.ActivitiesBugInactive = &ActivitiesBugInactive{}
+		payload = u.ActivitiesBugInactive
+	case "ActivitiesBugInformative":
+		u.ActivitiesBugInformative = &ActivitiesBugInformative{}
+		payload = u.ActivitiesBugInformative
+	case "ActivitiesBugNeedsMoreInfo":
+		u.ActivitiesBugNeedsMoreInfo = &ActivitiesBugNeedsMoreInfo{}
+		payload = u.ActivitiesBugNeedsMoreInfo
+	case "ActivitiesBugNew":
+		u.ActivitiesBugNew = &ActivitiesBugNew{}
+		payload = u.ActivitiesBugNew
+	case "ActivitiesBugNotApplicable":
+		u.ActivitiesBugNotApplicable = &ActivitiesBugNotApplicable{}
+		payload = u.ActivitiesBugNotApplicable
+	case "ActivitiesBugReopened":
+		u.ActivitiesBugReopened = &ActivitiesBugReopened{}
+		payload = u.ActivitiesBugReopened
+	case "ActivitiesBugResolved":
+		u.ActivitiesBugResolved = &ActivitiesBugResolved{}
+		payload = u.ActivitiesBugResolved
+	case "ActivitiesBugSpam":
+		u.ActivitiesBugSpam = &ActivitiesBugSpam{}
+		payload = u.ActivitiesBugSpam
+	case "ActivitiesBugTriaged":
+		u.ActivitiesBugTriaged = &ActivitiesBugTriaged{}
+		payload = u.ActivitiesBugTriaged
+	case "ActivitiesCancelledDisclosureRequest":
+		u.ActivitiesCancelledDisclosureRequest = &ActivitiesCancelledDisclosureRequest{}
+		payload = u.ActivitiesCancelledDisclosureRequest
+	case "ActivitiesChangedScope":
+		u.ActivitiesChangedScope = &ActivitiesChangedScope{}
+		payload = u.ActivitiesChangedScope
+	case "ActivitiesComment":
+		u.ActivitiesComment = &ActivitiesComment{}
+		payload = u.ActivitiesComment
+	case "ActivitiesCommentsClosed":
+		u.ActivitiesCommentsClosed = &ActivitiesCommentsClosed{}
+		payload = u.ActivitiesCommentsClosed
+	case "ActivitiesCVEIDAdded":
+		u.ActivitiesCVEIDAdded = &ActivitiesCVEIDAdded{}
+		payload = u.ActivitiesCVEIDAdded
+	case "ActivitiesExternalAdvisoryAdded":
+		u.ActivitiesExternalAdvisoryAdded = &ActivitiesExternalAdvisoryAdded{}
+		payload = u.ActivitiesExternalAdvisoryAdded
+	case "ActivitiesExternalUserInvitationCancelled":
+		u.ActivitiesExternalUserInvitationCancelled = &ActivitiesExternalUserInvitationCancelled{}
+		payload = u.ActivitiesExternalUserInvitationCancelled
+	case "ActivitiesExternalUserInvited":
+		u.ActivitiesExternalUserInvited = &ActivitiesExternalUserInvited{}
+		payload = u.ActivitiesExternalUserInvited
+	case "ActivitiesExternalUserJoined":
+		u.ActivitiesExternalUserJoined = &ActivitiesExternalUserJoined{}
+		payload = u.ActivitiesExternalUserJoined
+	case "ActivitiesExternalUserRemoved":
+		u.ActivitiesExternalUserRemoved = &ActivitiesExternalUserRemoved{}
+		payload = u.ActivitiesExternalUserRemoved
+	case "ActivitiesGroupAssignedToBug":
+		u.ActivitiesGroupAssignedToBug = &ActivitiesGroupAssignedToBug{}
+		payload = u.ActivitiesGroupAssignedToBug
+	case "ActivitiesHackerRequestedMediation":
+		u.ActivitiesHackerRequestedMediation = &ActivitiesHackerRequestedMediation{}
+		payload = u.ActivitiesHackerRequestedMediation
+	case "ActivitiesManuallyDisclosed":
+		u.ActivitiesManuallyDisclosed = &ActivitiesManuallyDisclosed{}
+		payload = u.ActivitiesManuallyDisclosed
+	case "ActivitiesMediationRequested":
+		u.ActivitiesMediationRequested = &ActivitiesMediationRequested{}
+		payload = u.ActivitiesMediationRequested
+	case "ActivitiesNobodyAssignedToBug":
+		u.ActivitiesNobodyAssignedToBug = &ActivitiesNobodyAssignedToBug{}
+		payload = u.ActivitiesNobodyAssignedToBug
+	case "ActivitiesNotEligibleForBounty":
+		u.ActivitiesNotEligibleForBounty = &ActivitiesNotEligibleForBounty{}
+		payload = u.ActivitiesNotEligibleForBounty
+	case "ActivitiesProgramInactive":
+		u.ActivitiesProgramInactive = &ActivitiesProgramInactive{}
+		payload = u.ActivitiesProgramInactive
+	case "ActivitiesReassignedToTeam":
+		u.ActivitiesReassignedToTeam = &ActivitiesReassignedToTeam{}
+		payload = u.ActivitiesReassignedToTeam
+	case "ActivitiesReferenceIDAdded":
+		u.ActivitiesReferenceIDAdded = &ActivitiesReferenceIDAdded{}
+		payload = u.ActivitiesReferenceIDAdded
+	case "ActivitiesReportBecamePublic":
+		u.ActivitiesReportBecamePublic = &ActivitiesReportBecamePublic{}
+		payload = u.ActivitiesReportBecamePublic
+	case "ActivitiesReportCollaboratorInvited":
+		u.ActivitiesReportCollaboratorInvited = &ActivitiesReportCollaboratorInvited{}
+		payload = u.ActivitiesReportCollaboratorInvited
+	case "ActivitiesReportCollaboratorJoined":
+		u.ActivitiesReportCollaboratorJoined = &ActivitiesReportCollaboratorJoined{}
+		payload = u.ActivitiesReportCollaboratorJoined
+	case "ActivitiesReportSeverityUpdated":
+		u.ActivitiesReportSeverityUpdated = &ActivitiesReportSeverityUpdated{}
+		payload = u.ActivitiesReportSeverityUpdated
+	case "ActivitiesReportTitleUpdated":
+		u.ActivitiesReportTitleUpdated = &ActivitiesReportTitleUpdated{}
+		payload = u.ActivitiesReportTitleUpdated
+	case "ActivitiesReportVulnerabilityTypesUpdated":
+		u.ActivitiesReportVulnerabilityTypesUpdated = &ActivitiesReportVulnerabilityTypesUpdated{}
+		payload = u.ActivitiesReportVulnerabilityTypesUpdated
+	case "ActivitiesSwagAwarded":
+		u.ActivitiesSwagAwarded = &ActivitiesSwagAwarded{}
+		payload = u.ActivitiesSwagAwarded
+	case "ActivitiesUserAssignedToBug":
+		u.ActivitiesUserAssignedToBug = &ActivitiesUserAssignedToBug{}
+		payload = u.ActivitiesUserAssignedToBug
+	case "ActivitiesUserBannedFromProgram":
+		u.ActivitiesUserBannedFromProgram = &ActivitiesUserBannedFromProgram{}
+		payload = u.ActivitiesUserBannedFromProgram
+	case "ActivitiesUserCompletedRetest":
+		u.ActivitiesUserCompletedRetest = &ActivitiesUserCompletedRetest{}
+		payload = u.ActivitiesUserCompletedRetest
 	}
 	err = json.Unmarshal(data, payload)
 	if err != nil {
@@ -3453,6 +4533,36 @@ type InvitationsSoftLaunch struct {
 	Token           *string               `json:"token,omitempty"`
 }
 
+// An interface for the common fields on a HackerOne Invitation
+type InvitationInterface struct {
+	_ID                   *string                `json:"_id,omitempty"`
+	__typename            string                 `json:"__typename,omitempty"`
+	InvitationsRetest     *InvitationsRetest     `json:"-"`
+	InvitationsSoftLaunch *InvitationsSoftLaunch `json:"-"`
+}
+
+func (u *InvitationInterface) UnmarshalJSON(data []byte) (err error) {
+	type tmpType InvitationInterface
+	err = json.Unmarshal(data, (*tmpType)(u))
+	if err != nil {
+		return err
+	}
+	var payload interface{}
+	switch tmp.__typename {
+	case "InvitationsRetest":
+		u.InvitationsRetest = &InvitationsRetest{}
+		payload = u.InvitationsRetest
+	case "InvitationsSoftLaunch":
+		u.InvitationsSoftLaunch = &InvitationsSoftLaunch{}
+		payload = u.InvitationsSoftLaunch
+	}
+	err = json.Unmarshal(data, payload)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // Invitation source types
 type InvitationSourceEnum string
 
@@ -4467,6 +5577,44 @@ type PubliclyDisclosed struct {
 	Votes                       *VoteConnection     `json:"votes,omitempty"`
 }
 
+// A HackerOne hacktivity item interface
+type HacktivityItemInterface struct {
+	_ID                  *string            `json:"_id,omitempty"`
+	CreatedAt            *DateTime          `json:"created_at,omitempty"`
+	ID                   *string            `json:"id,omitempty"`
+	UpvotedByCurrentUser *bool              `json:"upvoted_by_current_user,omitempty"`
+	Votes                *VoteConnection    `json:"votes,omitempty"`
+	__typename           string             `json:"__typename,omitempty"`
+	HackerPublished      *HackerPublished   `json:"-"`
+	PubliclyDisclosed    *PubliclyDisclosed `json:"-"`
+	Undisclosed          *Undisclosed       `json:"-"`
+}
+
+func (u *HacktivityItemInterface) UnmarshalJSON(data []byte) (err error) {
+	type tmpType HacktivityItemInterface
+	err = json.Unmarshal(data, (*tmpType)(u))
+	if err != nil {
+		return err
+	}
+	var payload interface{}
+	switch tmp.__typename {
+	case "HackerPublished":
+		u.HackerPublished = &HackerPublished{}
+		payload = u.HackerPublished
+	case "PubliclyDisclosed":
+		u.PubliclyDisclosed = &PubliclyDisclosed{}
+		payload = u.PubliclyDisclosed
+	case "Undisclosed":
+		u.Undisclosed = &Undisclosed{}
+		payload = u.Undisclosed
+	}
+	err = json.Unmarshal(data, payload)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // A HacktivityItems::Undisclosed for a report
 type Undisclosed struct {
 	_ID                         *string         `json:"_id,omitempty"`
@@ -4666,6 +5814,352 @@ type UpdateUserTypePayload struct {
 	Errors           *ErrorConnection `json:"errors,omitempty"`
 	Me               *User            `json:"me,omitempty"`
 	WasSuccessful    *bool            `json:"was_successful,omitempty"`
+}
+
+type MutationResult struct {
+	Errors                                                 *ErrorConnection                                        `json:"errors,omitempty"`
+	WasSuccessful                                          *bool                                                   `json:"was_successful,omitempty"`
+	__typename                                             string                                                  `json:"__typename,omitempty"`
+	AcknowledgeProgramHealthAcknowledgementPayload         *AcknowledgeProgramHealthAcknowledgementPayload         `json:"-"`
+	ArchiveStructuredScopePayload                          *ArchiveStructuredScopePayload                          `json:"-"`
+	CancelTwoFactorAuthenticationResetPayload              *CancelTwoFactorAuthenticationResetPayload              `json:"-"`
+	ClaimCredentialPayload                                 *ClaimCredentialPayload                                 `json:"-"`
+	ClaimReportPayload                                     *ClaimReportPayload                                     `json:"-"`
+	CompleteReportRetestUserPayload                        *CompleteReportRetestUserPayload                        `json:"-"`
+	CreateActivityCommentPayload                           *CreateActivityCommentPayload                           `json:"-"`
+	CreateBountyPayload                                    *CreateBountyPayload                                    `json:"-"`
+	CreateCoinbasePayoutPreferencePayload                  *CreateCoinbasePayoutPreferencePayload                  `json:"-"`
+	CreateCurrencycloudBankTransferPayoutPreferencePayload *CreateCurrencycloudBankTransferPayoutPreferencePayload `json:"-"`
+	CreateCVERequestPayload                                *CreateCVERequestPayload                                `json:"-"`
+	CreateExternalReportPayload                            *CreateExternalReportPayload                            `json:"-"`
+	CreateLeaveProgramSurveyAnswerPayload                  *CreateLeaveProgramSurveyAnswerPayload                  `json:"-"`
+	CreateMailingAddressPayload                            *CreateMailingAddressPayload                            `json:"-"`
+	CreateOrUpdateJiraIntegrationPayload                   *CreateOrUpdateJiraIntegrationPayload                   `json:"-"`
+	CreatePaypalPreferencePayload                          *CreatePaypalPreferencePayload                          `json:"-"`
+	CreateRejectionSurveyAnswerPayload                     *CreateRejectionSurveyAnswerPayload                     `json:"-"`
+	CreateReportPayload                                    *CreateReportPayload                                    `json:"-"`
+	CreateReportSummaryPayload                             *CreateReportSummaryPayload                             `json:"-"`
+	CreateSlackPipelinePayload                             *CreateSlackPipelinePayload                             `json:"-"`
+	CreateStructuredScopePayload                           *CreateStructuredScopePayload                           `json:"-"`
+	CreateTaxFormPayload                                   *CreateTaxFormPayload                                   `json:"-"`
+	CreateTriggerPayload                                   *CreateTriggerPayload                                   `json:"-"`
+	CreateTwoFactorAuthenticationCredentialsPayload        *CreateTwoFactorAuthenticationCredentialsPayload        `json:"-"`
+	CreateUserTwoFactorResetPayload                        *CreateUserTwoFactorResetPayload                        `json:"-"`
+	CreateVpnCredentialsPayload                            *CreateVpnCredentialsPayload                            `json:"-"`
+	DeleteMailingAddressPayload                            *DeleteMailingAddressPayload                            `json:"-"`
+	DeleteSlackPipelinePayload                             *DeleteSlackPipelinePayload                             `json:"-"`
+	DeleteTeamMemberPayload                                *DeleteTeamMemberPayload                                `json:"-"`
+	DeleteTriggerPayload                                   *DeleteTriggerPayload                                   `json:"-"`
+	DeleteUserSessionPayload                               *DeleteUserSessionPayload                               `json:"-"`
+	DestroyTwoFactorAuthenticationCredentialsPayload       *DestroyTwoFactorAuthenticationCredentialsPayload       `json:"-"`
+	DestroyUpvotePayload                                   *DestroyUpvotePayload                                   `json:"-"`
+	DismissProgramHealthAcknowledgementPayload             *DismissProgramHealthAcknowledgementPayload             `json:"-"`
+	ExportLifetimeReportsPayload                           *ExportLifetimeReportsPayload                           `json:"-"`
+	ForgetFacebookCredentialPayload                        *ForgetFacebookCredentialPayload                        `json:"-"`
+	LaunchTeamPayload                                      *LaunchTeamPayload                                      `json:"-"`
+	LaunchTeamPubliclyPayload                              *LaunchTeamPubliclyPayload                              `json:"-"`
+	LeavePrivateProgramPayload                             *LeavePrivateProgramPayload                             `json:"-"`
+	LockReportPayload                                      *LockReportPayload                                      `json:"-"`
+	MarkReportAsNeedsMoreInfoPayload                       *MarkReportAsNeedsMoreInfoPayload                       `json:"-"`
+	MarkReportAsNoisePayload                               *MarkReportAsNoisePayload                               `json:"-"`
+	MarkReportAsSignalPayload                              *MarkReportAsSignalPayload                              `json:"-"`
+	ProgramHealthAcknowledgementSeenPayload                *ProgramHealthAcknowledgementSeenPayload                `json:"-"`
+	PublishPolicyPayload                                   *PublishPolicyPayload                                   `json:"-"`
+	RegenerateCalendarTokenPayload                         *RegenerateCalendarTokenPayload                         `json:"-"`
+	RemoveBountyTablePayload                               *RemoveBountyTablePayload                               `json:"-"`
+	RevokeCredentialPayload                                *RevokeCredentialPayload                                `json:"-"`
+	StartVpnInstancePayload                                *StartVpnInstancePayload                                `json:"-"`
+	StopVpnInstancePayload                                 *StopVpnInstancePayload                                 `json:"-"`
+	UnclaimReportPayload                                   *UnclaimReportPayload                                   `json:"-"`
+	UnsubscribeMailingListPayload                          *UnsubscribeMailingListPayload                          `json:"-"`
+	UpdateAccountRecoveryPhoneNumberPayload                *UpdateAccountRecoveryPhoneNumberPayload                `json:"-"`
+	UpdateBookmarkedTeamPayload                            *UpdateBookmarkedTeamPayload                            `json:"-"`
+	UpdateBountyTablePayload                               *UpdateBountyTablePayload                               `json:"-"`
+	UpdateChallengeSettingPayload                          *UpdateChallengeSettingPayload                          `json:"-"`
+	UpdateCredentialAccountDetailPayload                   *UpdateCredentialAccountDetailPayload                   `json:"-"`
+	UpdateCredentialInstructionPayload                     *UpdateCredentialInstructionPayload                     `json:"-"`
+	UpdateCVERequestPayload                                *UpdateCVERequestPayload                                `json:"-"`
+	UpdateEmbeddedSubmissionDomainPayload                  *UpdateEmbeddedSubmissionDomainPayload                  `json:"-"`
+	UpdateFacebookUserIDPayload                            *UpdateFacebookUserIDPayload                            `json:"-"`
+	UpdateInvitationPreferencesPayload                     *UpdateInvitationPreferencesPayload                     `json:"-"`
+	UpdateLastViewedNewFeaturesAtPayload                   *UpdateLastViewedNewFeaturesAtPayload                   `json:"-"`
+	UpdateMePayload                                        *UpdateMePayload                                        `json:"-"`
+	UpdateSingleBookmarkedTeamPayload                      *UpdateSingleBookmarkedTeamPayload                      `json:"-"`
+	UpdateStructuredPolicyPayload                          *UpdateStructuredPolicyPayload                          `json:"-"`
+	UpdateStructuredScopePayload                           *UpdateStructuredScopePayload                           `json:"-"`
+	UpdateSubmissionRequirementPayload                     *UpdateSubmissionRequirementPayload                     `json:"-"`
+	UpdateTeamAllowsPrivateDisclosurePayload               *UpdateTeamAllowsPrivateDisclosurePayload               `json:"-"`
+	UpdateTeamBountySplittingSettingPayload                *UpdateTeamBountySplittingSettingPayload                `json:"-"`
+	UpdateTeamCriticalSubmissionStatePayload               *UpdateTeamCriticalSubmissionStatePayload               `json:"-"`
+	UpdateTeamResponseSLAPayload                           *UpdateTeamResponseSLAPayload                           `json:"-"`
+	UpdateTeamSuccessGoalsPayload                          *UpdateTeamSuccessGoalsPayload                          `json:"-"`
+	UpdateTeamTriageNotePayload                            *UpdateTeamTriageNotePayload                            `json:"-"`
+	UpdateTriggerPayload                                   *UpdateTriggerPayload                                   `json:"-"`
+	UpdateTwoFactorAuthenticationBackupCodesPayload        *UpdateTwoFactorAuthenticationBackupCodesPayload        `json:"-"`
+	UpdateTwoFactorAuthenticationCredentialsPayload        *UpdateTwoFactorAuthenticationCredentialsPayload        `json:"-"`
+	UpdateUserEmailPayload                                 *UpdateUserEmailPayload                                 `json:"-"`
+	UpdateUserTypePayload                                  *UpdateUserTypePayload                                  `json:"-"`
+	UpvotePayload                                          *UpvotePayload                                          `json:"-"`
+	VerifyAccountRecoveryPhoneNumberPayload                *VerifyAccountRecoveryPhoneNumberPayload                `json:"-"`
+}
+
+func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
+	type tmpType MutationResult
+	err = json.Unmarshal(data, (*tmpType)(u))
+	if err != nil {
+		return err
+	}
+	var payload interface{}
+	switch tmp.__typename {
+	case "AcknowledgeProgramHealthAcknowledgementPayload":
+		u.AcknowledgeProgramHealthAcknowledgementPayload = &AcknowledgeProgramHealthAcknowledgementPayload{}
+		payload = u.AcknowledgeProgramHealthAcknowledgementPayload
+	case "ArchiveStructuredScopePayload":
+		u.ArchiveStructuredScopePayload = &ArchiveStructuredScopePayload{}
+		payload = u.ArchiveStructuredScopePayload
+	case "CancelTwoFactorAuthenticationResetPayload":
+		u.CancelTwoFactorAuthenticationResetPayload = &CancelTwoFactorAuthenticationResetPayload{}
+		payload = u.CancelTwoFactorAuthenticationResetPayload
+	case "ClaimCredentialPayload":
+		u.ClaimCredentialPayload = &ClaimCredentialPayload{}
+		payload = u.ClaimCredentialPayload
+	case "ClaimReportPayload":
+		u.ClaimReportPayload = &ClaimReportPayload{}
+		payload = u.ClaimReportPayload
+	case "CompleteReportRetestUserPayload":
+		u.CompleteReportRetestUserPayload = &CompleteReportRetestUserPayload{}
+		payload = u.CompleteReportRetestUserPayload
+	case "CreateActivityCommentPayload":
+		u.CreateActivityCommentPayload = &CreateActivityCommentPayload{}
+		payload = u.CreateActivityCommentPayload
+	case "CreateBountyPayload":
+		u.CreateBountyPayload = &CreateBountyPayload{}
+		payload = u.CreateBountyPayload
+	case "CreateCoinbasePayoutPreferencePayload":
+		u.CreateCoinbasePayoutPreferencePayload = &CreateCoinbasePayoutPreferencePayload{}
+		payload = u.CreateCoinbasePayoutPreferencePayload
+	case "CreateCurrencycloudBankTransferPayoutPreferencePayload":
+		u.CreateCurrencycloudBankTransferPayoutPreferencePayload = &CreateCurrencycloudBankTransferPayoutPreferencePayload{}
+		payload = u.CreateCurrencycloudBankTransferPayoutPreferencePayload
+	case "CreateCVERequestPayload":
+		u.CreateCVERequestPayload = &CreateCVERequestPayload{}
+		payload = u.CreateCVERequestPayload
+	case "CreateExternalReportPayload":
+		u.CreateExternalReportPayload = &CreateExternalReportPayload{}
+		payload = u.CreateExternalReportPayload
+	case "CreateLeaveProgramSurveyAnswerPayload":
+		u.CreateLeaveProgramSurveyAnswerPayload = &CreateLeaveProgramSurveyAnswerPayload{}
+		payload = u.CreateLeaveProgramSurveyAnswerPayload
+	case "CreateMailingAddressPayload":
+		u.CreateMailingAddressPayload = &CreateMailingAddressPayload{}
+		payload = u.CreateMailingAddressPayload
+	case "CreateOrUpdateJiraIntegrationPayload":
+		u.CreateOrUpdateJiraIntegrationPayload = &CreateOrUpdateJiraIntegrationPayload{}
+		payload = u.CreateOrUpdateJiraIntegrationPayload
+	case "CreatePaypalPreferencePayload":
+		u.CreatePaypalPreferencePayload = &CreatePaypalPreferencePayload{}
+		payload = u.CreatePaypalPreferencePayload
+	case "CreateRejectionSurveyAnswerPayload":
+		u.CreateRejectionSurveyAnswerPayload = &CreateRejectionSurveyAnswerPayload{}
+		payload = u.CreateRejectionSurveyAnswerPayload
+	case "CreateReportPayload":
+		u.CreateReportPayload = &CreateReportPayload{}
+		payload = u.CreateReportPayload
+	case "CreateReportSummaryPayload":
+		u.CreateReportSummaryPayload = &CreateReportSummaryPayload{}
+		payload = u.CreateReportSummaryPayload
+	case "CreateSlackPipelinePayload":
+		u.CreateSlackPipelinePayload = &CreateSlackPipelinePayload{}
+		payload = u.CreateSlackPipelinePayload
+	case "CreateStructuredScopePayload":
+		u.CreateStructuredScopePayload = &CreateStructuredScopePayload{}
+		payload = u.CreateStructuredScopePayload
+	case "CreateTaxFormPayload":
+		u.CreateTaxFormPayload = &CreateTaxFormPayload{}
+		payload = u.CreateTaxFormPayload
+	case "CreateTriggerPayload":
+		u.CreateTriggerPayload = &CreateTriggerPayload{}
+		payload = u.CreateTriggerPayload
+	case "CreateTwoFactorAuthenticationCredentialsPayload":
+		u.CreateTwoFactorAuthenticationCredentialsPayload = &CreateTwoFactorAuthenticationCredentialsPayload{}
+		payload = u.CreateTwoFactorAuthenticationCredentialsPayload
+	case "CreateUserTwoFactorResetPayload":
+		u.CreateUserTwoFactorResetPayload = &CreateUserTwoFactorResetPayload{}
+		payload = u.CreateUserTwoFactorResetPayload
+	case "CreateVpnCredentialsPayload":
+		u.CreateVpnCredentialsPayload = &CreateVpnCredentialsPayload{}
+		payload = u.CreateVpnCredentialsPayload
+	case "DeleteMailingAddressPayload":
+		u.DeleteMailingAddressPayload = &DeleteMailingAddressPayload{}
+		payload = u.DeleteMailingAddressPayload
+	case "DeleteSlackPipelinePayload":
+		u.DeleteSlackPipelinePayload = &DeleteSlackPipelinePayload{}
+		payload = u.DeleteSlackPipelinePayload
+	case "DeleteTeamMemberPayload":
+		u.DeleteTeamMemberPayload = &DeleteTeamMemberPayload{}
+		payload = u.DeleteTeamMemberPayload
+	case "DeleteTriggerPayload":
+		u.DeleteTriggerPayload = &DeleteTriggerPayload{}
+		payload = u.DeleteTriggerPayload
+	case "DeleteUserSessionPayload":
+		u.DeleteUserSessionPayload = &DeleteUserSessionPayload{}
+		payload = u.DeleteUserSessionPayload
+	case "DestroyTwoFactorAuthenticationCredentialsPayload":
+		u.DestroyTwoFactorAuthenticationCredentialsPayload = &DestroyTwoFactorAuthenticationCredentialsPayload{}
+		payload = u.DestroyTwoFactorAuthenticationCredentialsPayload
+	case "DestroyUpvotePayload":
+		u.DestroyUpvotePayload = &DestroyUpvotePayload{}
+		payload = u.DestroyUpvotePayload
+	case "DismissProgramHealthAcknowledgementPayload":
+		u.DismissProgramHealthAcknowledgementPayload = &DismissProgramHealthAcknowledgementPayload{}
+		payload = u.DismissProgramHealthAcknowledgementPayload
+	case "ExportLifetimeReportsPayload":
+		u.ExportLifetimeReportsPayload = &ExportLifetimeReportsPayload{}
+		payload = u.ExportLifetimeReportsPayload
+	case "ForgetFacebookCredentialPayload":
+		u.ForgetFacebookCredentialPayload = &ForgetFacebookCredentialPayload{}
+		payload = u.ForgetFacebookCredentialPayload
+	case "LaunchTeamPayload":
+		u.LaunchTeamPayload = &LaunchTeamPayload{}
+		payload = u.LaunchTeamPayload
+	case "LaunchTeamPubliclyPayload":
+		u.LaunchTeamPubliclyPayload = &LaunchTeamPubliclyPayload{}
+		payload = u.LaunchTeamPubliclyPayload
+	case "LeavePrivateProgramPayload":
+		u.LeavePrivateProgramPayload = &LeavePrivateProgramPayload{}
+		payload = u.LeavePrivateProgramPayload
+	case "LockReportPayload":
+		u.LockReportPayload = &LockReportPayload{}
+		payload = u.LockReportPayload
+	case "MarkReportAsNeedsMoreInfoPayload":
+		u.MarkReportAsNeedsMoreInfoPayload = &MarkReportAsNeedsMoreInfoPayload{}
+		payload = u.MarkReportAsNeedsMoreInfoPayload
+	case "MarkReportAsNoisePayload":
+		u.MarkReportAsNoisePayload = &MarkReportAsNoisePayload{}
+		payload = u.MarkReportAsNoisePayload
+	case "MarkReportAsSignalPayload":
+		u.MarkReportAsSignalPayload = &MarkReportAsSignalPayload{}
+		payload = u.MarkReportAsSignalPayload
+	case "ProgramHealthAcknowledgementSeenPayload":
+		u.ProgramHealthAcknowledgementSeenPayload = &ProgramHealthAcknowledgementSeenPayload{}
+		payload = u.ProgramHealthAcknowledgementSeenPayload
+	case "PublishPolicyPayload":
+		u.PublishPolicyPayload = &PublishPolicyPayload{}
+		payload = u.PublishPolicyPayload
+	case "RegenerateCalendarTokenPayload":
+		u.RegenerateCalendarTokenPayload = &RegenerateCalendarTokenPayload{}
+		payload = u.RegenerateCalendarTokenPayload
+	case "RemoveBountyTablePayload":
+		u.RemoveBountyTablePayload = &RemoveBountyTablePayload{}
+		payload = u.RemoveBountyTablePayload
+	case "RevokeCredentialPayload":
+		u.RevokeCredentialPayload = &RevokeCredentialPayload{}
+		payload = u.RevokeCredentialPayload
+	case "StartVpnInstancePayload":
+		u.StartVpnInstancePayload = &StartVpnInstancePayload{}
+		payload = u.StartVpnInstancePayload
+	case "StopVpnInstancePayload":
+		u.StopVpnInstancePayload = &StopVpnInstancePayload{}
+		payload = u.StopVpnInstancePayload
+	case "UnclaimReportPayload":
+		u.UnclaimReportPayload = &UnclaimReportPayload{}
+		payload = u.UnclaimReportPayload
+	case "UnsubscribeMailingListPayload":
+		u.UnsubscribeMailingListPayload = &UnsubscribeMailingListPayload{}
+		payload = u.UnsubscribeMailingListPayload
+	case "UpdateAccountRecoveryPhoneNumberPayload":
+		u.UpdateAccountRecoveryPhoneNumberPayload = &UpdateAccountRecoveryPhoneNumberPayload{}
+		payload = u.UpdateAccountRecoveryPhoneNumberPayload
+	case "UpdateBookmarkedTeamPayload":
+		u.UpdateBookmarkedTeamPayload = &UpdateBookmarkedTeamPayload{}
+		payload = u.UpdateBookmarkedTeamPayload
+	case "UpdateBountyTablePayload":
+		u.UpdateBountyTablePayload = &UpdateBountyTablePayload{}
+		payload = u.UpdateBountyTablePayload
+	case "UpdateChallengeSettingPayload":
+		u.UpdateChallengeSettingPayload = &UpdateChallengeSettingPayload{}
+		payload = u.UpdateChallengeSettingPayload
+	case "UpdateCredentialAccountDetailPayload":
+		u.UpdateCredentialAccountDetailPayload = &UpdateCredentialAccountDetailPayload{}
+		payload = u.UpdateCredentialAccountDetailPayload
+	case "UpdateCredentialInstructionPayload":
+		u.UpdateCredentialInstructionPayload = &UpdateCredentialInstructionPayload{}
+		payload = u.UpdateCredentialInstructionPayload
+	case "UpdateCVERequestPayload":
+		u.UpdateCVERequestPayload = &UpdateCVERequestPayload{}
+		payload = u.UpdateCVERequestPayload
+	case "UpdateEmbeddedSubmissionDomainPayload":
+		u.UpdateEmbeddedSubmissionDomainPayload = &UpdateEmbeddedSubmissionDomainPayload{}
+		payload = u.UpdateEmbeddedSubmissionDomainPayload
+	case "UpdateFacebookUserIDPayload":
+		u.UpdateFacebookUserIDPayload = &UpdateFacebookUserIDPayload{}
+		payload = u.UpdateFacebookUserIDPayload
+	case "UpdateInvitationPreferencesPayload":
+		u.UpdateInvitationPreferencesPayload = &UpdateInvitationPreferencesPayload{}
+		payload = u.UpdateInvitationPreferencesPayload
+	case "UpdateLastViewedNewFeaturesAtPayload":
+		u.UpdateLastViewedNewFeaturesAtPayload = &UpdateLastViewedNewFeaturesAtPayload{}
+		payload = u.UpdateLastViewedNewFeaturesAtPayload
+	case "UpdateMePayload":
+		u.UpdateMePayload = &UpdateMePayload{}
+		payload = u.UpdateMePayload
+	case "UpdateSingleBookmarkedTeamPayload":
+		u.UpdateSingleBookmarkedTeamPayload = &UpdateSingleBookmarkedTeamPayload{}
+		payload = u.UpdateSingleBookmarkedTeamPayload
+	case "UpdateStructuredPolicyPayload":
+		u.UpdateStructuredPolicyPayload = &UpdateStructuredPolicyPayload{}
+		payload = u.UpdateStructuredPolicyPayload
+	case "UpdateStructuredScopePayload":
+		u.UpdateStructuredScopePayload = &UpdateStructuredScopePayload{}
+		payload = u.UpdateStructuredScopePayload
+	case "UpdateSubmissionRequirementPayload":
+		u.UpdateSubmissionRequirementPayload = &UpdateSubmissionRequirementPayload{}
+		payload = u.UpdateSubmissionRequirementPayload
+	case "UpdateTeamAllowsPrivateDisclosurePayload":
+		u.UpdateTeamAllowsPrivateDisclosurePayload = &UpdateTeamAllowsPrivateDisclosurePayload{}
+		payload = u.UpdateTeamAllowsPrivateDisclosurePayload
+	case "UpdateTeamBountySplittingSettingPayload":
+		u.UpdateTeamBountySplittingSettingPayload = &UpdateTeamBountySplittingSettingPayload{}
+		payload = u.UpdateTeamBountySplittingSettingPayload
+	case "UpdateTeamCriticalSubmissionStatePayload":
+		u.UpdateTeamCriticalSubmissionStatePayload = &UpdateTeamCriticalSubmissionStatePayload{}
+		payload = u.UpdateTeamCriticalSubmissionStatePayload
+	case "UpdateTeamResponseSLAPayload":
+		u.UpdateTeamResponseSLAPayload = &UpdateTeamResponseSLAPayload{}
+		payload = u.UpdateTeamResponseSLAPayload
+	case "UpdateTeamSuccessGoalsPayload":
+		u.UpdateTeamSuccessGoalsPayload = &UpdateTeamSuccessGoalsPayload{}
+		payload = u.UpdateTeamSuccessGoalsPayload
+	case "UpdateTeamTriageNotePayload":
+		u.UpdateTeamTriageNotePayload = &UpdateTeamTriageNotePayload{}
+		payload = u.UpdateTeamTriageNotePayload
+	case "UpdateTriggerPayload":
+		u.UpdateTriggerPayload = &UpdateTriggerPayload{}
+		payload = u.UpdateTriggerPayload
+	case "UpdateTwoFactorAuthenticationBackupCodesPayload":
+		u.UpdateTwoFactorAuthenticationBackupCodesPayload = &UpdateTwoFactorAuthenticationBackupCodesPayload{}
+		payload = u.UpdateTwoFactorAuthenticationBackupCodesPayload
+	case "UpdateTwoFactorAuthenticationCredentialsPayload":
+		u.UpdateTwoFactorAuthenticationCredentialsPayload = &UpdateTwoFactorAuthenticationCredentialsPayload{}
+		payload = u.UpdateTwoFactorAuthenticationCredentialsPayload
+	case "UpdateUserEmailPayload":
+		u.UpdateUserEmailPayload = &UpdateUserEmailPayload{}
+		payload = u.UpdateUserEmailPayload
+	case "UpdateUserTypePayload":
+		u.UpdateUserTypePayload = &UpdateUserTypePayload{}
+		payload = u.UpdateUserTypePayload
+	case "UpvotePayload":
+		u.UpvotePayload = &UpvotePayload{}
+		payload = u.UpvotePayload
+	case "VerifyAccountRecoveryPhoneNumberPayload":
+		u.VerifyAccountRecoveryPhoneNumberPayload = &VerifyAccountRecoveryPhoneNumberPayload{}
+		payload = u.VerifyAccountRecoveryPhoneNumberPayload
+	}
+	err = json.Unmarshal(data, payload)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // The connection type for Error.

@@ -23,6 +23,7 @@ if err := client.Run(context.TODO(), req, &resp); err != nil {
 
 log.Println(*resp.User.Name) // Luke Young
 ```
+For some real-world usage, checkout [hackeroni-slack-disclosure-bot](https://github.com/bored-engineer/hackeroni-slack-disclosure-bot/)
 
 [doc-img]: https://godoc.org/github.com/bored-engineer/hackeroni-ql/h1?status.svg
 [doc]: https://godoc.org/github.com/bored-engineer/hackeroni-ql/h1

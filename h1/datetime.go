@@ -18,7 +18,7 @@ func (d *DateTime) UnmarshalJSON(data []byte) (err error) {
 		return err
 	}
 	time, err := time.Parse(time.RFC3339, str)
-	d.Time = &t
+	d.Time = &time
 	return err
 }
 

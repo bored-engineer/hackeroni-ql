@@ -15,18 +15,19 @@ def go_custom_type:
 	# Add your own as you see fit for your use-case
 	if . == "String" then
 		"string"
-	elif . == "ID" then
-		"string"
-	elif . == "Hash" then
-		"string"
 	elif . == "Int" then
-		"int32"
-	elif . == "CountBySeverity" then
 		"int32"
 	elif . == "Float" then
 		"float64"
 	elif . == "Boolean" then
 		"bool"
+	# Here are some custom types for example
+	elif . == "ID" then
+		"string"
+	elif . == "Hash" then
+		"string"
+	elif . == "CountBySeverity" then
+		"int32"
 	else
 		null
 	end;

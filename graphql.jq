@@ -15,9 +15,11 @@ def go_custom_type:
 	elif . == "ID" then
 		"string"
 	elif . == "Hash" then
-		"string"
+		"string""
 	elif . == "Int" then
 		"int32"
+	elif . == "CountBySeverity" then
+		"int32
 	elif . == "Float" then
 		"float64"
 	elif . == "Boolean" then

@@ -21,3 +21,6 @@ func (d *DateTime) UnmarshalJSON(data []byte) (err error) {
 	d.Time = &t
 	return err
 }
+
+// Date is just a DateTime
+type Date DateTime

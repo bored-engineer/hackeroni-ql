@@ -11,7 +11,7 @@ type URI struct {
 }
 
 // UnmarshalJSON decodes as a string then parses as a URL
-func (u *URL) UnmarshalJSON(data []byte) (err error) {
+func (u *URI) UnmarshalJSON(data []byte) (err error) {
 	var str string
 	err = json.Unmarshal(data, &str)
 	if err != nil {

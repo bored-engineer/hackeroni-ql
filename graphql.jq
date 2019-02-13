@@ -7,7 +7,7 @@ def go_name:
 	# Add your own as you see fit for your use-case
 	gsub("(?<a>(Id|Sla|Url|Cve|Otp|Csrf|Totp))(?=[A-Z]|$)"; .a|ascii_upcase) |
 	# Re-add a _ prefix if there was one present already 
-	if ($name | startswith("_")) then "_" + . else . end;
+	if ($name | startswith("_")) then . + "_" else . end;
 
 # go_custom_type handles specific scalars that map to existing go types
 def go_custom_type:
@@ -100,7 +100,7 @@ def go_struct_field:
 # go_union_field generates the union fields
 def go_union_field:
 	[
-		"__typename string `json:\"__typename,omitempty\"`"
+		"TypeName__ string `json:\"__typename,omitempty\"`"
 	] + (.possibleTypes | map(
 		(.name | go_name) as $name |
 		$name + " *" + $name + " `json:\"-\"`"
@@ -118,7 +118,7 @@ def go_union_func($name):
 				["return err"],
 			"}",
 			"var payload interface{}",
-			"switch u.__typename {",
+			"switch u.TypeName__ {",
 			(.possibleTypes[] | (
 				(.name | go_name) as $tName |
 				"case \"" + $tName + "\":",
@@ -127,6 +127,8 @@ def go_union_func($name):
 					"payload = u." + $tName
 				]
 			)),
+			"default:",
+			["return nil"],
 			"}",
 			"err = json.Unmarshal(data, payload)",
 			"if err != nil {",

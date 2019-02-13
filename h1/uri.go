@@ -7,7 +7,7 @@ import (
 
 // URI extends *net.URL with JSON parsing
 type URI struct {
-	*net.URL
+	*url.URL
 }
 
 // UnmarshalJSON decodes as a string then parses as a URL

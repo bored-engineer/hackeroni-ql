@@ -6,8 +6,9 @@ import (
 
 // Root entity of the Hackerone Schema
 type Query struct {
-	Application            *Application               `json:"application,omitempty"`
-	BankTransferReference  *BankTransferReference     `json:"bank_transfer_reference,omitempty"`
+	Application           *Application           `json:"application,omitempty"`
+	BankTransferReference *BankTransferReference `json:"bank_transfer_reference,omitempty"`
+	// A Resolver for Clusters
 	Clusters               *ClusterConnection         `json:"clusters,omitempty"`
 	EmbeddedSubmissionForm *EmbeddedSubmissionForm    `json:"embedded_submission_form,omitempty"`
 	ExternalProgram        *ExternalProgram           `json:"external_program,omitempty"`
@@ -32,8 +33,9 @@ type Query struct {
 	Surveys            *SurveyConnection    `json:"surveys,omitempty"`
 	Tasks              *TaskConnection      `json:"tasks,omitempty"`
 	// DEPRECATED: Query for a Team node at the root level is not recommended. Ref T12456
-	Team  *Team           `json:"team,omitempty"`
-	Teams *TeamConnection `json:"teams,omitempty"`
+	Team             *Team                      `json:"team,omitempty"`
+	Teams            *TeamConnection            `json:"teams,omitempty"`
+	TriageInboxItems *TriageInboxItemConnection `json:"triage_inbox_items,omitempty"`
 	// DEPRECATED: Query for a User node at the root level is not recommended. Ref T12456
 	User  *User           `json:"user,omitempty"`
 	Users *UserConnection `json:"users,omitempty"`
@@ -61,6 +63,9 @@ type Node struct {
 	ActivitiesBugTriaged                          *ActivitiesBugTriaged                          `json:"-"`
 	ActivitiesCancelledDisclosureRequest          *ActivitiesCancelledDisclosureRequest          `json:"-"`
 	ActivitiesChangedScope                        *ActivitiesChangedScope                        `json:"-"`
+	ActivitiesChecklistCheckClaimed               *ActivitiesChecklistCheckClaimed               `json:"-"`
+	ActivitiesChecklistCheckReleased              *ActivitiesChecklistCheckReleased              `json:"-"`
+	ActivitiesChecklistCheckResponseCreated       *ActivitiesChecklistCheckResponseCreated       `json:"-"`
 	ActivitiesComment                             *ActivitiesComment                             `json:"-"`
 	ActivitiesCommentsClosed                      *ActivitiesCommentsClosed                      `json:"-"`
 	ActivitiesCVEIDAdded                          *ActivitiesCVEIDAdded                          `json:"-"`
@@ -85,7 +90,11 @@ type Node struct {
 	ActivitiesReportTitleUpdated                  *ActivitiesReportTitleUpdated                  `json:"-"`
 	ActivitiesReportVulnerabilityTypesUpdated     *ActivitiesReportVulnerabilityTypesUpdated     `json:"-"`
 	ActivitiesSwagAwarded                         *ActivitiesSwagAwarded                         `json:"-"`
+	ActivitiesTeamBountyTableUpdated              *ActivitiesTeamBountyTableUpdated              `json:"-"`
+	ActivitiesTeamPolicyUpdated                   *ActivitiesTeamPolicyUpdated                   `json:"-"`
+	ActivitiesTeamPostCreated                     *ActivitiesTeamPostCreated                     `json:"-"`
 	ActivitiesTeamPublished                       *ActivitiesTeamPublished                       `json:"-"`
+	ActivitiesTeamStructuredScopeUpdated          *ActivitiesTeamStructuredScopeUpdated          `json:"-"`
 	ActivitiesUserAssignedToBug                   *ActivitiesUserAssignedToBug                   `json:"-"`
 	ActivitiesUserBannedFromProgram               *ActivitiesUserBannedFromProgram               `json:"-"`
 	ActivitiesUserCompletedRetest                 *ActivitiesUserCompletedRetest                 `json:"-"`
@@ -101,8 +110,13 @@ type Node struct {
 	BeneficiaryRequiredField                      *BeneficiaryRequiredField                      `json:"-"`
 	Bounty                                        *Bounty                                        `json:"-"`
 	BountyTable                                   *BountyTable                                   `json:"-"`
+	BountyTableHistory                            *BountyTableHistory                            `json:"-"`
 	BountyTableRow                                *BountyTableRow                                `json:"-"`
+	BountyTableRowHistory                         *BountyTableRowHistory                         `json:"-"`
 	ChallengeSetting                              *ChallengeSetting                              `json:"-"`
+	Checklist                                     *Checklist                                     `json:"-"`
+	ChecklistCheck                                *ChecklistCheck                                `json:"-"`
+	ChecklistCheckResponse                        *ChecklistCheckResponse                        `json:"-"`
 	Cluster                                       *Cluster                                       `json:"-"`
 	CoinbasePayoutPreferenceType                  *CoinbasePayoutPreferenceType                  `json:"-"`
 	CommonResponse                                *CommonResponse                                `json:"-"`
@@ -110,6 +124,8 @@ type Node struct {
 	Credential                                    *Credential                                    `json:"-"`
 	Currency                                      *Currency                                      `json:"-"`
 	CurrencycloudBankTransferPayoutPreferenceType *CurrencycloudBankTransferPayoutPreferenceType `json:"-"`
+	CustomFieldAttribute                          *CustomFieldAttribute                          `json:"-"`
+	CustomFieldValue                              *CustomFieldValue                              `json:"-"`
 	CVERequest                                    *CVERequest                                    `json:"-"`
 	Disclosed                                     *Disclosed                                     `json:"-"`
 	EmbeddedSubmissionForm                        *EmbeddedSubmissionForm                        `json:"-"`
@@ -164,7 +180,9 @@ type Node struct {
 	TeamInboxView                                 *TeamInboxView                                 `json:"-"`
 	TeamMember                                    *TeamMember                                    `json:"-"`
 	TeamMemberGroup                               *TeamMemberGroup                               `json:"-"`
+	TeamPolicySubscription                        *TeamPolicySubscription                        `json:"-"`
 	TeamWeakness                                  *TeamWeakness                                  `json:"-"`
+	TriageInboxItem                               *TriageInboxItem                               `json:"-"`
 	TriageMeta                                    *TriageMeta                                    `json:"-"`
 	Trigger                                       *Trigger                                       `json:"-"`
 	TriggerActionLog                              *TriggerActionLog                              `json:"-"`
@@ -238,6 +256,15 @@ func (u *Node) UnmarshalJSON(data []byte) (err error) {
 	case "ActivitiesChangedScope":
 		u.ActivitiesChangedScope = &ActivitiesChangedScope{}
 		payload = u.ActivitiesChangedScope
+	case "ActivitiesChecklistCheckClaimed":
+		u.ActivitiesChecklistCheckClaimed = &ActivitiesChecklistCheckClaimed{}
+		payload = u.ActivitiesChecklistCheckClaimed
+	case "ActivitiesChecklistCheckReleased":
+		u.ActivitiesChecklistCheckReleased = &ActivitiesChecklistCheckReleased{}
+		payload = u.ActivitiesChecklistCheckReleased
+	case "ActivitiesChecklistCheckResponseCreated":
+		u.ActivitiesChecklistCheckResponseCreated = &ActivitiesChecklistCheckResponseCreated{}
+		payload = u.ActivitiesChecklistCheckResponseCreated
 	case "ActivitiesComment":
 		u.ActivitiesComment = &ActivitiesComment{}
 		payload = u.ActivitiesComment
@@ -310,9 +337,21 @@ func (u *Node) UnmarshalJSON(data []byte) (err error) {
 	case "ActivitiesSwagAwarded":
 		u.ActivitiesSwagAwarded = &ActivitiesSwagAwarded{}
 		payload = u.ActivitiesSwagAwarded
+	case "ActivitiesTeamBountyTableUpdated":
+		u.ActivitiesTeamBountyTableUpdated = &ActivitiesTeamBountyTableUpdated{}
+		payload = u.ActivitiesTeamBountyTableUpdated
+	case "ActivitiesTeamPolicyUpdated":
+		u.ActivitiesTeamPolicyUpdated = &ActivitiesTeamPolicyUpdated{}
+		payload = u.ActivitiesTeamPolicyUpdated
+	case "ActivitiesTeamPostCreated":
+		u.ActivitiesTeamPostCreated = &ActivitiesTeamPostCreated{}
+		payload = u.ActivitiesTeamPostCreated
 	case "ActivitiesTeamPublished":
 		u.ActivitiesTeamPublished = &ActivitiesTeamPublished{}
 		payload = u.ActivitiesTeamPublished
+	case "ActivitiesTeamStructuredScopeUpdated":
+		u.ActivitiesTeamStructuredScopeUpdated = &ActivitiesTeamStructuredScopeUpdated{}
+		payload = u.ActivitiesTeamStructuredScopeUpdated
 	case "ActivitiesUserAssignedToBug":
 		u.ActivitiesUserAssignedToBug = &ActivitiesUserAssignedToBug{}
 		payload = u.ActivitiesUserAssignedToBug
@@ -358,12 +397,27 @@ func (u *Node) UnmarshalJSON(data []byte) (err error) {
 	case "BountyTable":
 		u.BountyTable = &BountyTable{}
 		payload = u.BountyTable
+	case "BountyTableHistory":
+		u.BountyTableHistory = &BountyTableHistory{}
+		payload = u.BountyTableHistory
 	case "BountyTableRow":
 		u.BountyTableRow = &BountyTableRow{}
 		payload = u.BountyTableRow
+	case "BountyTableRowHistory":
+		u.BountyTableRowHistory = &BountyTableRowHistory{}
+		payload = u.BountyTableRowHistory
 	case "ChallengeSetting":
 		u.ChallengeSetting = &ChallengeSetting{}
 		payload = u.ChallengeSetting
+	case "Checklist":
+		u.Checklist = &Checklist{}
+		payload = u.Checklist
+	case "ChecklistCheck":
+		u.ChecklistCheck = &ChecklistCheck{}
+		payload = u.ChecklistCheck
+	case "ChecklistCheckResponse":
+		u.ChecklistCheckResponse = &ChecklistCheckResponse{}
+		payload = u.ChecklistCheckResponse
 	case "Cluster":
 		u.Cluster = &Cluster{}
 		payload = u.Cluster
@@ -385,6 +439,12 @@ func (u *Node) UnmarshalJSON(data []byte) (err error) {
 	case "CurrencycloudBankTransferPayoutPreferenceType":
 		u.CurrencycloudBankTransferPayoutPreferenceType = &CurrencycloudBankTransferPayoutPreferenceType{}
 		payload = u.CurrencycloudBankTransferPayoutPreferenceType
+	case "CustomFieldAttribute":
+		u.CustomFieldAttribute = &CustomFieldAttribute{}
+		payload = u.CustomFieldAttribute
+	case "CustomFieldValue":
+		u.CustomFieldValue = &CustomFieldValue{}
+		payload = u.CustomFieldValue
 	case "CVERequest":
 		u.CVERequest = &CVERequest{}
 		payload = u.CVERequest
@@ -547,9 +607,15 @@ func (u *Node) UnmarshalJSON(data []byte) (err error) {
 	case "TeamMemberGroup":
 		u.TeamMemberGroup = &TeamMemberGroup{}
 		payload = u.TeamMemberGroup
+	case "TeamPolicySubscription":
+		u.TeamPolicySubscription = &TeamPolicySubscription{}
+		payload = u.TeamPolicySubscription
 	case "TeamWeakness":
 		u.TeamWeakness = &TeamWeakness{}
 		payload = u.TeamWeakness
+	case "TriageInboxItem":
+		u.TriageInboxItem = &TriageInboxItem{}
+		payload = u.TriageInboxItem
 	case "TriageMeta":
 		u.TriageMeta = &TriageMeta{}
 		payload = u.TriageMeta
@@ -617,6 +683,7 @@ type User struct {
 	BlacklistedFromHackerPublish         *bool                         `json:"blacklisted_from_hacker_publish,omitempty"`
 	Bounties                             *BountyConnection             `json:"bounties,omitempty"`
 	CalendarToken                        *string                       `json:"calendar_token,omitempty"`
+	CanViewProgramAwareness              *bool                         `json:"can_view_program_awareness,omitempty"`
 	CreatedAt                            *DateTime                     `json:"created_at,omitempty"`
 	DemoHacker                           *bool                         `json:"demo_hacker,omitempty"`
 	Disabled                             *bool                         `json:"disabled,omitempty"`
@@ -625,7 +692,6 @@ type User struct {
 	Email                                *string                       `json:"email,omitempty"`
 	FacebookUserID                       *string                       `json:"facebook_user_id,omitempty"`
 	FacebookUserName                     *string                       `json:"facebook_user_name,omitempty"`
-	FbAuthSupported                      *bool                         `json:"fb_auth_supported,omitempty"`
 	Features                             []*Feature                    `json:"features,omitempty"`
 	HackerInvitationsProfile             *HackerInvitationsProfile     `json:"hacker_invitations_profile,omitempty"`
 	HackeroneTriager                     *bool                         `json:"hackerone_triager,omitempty"`
@@ -664,6 +730,8 @@ type User struct {
 	SubscribedForTeamMessages     *bool                                   `json:"subscribed_for_team_messages,omitempty"`
 	Swag                          *SwagConnection                         `json:"swag,omitempty"`
 	TaxForm                       *TaxForm                                `json:"tax_form,omitempty"`
+	TeamPolicySubscription        *TeamPolicySubscription                 `json:"team_policy_subscription,omitempty"`
+	TeamPolicySubscriptions       *TeamPolicySubscriptionConnection       `json:"team_policy_subscriptions,omitempty"`
 	Teams                         *TeamConnection                         `json:"teams,omitempty"`
 	TOTPEnabled                   *bool                                   `json:"totp_enabled,omitempty"`
 	TOTPSupported                 *bool                                   `json:"totp_supported,omitempty"`
@@ -676,7 +744,7 @@ type User struct {
 	VpnCredentials                []*VpnCredential                        `json:"vpn_credentials,omitempty"`
 	VpnInstances                  []*VpnInstance                          `json:"vpn_instances,omitempty"`
 	Website                       *string                                 `json:"website,omitempty"`
-	WhitelistedTeams              *WhitelistedTeamConnection              `json:"whitelisted_teams,omitempty"`
+	WhitelistedTeams              *TeamConnection                         `json:"whitelisted_teams,omitempty"`
 	YearInReviewPublishedAt       *DateTime                               `json:"year_in_review_published_at,omitempty"`
 }
 
@@ -685,7 +753,9 @@ type ResourceInterface struct {
 	URL                    *URI                    `json:"url,omitempty"`
 	TypeName__             string                  `json:"__typename,omitempty"`
 	BountyTable            *BountyTable            `json:"-"`
+	BountyTableHistory     *BountyTableHistory     `json:"-"`
 	BountyTableRow         *BountyTableRow         `json:"-"`
+	BountyTableRowHistory  *BountyTableRowHistory  `json:"-"`
 	CVERequest             *CVERequest             `json:"-"`
 	Report                 *Report                 `json:"-"`
 	SlackPipeline          *SlackPipeline          `json:"-"`
@@ -695,6 +765,7 @@ type ResourceInterface struct {
 	Survey                 *Survey                 `json:"-"`
 	Task                   *Task                   `json:"-"`
 	Team                   *Team                   `json:"-"`
+	TeamPolicySubscription *TeamPolicySubscription `json:"-"`
 	TriageMeta             *TriageMeta             `json:"-"`
 	Trigger                *Trigger                `json:"-"`
 	User                   *User                   `json:"-"`
@@ -711,9 +782,15 @@ func (u *ResourceInterface) UnmarshalJSON(data []byte) (err error) {
 	case "BountyTable":
 		u.BountyTable = &BountyTable{}
 		payload = u.BountyTable
+	case "BountyTableHistory":
+		u.BountyTableHistory = &BountyTableHistory{}
+		payload = u.BountyTableHistory
 	case "BountyTableRow":
 		u.BountyTableRow = &BountyTableRow{}
 		payload = u.BountyTableRow
+	case "BountyTableRowHistory":
+		u.BountyTableRowHistory = &BountyTableRowHistory{}
+		payload = u.BountyTableRowHistory
 	case "CVERequest":
 		u.CVERequest = &CVERequest{}
 		payload = u.CVERequest
@@ -741,6 +818,9 @@ func (u *ResourceInterface) UnmarshalJSON(data []byte) (err error) {
 	case "Team":
 		u.Team = &Team{}
 		payload = u.Team
+	case "TeamPolicySubscription":
+		u.TeamPolicySubscription = &TeamPolicySubscription{}
+		payload = u.TeamPolicySubscription
 	case "TriageMeta":
 		u.TriageMeta = &TriageMeta{}
 		payload = u.TriageMeta
@@ -1008,6 +1088,7 @@ type Team struct {
 	Activities                        *ActivityConnection `json:"activities,omitempty"`
 	AllowAllHackerInvitations         *bool               `json:"allow_all_hacker_invitations,omitempty"`
 	AllowEmailAndAutomaticInvitations *bool               `json:"allow_email_and_automatic_invitations,omitempty"`
+	AllowsBountySplitting             *bool               `json:"allows_bounty_splitting,omitempty"`
 	AllowsPrivateDisclosure           *bool               `json:"allows_private_disclosure,omitempty"`
 	AutomaticInvites                  *bool               `json:"automatic_invites,omitempty"`
 	AverageBountyLowerAmount          *int32              `json:"average_bounty_lower_amount,omitempty"`
@@ -1020,11 +1101,12 @@ type Team struct {
 	BountyAwardedStalenessThreshold   *int32              `json:"bounty_awarded_staleness_threshold,omitempty"`
 	// The participant's total bounty earned within the team
 	BountyEarnedForUser                *float64                            `json:"bounty_earned_for_user,omitempty"`
-	BountySplittingEnabled             *bool                               `json:"bounty_splitting_enabled,omitempty"`
 	BountyTable                        *BountyTable                        `json:"bounty_table,omitempty"`
 	BountyTime                         *float64                            `json:"bounty_time,omitempty"`
 	BugCount                           *int32                              `json:"bug_count,omitempty"`
+	CanToggleBountySplitting           *bool                               `json:"can_toggle_bounty_splitting,omitempty"`
 	ChallengeSetting                   *ChallengeSetting                   `json:"challenge_setting,omitempty"`
+	Checklist                          *Checklist                          `json:"checklist,omitempty"`
 	ChildTeams                         *TeamConnection                     `json:"child_teams,omitempty"`
 	ClaimedCredential                  *Credential                         `json:"claimed_credential,omitempty"`
 	CommonResponses                    *CommonResponseConnection           `json:"common_responses,omitempty"`
@@ -1036,6 +1118,8 @@ type Team struct {
 	CredentialsSetUp                   *bool                               `json:"credentials_set_up,omitempty"`
 	CriticalSubmissionsEnabled         *bool                               `json:"critical_submissions_enabled,omitempty"`
 	Currency                           *string                             `json:"currency,omitempty"`
+	CustomFieldAttributes              *CustomFieldAttributeConnection     `json:"custom_field_attributes,omitempty"`
+	CustomizedReportTemplate           *bool                               `json:"customized_report_template,omitempty"`
 	CVERequests                        *CVERequestsConnection              `json:"cve_requests,omitempty"`
 	CweFieldHidden                     *bool                               `json:"cwe_field_hidden,omitempty"`
 	EmbeddedSubmissionDomains          *EmbeddedSubmissionDomainConnection `json:"embedded_submission_domains,omitempty"`
@@ -1134,6 +1218,7 @@ type Team struct {
 	StructuredScopes               *StructuredScopesConnection       `json:"structured_scopes,omitempty"`
 	SubmissionRequirements         *SubmissionRequirements           `json:"submission_requirements,omitempty"`
 	SubmissionState                *SubmissionStateEnum              `json:"submission_state,omitempty"`
+	Subscribed                     *bool                             `json:"subscribed,omitempty"`
 	SurveyAnswers                  *SurveyAnswerConnection           `json:"survey_answers,omitempty"`
 	Swag                           *SwagConnection                   `json:"swag,omitempty"`
 	TargetSignal                   *float64                          `json:"target_signal,omitempty"`
@@ -1159,827 +1244,36 @@ type Team struct {
 	WhitelistedHackers             *UserConnection                   `json:"whitelisted_hackers,omitempty"`
 }
 
-// Product Edition of a Team
-type ProductEdition struct {
-	DisplayName              *string `json:"display_name,omitempty"`
-	HackerInvitationsEnabled *bool   `json:"hacker_invitations_enabled,omitempty"`
-	ID                       *string `json:"id,omitempty"`
-	SaasDeal                 *bool   `json:"saas_deal,omitempty"`
-}
-
-// The connection type for User.
-type UserConnection struct {
-	// A list of edges.
-	Edges []*UserEdge `json:"edges,omitempty"`
-	// A list of nodes.
-	Nodes []*User `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo *PageInfo `json:"pageInfo,omitempty"`
-	// Int
-	TotalCount *int32 `json:"total_count,omitempty"`
-}
-
-// Information about pagination in a connection.
-type PageInfo struct {
-	// When paginating forwards, the cursor to continue.
-	EndCursor *string `json:"endCursor,omitempty"`
-	// When paginating forwards, are there more items?
-	HasNextPage *bool `json:"hasNextPage,omitempty"`
-	// When paginating backwards, are there more items?
-	HasPreviousPage *bool `json:"hasPreviousPage,omitempty"`
-	// When paginating backwards, the cursor to continue.
-	StartCursor *string `json:"startCursor,omitempty"`
-}
-
-// An edge in a connection.
-type UserEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node *User `json:"node,omitempty"`
-}
-
-// Different possible team states
-type TeamState string
-
-const (
-	TeamStateInactive     TeamState = "inactive"
-	TeamStateSandboxed    TeamState = "sandboxed"
-	TeamStateDaMode       TeamState = "da_mode"
-	TeamStateSoftLaunched TeamState = "soft_launched"
-	TeamStatePublicMode   TeamState = "public_mode"
-)
-
-// A policy section of a HackerOne program
-type StructuredPolicy struct {
-	BrandPromise *string `json:"brand_promise,omitempty"`
-	ID           *string `json:"id,omitempty"`
-	Preferences  *string `json:"preferences,omitempty"`
-	Process      *string `json:"process,omitempty"`
-	SafeHarbor   *string `json:"safe_harbor,omitempty"`
-	Scope        *string `json:"scope,omitempty"`
-	URL          *URI    `json:"url,omitempty"`
-}
-
-// A Slack integration for a team
-type SlackIntegration struct {
-	// DEPRECATED: this field is not used in our new Slack integration
-	Channel                  *string         `json:"channel,omitempty"`
-	Channels                 []*SlackChannel `json:"channels,omitempty"`
-	ID                       *string         `json:"id,omitempty"`
-	ShouldFetchSlackChannels *bool           `json:"should_fetch_slack_channels,omitempty"`
-	ShouldFetchSlackUsers    *bool           `json:"should_fetch_slack_users,omitempty"`
-	Team                     *Team           `json:"team,omitempty"`
-	TeamURL                  *string         `json:"team_url,omitempty"`
-	Users                    []*SlackUser    `json:"users,omitempty"`
-}
-
-// Slack channel
-type SlackChannel struct {
-	ID   *string `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
-}
-
-// Slack user
-type SlackUser struct {
-	// The id provided by Slack
-	ID_         *string `json:"_id,omitempty"`
-	AvatarSmall *string `json:"avatar_small,omitempty"`
-	Deleted     *bool   `json:"deleted,omitempty"`
-	Email       *string `json:"email,omitempty"`
-	ID          *string `json:"id,omitempty"`
-	Name        *string `json:"name,omitempty"`
-	RealName    *string `json:"real_name,omitempty"`
-}
-
-// A JIRA integration for a team
-type JiraIntegration struct {
-	Assignee                      *string                                 `json:"assignee,omitempty"`
-	BaseURL                       *string                                 `json:"base_url,omitempty"`
-	CreatedAt                     *DateTime                               `json:"created_at,omitempty"`
-	Custom                        *string                                 `json:"custom,omitempty"`
-	Description                   *string                                 `json:"description,omitempty"`
-	ID                            *string                                 `json:"id,omitempty"`
-	IssueStatuses                 []*string                               `json:"issue_statuses,omitempty"`
-	IssueType                     *int32                                  `json:"issue_type,omitempty"`
-	JiraPriorityToSeverityRatings *JiraPriorityToSeverityRatingConnection `json:"jira_priority_to_severity_ratings,omitempty"`
-	Labels                        *string                                 `json:"labels,omitempty"`
-	Pid                           *int32                                  `json:"pid,omitempty"`
-	ProjectSelectionEnabled       *bool                                   `json:"project_selection_enabled,omitempty"`
-	Summary                       *string                                 `json:"summary,omitempty"`
-	Team                          *Team                                   `json:"team,omitempty"`
-	UpdatedAt                     *DateTime                               `json:"updated_at,omitempty"`
-}
-
-// The connection type for JiraPriorityToSeverityRating.
-type JiraPriorityToSeverityRatingConnection struct {
-	// A list of edges.
-	Edges []*JiraPriorityToSeverityRatingEdge `json:"edges,omitempty"`
-	// A list of nodes.
-	Nodes []*JiraPriorityToSeverityRating `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo *PageInfo `json:"pageInfo,omitempty"`
-	// Int
-	TotalCount *int32 `json:"total_count,omitempty"`
-}
-
-// An edge in a connection.
-type JiraPriorityToSeverityRatingEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node *JiraPriorityToSeverityRating `json:"node,omitempty"`
-}
-
-// A map of JIRA Priority to HackerOne Severity Rating
-type JiraPriorityToSeverityRating struct {
-	CreatedAt       *DateTime           `json:"created_at,omitempty"`
-	ID              *string             `json:"id,omitempty"`
-	JiraIntegration *JiraIntegration    `json:"jira_integration,omitempty"`
-	PriorityID      *string             `json:"priority_id,omitempty"`
-	SeverityRating  *SeverityRatingEnum `json:"severity_rating,omitempty"`
-	UpdatedAt       *DateTime           `json:"updated_at,omitempty"`
-}
-
-// Severity rating
-type SeverityRatingEnum string
-
-const (
-	SeverityRatingEnumNone     SeverityRatingEnum = "none"
-	SeverityRatingEnumLow      SeverityRatingEnum = "low"
-	SeverityRatingEnumMedium   SeverityRatingEnum = "medium"
-	SeverityRatingEnumHigh     SeverityRatingEnum = "high"
-	SeverityRatingEnumCritical SeverityRatingEnum = "critical"
-)
-
-// A Phabricator integration for a team
-type PhabricatorIntegration struct {
-	BaseURL                        *string   `json:"base_url,omitempty"`
-	CreatedAt                      *DateTime `json:"created_at,omitempty"`
-	Description                    *string   `json:"description,omitempty"`
-	ID                             *string   `json:"id,omitempty"`
-	ProcessH1CommentAdded          *bool     `json:"process_h1_comment_added,omitempty"`
-	ProcessH1StatusChange          *bool     `json:"process_h1_status_change,omitempty"`
-	ProcessPhabricatorCommentAdded *bool     `json:"process_phabricator_comment_added,omitempty"`
-	ProcessPhabricatorStatusChange *bool     `json:"process_phabricator_status_change,omitempty"`
-	ProjectTags                    *string   `json:"project_tags,omitempty"`
-	Team                           *Team     `json:"team,omitempty"`
-	Title                          *string   `json:"title,omitempty"`
-	UpdatedAt                      *DateTime `json:"updated_at,omitempty"`
-}
-
-// Configuration for the events sent from HackerOne to JIRA
-type HackeroneToJiraEventsConfiguration struct {
-	AssigneeChanges   *bool   `json:"assignee_changes,omitempty"`
-	Attachments       *bool   `json:"attachments,omitempty"`
-	Comments          *bool   `json:"comments,omitempty"`
-	ID                *string `json:"id,omitempty"`
-	PublicDisclosures *bool   `json:"public_disclosures,omitempty"`
-	Rewards           *bool   `json:"rewards,omitempty"`
-	StateChanges      *bool   `json:"state_changes,omitempty"`
-	Team              *Team   `json:"team,omitempty"`
-}
-
-// A JIRA webhook for a team
-type JiraWebhook struct {
-	CloseStatusID           *string   `json:"close_status_id,omitempty"`
-	CreatedAt               *DateTime `json:"created_at,omitempty"`
-	ID                      *string   `json:"id,omitempty"`
-	LastEventReceivedAt     *DateTime `json:"last_event_received_at,omitempty"`
-	LastTokenIssuedAt       *DateTime `json:"last_token_issued_at,omitempty"`
-	ProcessAssigneeChange   *bool     `json:"process_assignee_change,omitempty"`
-	ProcessCommentAdd       *bool     `json:"process_comment_add,omitempty"`
-	ProcessPriorityChange   *bool     `json:"process_priority_change,omitempty"`
-	ProcessResolutionChange *bool     `json:"process_resolution_change,omitempty"`
-	ProcessStatusChange     *bool     `json:"process_status_change,omitempty"`
-	Team                    *Team     `json:"team,omitempty"`
-	UpdatedAt               *DateTime `json:"updated_at,omitempty"`
-}
-
-// A JIRA Oauth for a team
-type JiraOauth struct {
-	// Assignables for a project
-	Assignables []*string `json:"assignables,omitempty"`
-	Configured  *bool     `json:"configured,omitempty"`
-	CreatedAt   *DateTime `json:"created_at,omitempty"`
-	ID          *string   `json:"id,omitempty"`
-	IssueTypes  []*string `json:"issue_types,omitempty"`
-	Jwt         *bool     `json:"jwt,omitempty"`
-	Priorities  []*string `json:"priorities,omitempty"`
-	Projects    []*string `json:"projects,omitempty"`
-	Site        *string   `json:"site,omitempty"`
-	Team        *Team     `json:"team,omitempty"`
-	UpdatedAt   *DateTime `json:"updated_at,omitempty"`
-}
-
-// The connection type for Team.
-type TeamConnection struct {
-	// A list of edges.
-	Edges []*TeamEdge `json:"edges,omitempty"`
-	// A list of nodes.
-	Nodes []*Team `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
-	TotalCount *int32    `json:"total_count,omitempty"`
-}
-
-// An edge in a connection.
-type TeamEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node *Team `json:"node,omitempty"`
-}
-
-// All available permissions
-type PermissionEnum string
-
-const (
-	PermissionEnumProgramManagement PermissionEnum = "program_management"
-)
-
-type TeamOrderInput struct {
-	Direction *OrderDirection `json:"direction,omitempty"`
-	Field     *TeamOrderField `json:"field,omitempty"`
-}
-
-// Possible directions for sorting a collection
-type OrderDirection string
-
-const (
-	OrderDirectionASC  OrderDirection = "ASC"
-	OrderDirectionDESC OrderDirection = "DESC"
-)
-
-// Fields on which a collection of Teams can be ordered
-type TeamOrderField string
-
-const (
-	TeamOrderFieldName                        TeamOrderField = "name"
-	TeamOrderFieldReportsResolved             TeamOrderField = "reports_resolved"
-	TeamOrderFieldAverageBountyAmount         TeamOrderField = "average_bounty_amount"
-	TeamOrderFieldMinimumBounty               TeamOrderField = "minimum_bounty"
-	TeamOrderFieldLastInvitationAcceptedAt    TeamOrderField = "last_invitation_accepted_at"
-	TeamOrderFieldReportsSubmittedByUser      TeamOrderField = "reports_submitted_by_user"
-	TeamOrderFieldValidReportsSubmittedByUser TeamOrderField = "valid_reports_submitted_by_user"
-	TeamOrderFieldBountyEarnedByUser          TeamOrderField = "bounty_earned_by_user"
-)
-
-type FiltersTeamFilterOrder struct {
-	Field     *FiltersTeamFilterOrderField `json:"field,omitempty"`
-	Direction *FilterOrderDirectionEnum    `json:"direction,omitempty"`
-}
-
-type FiltersTeamFilterOrderField string
-
-const (
-	FiltersTeamFilterOrderFieldID                                 FiltersTeamFilterOrderField = "id"
-	FiltersTeamFilterOrderFieldStartedAcceptingAt                 FiltersTeamFilterOrderField = "started_accepting_at"
-	FiltersTeamFilterOrderFieldCachedResponseEfficiencyPercentage FiltersTeamFilterOrderField = "cached_response_efficiency_percentage"
-)
-
-// Possible directions for sorting a collection
-type FilterOrderDirectionEnum string
-
-const (
-	FilterOrderDirectionEnumASC  FilterOrderDirectionEnum = "ASC"
-	FilterOrderDirectionEnumDESC FilterOrderDirectionEnum = "DESC"
-)
-
-type FiltersTeamFilterInput struct {
-	Or_                          []*FiltersTeamFilterInput             `json:"_or,omitempty"`
-	And_                         []*FiltersTeamFilterInput             `json:"_and,omitempty"`
-	ID                           *IntPredicateInput                    `json:"id,omitempty"`
-	Name                         *StringPredicateInput                 `json:"name,omitempty"`
-	Handle                       *StringPredicateInput                 `json:"handle,omitempty"`
-	State                        *TeamStatePredicateInput              `json:"state,omitempty"`
-	Policy                       *StringPredicateInput                 `json:"policy,omitempty"`
-	OffersBounties               *BooleanPredicateInput                `json:"offers_bounties,omitempty"`
-	InternetBugBounty            *BooleanPredicateInput                `json:"internet_bug_bounty,omitempty"`
-	Website                      *StringPredicateInput                 `json:"website,omitempty"`
-	SubmissionState              *SubmissionStateEnumPredicateInput    `json:"submission_state,omitempty"`
-	ResponseEfficiencyPercentage *IntPredicateInput                    `json:"response_efficiency_percentage,omitempty"`
-	ExternalProgram              *FiltersExternalProgramFilterInput    `json:"external_program,omitempty"`
-	StructuredScopes             *FiltersStructuredScopeFilterInput    `json:"structured_scopes,omitempty"`
-	BookmarkedTeamUsers          *FiltersUserFilterInput               `json:"bookmarked_team_users,omitempty"`
-	TriageSubscriptions          *FiltersTriageSubscriptionFilterInput `json:"triage_subscriptions,omitempty"`
-	WhitelistedHackers           *FiltersUserFilterInput               `json:"whitelisted_hackers,omitempty"`
-	Reporters                    *FiltersUserFilterInput               `json:"reporters,omitempty"`
-}
-
-type IntPredicateInput struct {
-	Eq_     *int32   `json:"_eq,omitempty"`
-	Neq_    *int32   `json:"_neq,omitempty"`
-	Gt_     *int32   `json:"_gt,omitempty"`
-	Lt_     *int32   `json:"_lt,omitempty"`
-	Gte_    *int32   `json:"_gte,omitempty"`
-	Lte_    *int32   `json:"_lte,omitempty"`
-	In_     []*int32 `json:"_in,omitempty"`
-	Nin_    []*int32 `json:"_nin,omitempty"`
-	IsNull_ *bool    `json:"_is_null,omitempty"`
-}
-
-type StringPredicateInput struct {
-	Eq_       *string   `json:"_eq,omitempty"`
-	Neq_      *string   `json:"_neq,omitempty"`
-	Gt_       *string   `json:"_gt,omitempty"`
-	Lt_       *string   `json:"_lt,omitempty"`
-	Gte_      *string   `json:"_gte,omitempty"`
-	Lte_      *string   `json:"_lte,omitempty"`
-	In_       []*string `json:"_in,omitempty"`
-	Nin_      []*string `json:"_nin,omitempty"`
-	Like_     *string   `json:"_like,omitempty"`
-	Nlike_    *string   `json:"_nlike,omitempty"`
-	Ilike_    *string   `json:"_ilike,omitempty"`
-	Nilike_   *string   `json:"_nilike,omitempty"`
-	Similar_  *string   `json:"_similar,omitempty"`
-	Nsimilar_ *string   `json:"_nsimilar,omitempty"`
-	IsNull_   *bool     `json:"_is_null,omitempty"`
-}
-
-type TeamStatePredicateInput struct {
-	Eq_     *TeamState   `json:"_eq,omitempty"`
-	Neq_    *TeamState   `json:"_neq,omitempty"`
-	Gt_     *TeamState   `json:"_gt,omitempty"`
-	Lt_     *TeamState   `json:"_lt,omitempty"`
-	Gte_    *TeamState   `json:"_gte,omitempty"`
-	Lte_    *TeamState   `json:"_lte,omitempty"`
-	In_     []*TeamState `json:"_in,omitempty"`
-	Nin_    []*TeamState `json:"_nin,omitempty"`
-	IsNull_ *bool        `json:"_is_null,omitempty"`
-}
-
-type BooleanPredicateInput struct {
-	Eq_     *bool `json:"_eq,omitempty"`
-	Neq_    *bool `json:"_neq,omitempty"`
-	IsNull_ *bool `json:"_is_null,omitempty"`
-}
-
-type SubmissionStateEnumPredicateInput struct {
-	Eq_     *SubmissionStateEnum   `json:"_eq,omitempty"`
-	Neq_    *SubmissionStateEnum   `json:"_neq,omitempty"`
-	Gt_     *SubmissionStateEnum   `json:"_gt,omitempty"`
-	Lt_     *SubmissionStateEnum   `json:"_lt,omitempty"`
-	Gte_    *SubmissionStateEnum   `json:"_gte,omitempty"`
-	Lte_    *SubmissionStateEnum   `json:"_lte,omitempty"`
-	In_     []*SubmissionStateEnum `json:"_in,omitempty"`
-	Nin_    []*SubmissionStateEnum `json:"_nin,omitempty"`
-	IsNull_ *bool                  `json:"_is_null,omitempty"`
-}
-
-// Submission states
-type SubmissionStateEnum string
-
-const (
-	SubmissionStateEnumOpen     SubmissionStateEnum = "open"
-	SubmissionStateEnumPaused   SubmissionStateEnum = "paused"
-	SubmissionStateEnumDisabled SubmissionStateEnum = "disabled"
-)
-
-type FiltersExternalProgramFilterInput struct {
-	Or_           []*FiltersExternalProgramFilterInput `json:"_or,omitempty"`
-	And_          []*FiltersExternalProgramFilterInput `json:"_and,omitempty"`
-	ID            *IntPredicateInput                   `json:"id,omitempty"`
-	OffersRewards *BooleanPredicateInput               `json:"offers_rewards,omitempty"`
-	Policy        *StringPredicateInput                `json:"policy,omitempty"`
-	Name          *StringPredicateInput                `json:"name,omitempty"`
-	Website       *StringPredicateInput                `json:"website,omitempty"`
-}
-
-type FiltersStructuredScopeFilterInput struct {
-	Or_             []*FiltersStructuredScopeFilterInput        `json:"_or,omitempty"`
-	And_            []*FiltersStructuredScopeFilterInput        `json:"_and,omitempty"`
-	ID              *IntPredicateInput                          `json:"id,omitempty"`
-	AssetIdentifier *StringPredicateInput                       `json:"asset_identifier,omitempty"`
-	AssetType       *StructuredScopeAssetTypeEnumPredicateInput `json:"asset_type,omitempty"`
-}
-
-type StructuredScopeAssetTypeEnumPredicateInput struct {
-	Eq_     *StructuredScopeAssetTypeEnum   `json:"_eq,omitempty"`
-	Neq_    *StructuredScopeAssetTypeEnum   `json:"_neq,omitempty"`
-	Gt_     *StructuredScopeAssetTypeEnum   `json:"_gt,omitempty"`
-	Lt_     *StructuredScopeAssetTypeEnum   `json:"_lt,omitempty"`
-	Gte_    *StructuredScopeAssetTypeEnum   `json:"_gte,omitempty"`
-	Lte_    *StructuredScopeAssetTypeEnum   `json:"_lte,omitempty"`
-	In_     []*StructuredScopeAssetTypeEnum `json:"_in,omitempty"`
-	Nin_    []*StructuredScopeAssetTypeEnum `json:"_nin,omitempty"`
-	IsNull_ *bool                           `json:"_is_null,omitempty"`
-}
-
-// Structured Scope asset type enum
-type StructuredScopeAssetTypeEnum string
-
-const (
-	StructuredScopeAssetTypeEnumCIDR                    StructuredScopeAssetTypeEnum = "CIDR"
-	StructuredScopeAssetTypeEnumURL                     StructuredScopeAssetTypeEnum = "URL"
-	StructuredScopeAssetTypeEnumAPPLESTOREAPPID         StructuredScopeAssetTypeEnum = "APPLE_STORE_APP_ID"
-	StructuredScopeAssetTypeEnumTESTFLIGHT              StructuredScopeAssetTypeEnum = "TESTFLIGHT"
-	StructuredScopeAssetTypeEnumOTHERIPA                StructuredScopeAssetTypeEnum = "OTHER_IPA"
-	StructuredScopeAssetTypeEnumGOOGLEPLAYAPPID         StructuredScopeAssetTypeEnum = "GOOGLE_PLAY_APP_ID"
-	StructuredScopeAssetTypeEnumOTHERAPK                StructuredScopeAssetTypeEnum = "OTHER_APK"
-	StructuredScopeAssetTypeEnumWINDOWSAPPSTOREAPPID    StructuredScopeAssetTypeEnum = "WINDOWS_APP_STORE_APP_ID"
-	StructuredScopeAssetTypeEnumSOURCECODE              StructuredScopeAssetTypeEnum = "SOURCE_CODE"
-	StructuredScopeAssetTypeEnumDOWNLOADABLEEXECUTABLES StructuredScopeAssetTypeEnum = "DOWNLOADABLE_EXECUTABLES"
-	StructuredScopeAssetTypeEnumHARDWARE                StructuredScopeAssetTypeEnum = "HARDWARE"
-	StructuredScopeAssetTypeEnumOTHER                   StructuredScopeAssetTypeEnum = "OTHER"
-)
-
-type FiltersUserFilterInput struct {
-	Or_      []*FiltersUserFilterInput `json:"_or,omitempty"`
-	And_     []*FiltersUserFilterInput `json:"_and,omitempty"`
-	ID       *IntPredicateInput        `json:"id,omitempty"`
-	Username *StringPredicateInput     `json:"username,omitempty"`
-	IsMe     *bool                     `json:"is_me,omitempty"`
-}
-
-type FiltersTriageSubscriptionFilterInput struct {
-	Or_      []*FiltersTriageSubscriptionFilterInput `json:"_or,omitempty"`
-	And_     []*FiltersTriageSubscriptionFilterInput `json:"_and,omitempty"`
-	ID       *IntPredicateInput                      `json:"id,omitempty"`
-	IsActive *bool                                   `json:"is_active,omitempty"`
-}
-
-// Challenge setting of a Team
-type ChallengeSetting struct {
-	ID         *string `json:"id,omitempty"`
-	NotStarted *bool   `json:"not_started,omitempty"`
-	Policy     *string `json:"policy,omitempty"`
-}
-
-// The connection type for EmbeddedSubmissionDomain.
-type EmbeddedSubmissionDomainConnection struct {
-	// A list of edges.
-	Edges []*EmbeddedSubmissionDomainEdge `json:"edges,omitempty"`
-	// A list of nodes.
-	Nodes []*EmbeddedSubmissionDomain `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
-	TotalCount *int32    `json:"total_count,omitempty"`
-}
-
-// An edge in a connection.
-type EmbeddedSubmissionDomainEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node *EmbeddedSubmissionDomain `json:"node,omitempty"`
-}
-
-// Allowed domains for embedded submission forms
-type EmbeddedSubmissionDomain struct {
-	ID_       *string `json:"_id,omitempty"`
-	CreatedBy *User   `json:"created_by,omitempty"`
-	Domain    *string `json:"domain,omitempty"`
-	ID        *string `json:"id,omitempty"`
-	Team      *Team   `json:"team,omitempty"`
-}
-
-// The connection type for EmbeddedSubmissionForm.
-type EmbeddedSubmissionFormConnection struct {
-	// A list of edges.
-	Edges []*EmbeddedSubmissionFormEdge `json:"edges,omitempty"`
-	// A list of nodes.
-	Nodes []*EmbeddedSubmissionForm `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
-	TotalCount *int32    `json:"total_count,omitempty"`
-}
-
-// An edge in a connection.
-type EmbeddedSubmissionFormEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node *EmbeddedSubmissionForm `json:"node,omitempty"`
-}
-
-// Embedded submission form
-type EmbeddedSubmissionForm struct {
-	ID   *string `json:"id,omitempty"`
-	Team *Team   `json:"team,omitempty"`
-	Uuid *string `json:"uuid,omitempty"`
-}
-
-// The connection type for Credential.
-type CredentialConnection struct {
-	// A list of edges.
-	Edges []*CredentialEdge `json:"edges,omitempty"`
-	// A list of nodes.
-	Nodes []*Credential `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
-	TotalCount *int32    `json:"total_count,omitempty"`
-}
-
-// An edge in a connection.
-type CredentialEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node *Credential `json:"node,omitempty"`
-}
-
-// Credentials of a team
-type Credential struct {
-	ID_            *string `json:"_id,omitempty"`
-	AccountDetails *string `json:"account_details,omitempty"`
-	Credentials    *string `json:"credentials,omitempty"`
-	ID             *string `json:"id,omitempty"`
-	Revoked        *bool   `json:"revoked,omitempty"`
-	User           *User   `json:"user,omitempty"`
-}
-
-// SLA Status of a Team
-type SLAStatus struct {
-	ID                     *string `json:"id,omitempty"`
-	Team                   *Team   `json:"team,omitempty"`
-	TriageSLAFailInHours   *int32  `json:"triage_sla_fail_in_hours,omitempty"`
-	TriageSLAFailuresCount *int32  `json:"triage_sla_failures_count,omitempty"`
-	TriageSLAMissesCount   *int32  `json:"triage_sla_misses_count,omitempty"`
-	TriageSLAOkCount       *int32  `json:"triage_sla_ok_count,omitempty"`
-	UserID                 *int32  `json:"user_id,omitempty"`
-}
-
-// The connection type for ProgramStatistic.
-type ProgramStatisticConnection struct {
-	// A list of edges.
-	Edges []*ProgramStatisticEdge `json:"edges,omitempty"`
-	// A list of nodes.
-	Nodes []*ProgramStatistic `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo *PageInfo `json:"pageInfo,omitempty"`
-}
-
-// An edge in a connection.
-type ProgramStatisticEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node *ProgramStatistic `json:"node,omitempty"`
-}
-
-// Statistics for a certain interval for a certain team
-type ProgramStatistic struct {
-	DuplicateReports             *int32                             `json:"duplicate_reports,omitempty"`
-	ID                           *string                            `json:"id,omitempty"`
-	InformativeReports           *int32                             `json:"informative_reports,omitempty"`
-	Interval                     *ProgramStatisticIntervalEnum      `json:"interval,omitempty"`
-	IntervalStart                *Date                              `json:"interval_start,omitempty"`
-	IsComplete                   *bool                              `json:"is_complete,omitempty"`
-	NotApplicableReports         *int32                             `json:"not_applicable_reports,omitempty"`
-	ResolvedReports              *int32                             `json:"resolved_reports,omitempty"`
-	SpamReports                  *int32                             `json:"spam_reports,omitempty"`
-	SubmittedReports             *int32                             `json:"submitted_reports,omitempty"`
-	TriagedReports               *int32                             `json:"triaged_reports,omitempty"`
-	ValidCriticalSeverityReports *int32                             `json:"valid_critical_severity_reports,omitempty"`
-	ValidHighSeverityReports     *int32                             `json:"valid_high_severity_reports,omitempty"`
-	ValidLowSeverityReports      *int32                             `json:"valid_low_severity_reports,omitempty"`
-	ValidMediumSeverityReports   *int32                             `json:"valid_medium_severity_reports,omitempty"`
-	ValidNoSeverityReports       *int32                             `json:"valid_no_severity_reports,omitempty"`
-	ValidReports                 *int32                             `json:"valid_reports,omitempty"`
-	ValidReportsPerScope         *ReportsCountPerScopeConnection    `json:"valid_reports_per_scope,omitempty"`
-	ValidReportsPerWeakness      *ReportsCountPerWeaknessConnection `json:"valid_reports_per_weakness,omitempty"`
-}
-
-// Intervals that program statistics can be grouped by
-type ProgramStatisticIntervalEnum string
-
-const (
-	ProgramStatisticIntervalEnumDay     ProgramStatisticIntervalEnum = "day"
-	ProgramStatisticIntervalEnumMonth   ProgramStatisticIntervalEnum = "month"
-	ProgramStatisticIntervalEnumQuarter ProgramStatisticIntervalEnum = "quarter"
-	ProgramStatisticIntervalEnumYear    ProgramStatisticIntervalEnum = "year"
-)
-
-// The connection type for ReportsCountPerScope.
-type ReportsCountPerScopeConnection struct {
-	// A list of edges.
-	Edges []*ReportsCountPerScopeEdge `json:"edges,omitempty"`
-	// Information to aid in pagination.
-	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
-	TotalCount *int32    `json:"total_count,omitempty"`
-}
-
-// An edge in a connection.
-type ReportsCountPerScopeEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node *ReportsCountPerScope `json:"node,omitempty"`
-}
-
-// Number of reports per scope of specific program
-type ReportsCountPerScope struct {
-	AssetIdentifier *string `json:"asset_identifier,omitempty"`
-	ID              *string `json:"id,omitempty"`
-	ReportsCount    *int32  `json:"reports_count,omitempty"`
-}
-
-// The connection type for ReportsCountPerWeakness.
-type ReportsCountPerWeaknessConnection struct {
-	// A list of edges.
-	Edges []*ReportsCountPerWeaknessEdge `json:"edges,omitempty"`
-	// A list of nodes.
-	Nodes []*ReportsCountPerWeakness `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
-	TotalCount *int32    `json:"total_count,omitempty"`
-}
-
-// An edge in a connection.
-type ReportsCountPerWeaknessEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node *ReportsCountPerWeakness `json:"node,omitempty"`
-}
-
-// Number of reports per weakness of specific program
-type ReportsCountPerWeakness struct {
-	ID           *string   `json:"id,omitempty"`
-	ReportsCount *int32    `json:"reports_count,omitempty"`
-	Weakness     *Weakness `json:"weakness,omitempty"`
-}
-
-// The type of vulnerability on a HackerOne report
-type Weakness struct {
-	ID_         *string            `json:"_id,omitempty"`
-	Clusters    *ClusterConnection `json:"clusters,omitempty"`
-	CreatedAt   *DateTime          `json:"created_at,omitempty"`
-	Description *string            `json:"description,omitempty"`
-	ExternalID  *string            `json:"external_id,omitempty"`
-	ID          *string            `json:"id,omitempty"`
-	Name        *string            `json:"name,omitempty"`
-	UpdatedAt   *DateTime          `json:"updated_at,omitempty"`
-}
-
-// The connection type for Cluster.
-type ClusterConnection struct {
-	// A list of edges.
-	Edges []*ClusterEdge `json:"edges,omitempty"`
-	// A list of nodes.
-	Nodes []*Cluster `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
-	TotalCount *int32    `json:"total_count,omitempty"`
-}
-
-// An edge in a connection.
-type ClusterEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node *Cluster `json:"node,omitempty"`
-}
-
-// A subset of weaknesses that share a common characteristic
-type Cluster struct {
-	CreatedAt   *DateTime                  `json:"created_at,omitempty"`
-	Description *string                    `json:"description,omitempty"`
-	ID          *string                    `json:"id,omitempty"`
-	Name        *string                    `json:"name,omitempty"`
-	UpdatedAt   *DateTime                  `json:"updated_at,omitempty"`
-	Weaknesses  *ClusterWeaknessConnection `json:"weaknesses,omitempty"`
-}
-
-// The connection type for Weakness.
-type ClusterWeaknessConnection struct {
-	// A list of edges.
-	Edges []*ClusterWeaknessEdge `json:"edges,omitempty"`
-	// A list of nodes.
-	Nodes []*Weakness `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
-	TotalCount *int32    `json:"total_count,omitempty"`
-}
-
-// An edge in a connection.
-type ClusterWeaknessEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node         *Weakness     `json:"node,omitempty"`
-	TeamWeakness *TeamWeakness `json:"team_weakness,omitempty"`
-}
-
-// Team configuration of a weakness
-type TeamWeakness struct {
-	ID          *string             `json:"id,omitempty"`
-	Instruction *string             `json:"instruction,omitempty"`
-	ReportCount *int32              `json:"report_count,omitempty"`
-	State       *TeamWeaknessStates `json:"state,omitempty"`
-	Team        *Team               `json:"team,omitempty"`
-	Weakness    *Weakness           `json:"weakness,omitempty"`
-}
-
-// Possible states of how a weakness can be configured for a team
-type TeamWeaknessStates string
-
-const (
-	TeamWeaknessStatesDisabled TeamWeaknessStates = "disabled"
-	TeamWeaknessStatesEnabled  TeamWeaknessStates = "enabled"
-	TeamWeaknessStatesHidden   TeamWeaknessStates = "hidden"
-)
-
-type WeaknessOrder struct {
-	Direction *OrderDirection     `json:"direction,omitempty"`
-	Field     *WeaknessOrderField `json:"field,omitempty"`
-}
-
-// Fields on which a collection of weaknesses can be ordered
-type WeaknessOrderField string
-
-const (
-	WeaknessOrderFieldName WeaknessOrderField = "name"
-)
-
-type ClusterOrder struct {
-	Direction *OrderDirection    `json:"direction,omitempty"`
-	Field     *ClusterOrderField `json:"field,omitempty"`
-}
-
-// Fields on which a collection of Cluster can be ordered
-type ClusterOrderField string
-
-const (
-	ClusterOrderFieldBROWSINGFRIENDLY ClusterOrderField = "BROWSING_FRIENDLY"
-)
-
-// The connection type for SlaSnapshot.
-type SLASnapshotConnection struct {
-	// A list of edges.
-	Edges   []*SLASnapshotEdge       `json:"edges,omitempty"`
-	GroupBy []*AggregatedSLASnapshot `json:"group_by,omitempty"`
-	// A list of nodes.
-	Nodes []*SLASnapshot `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo *PageInfo `json:"pageInfo,omitempty"`
-}
-
-// An edge in a connection.
-type SLASnapshotEdge struct {
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The item at the end of the edge.
-	Node *SLASnapshot `json:"node,omitempty"`
-}
-
-// SLA snapshot of a Team
-type SLASnapshot struct {
-	AverageTimeToBountyAwarded           *float64  `json:"average_time_to_bounty_awarded,omitempty"`
-	AverageTimeToFirstProgramResponse    *float64  `json:"average_time_to_first_program_response,omitempty"`
-	AverageTimeToReportResolved          *float64  `json:"average_time_to_report_resolved,omitempty"`
-	AverageTimeToReportTriage            *float64  `json:"average_time_to_report_triage,omitempty"`
-	BountyAwardedSLAMissesCount          *int32    `json:"bounty_awarded_sla_misses_count,omitempty"`
-	CreatedAt                            *DateTime `json:"created_at,omitempty"`
-	FirstProgramResponseSLAFailuresCount *int32    `json:"first_program_response_sla_failures_count,omitempty"`
-	FirstProgramResponseSLAMissesCount   *int32    `json:"first_program_response_sla_misses_count,omitempty"`
-	ID                                   *string   `json:"id,omitempty"`
-	ReportResolvedSLAMissesCount         *int32    `json:"report_resolved_sla_misses_count,omitempty"`
-	ReportTriageSLAFailuresCount         *int32    `json:"report_triage_sla_failures_count,omitempty"`
-	ReportTriageSLAMissesCount           *int32    `json:"report_triage_sla_misses_count,omitempty"`
-	SLAFailuresCount                     *int32    `json:"sla_failures_count,omitempty"`
-	SLAMissesCount                       *int32    `json:"sla_misses_count,omitempty"`
-	SLAOnTargetCount                     *int32    `json:"sla_on_target_count,omitempty"`
-	Team                                 *Team     `json:"team,omitempty"`
-}
-
-// An SLA snapshot aggregate
-type AggregatedSLASnapshot struct {
-	AverageTimeToBountyAwarded        *float64  `json:"average_time_to_bounty_awarded,omitempty"`
-	AverageTimeToFirstProgramResponse *float64  `json:"average_time_to_first_program_response,omitempty"`
-	AverageTimeToReportResolved       *float64  `json:"average_time_to_report_resolved,omitempty"`
-	AverageTimeToReportTriage         *float64  `json:"average_time_to_report_triage,omitempty"`
-	Timestamp                         *DateTime `json:"timestamp,omitempty"`
-}
-
-// Time intervals sla snapshots can be grouped by
-type SLASnapshotIntervalEnum string
-
-const (
-	SLASnapshotIntervalEnumDay   SLASnapshotIntervalEnum = "day"
-	SLASnapshotIntervalEnumWeek  SLASnapshotIntervalEnum = "week"
-	SLASnapshotIntervalEnumMonth SLASnapshotIntervalEnum = "month"
-)
-
-// Fields on which a collection of SLA snapshots can be filtered
-type SLASnapshotFilterField string
-
-const (
-	SLASnapshotFilterFieldPREVIOUSWEEK SLASnapshotFilterField = "PREVIOUS_WEEK"
-)
-
-// Cached metrics of a Team
-type TeamCachedProfile struct {
-	ID_                               *string   `json:"_id,omitempty"`
-	DisclosedReportsInLastYearCount   *int32    `json:"disclosed_reports_in_last_year_count,omitempty"`
-	HackersAcceptedAllTimeCount       *int32    `json:"hackers_accepted_all_time_count,omitempty"`
-	HackersInvitedAllTimeCount        *int32    `json:"hackers_invited_all_time_count,omitempty"`
-	ID                                *string   `json:"id,omitempty"`
-	LatestReportCreatedAt             *DateTime `json:"latest_report_created_at,omitempty"`
-	LatestSeriousReportTriagedAt      *DateTime `json:"latest_serious_report_triaged_at,omitempty"`
-	RecentlyParticipatingHackersCount *int32    `json:"recently_participating_hackers_count,omitempty"`
-	ReportsReceivedInThreeMonthsCount *int32    `json:"reports_received_in_three_months_count,omitempty"`
+// An interface for Activities on different types
+type ActivitiesInterface struct {
+	Activities *ActivityConnection `json:"activities,omitempty"`
+	TypeName__ string              `json:"__typename,omitempty"`
+	Report     *Report             `json:"-"`
+	Team       *Team               `json:"-"`
+}
+
+func (u *ActivitiesInterface) UnmarshalJSON(data []byte) (err error) {
+	type tmpType ActivitiesInterface
+	err = json.Unmarshal(data, (*tmpType)(u))
+	if err != nil {
+		return err
+	}
+	var payload interface{}
+	switch u.TypeName__ {
+	case "Report":
+		u.Report = &Report{}
+		payload = u.Report
+	case "Team":
+		u.Team = &Team{}
+		payload = u.Team
+	default:
+		return nil
+	}
+	err = json.Unmarshal(data, payload)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // The connection type for ActivityUnion.
@@ -1992,6 +1286,18 @@ type ActivityConnection struct {
 	// Information to aid in pagination.
 	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
 	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// Information about pagination in a connection.
+type PageInfo struct {
+	// When paginating forwards, the cursor to continue.
+	EndCursor *string `json:"endCursor,omitempty"`
+	// When paginating forwards, are there more items?
+	HasNextPage *bool `json:"hasNextPage,omitempty"`
+	// When paginating backwards, are there more items?
+	HasPreviousPage *bool `json:"hasPreviousPage,omitempty"`
+	// When paginating backwards, the cursor to continue.
+	StartCursor *string `json:"startCursor,omitempty"`
 }
 
 // An edge in a connection.
@@ -2022,6 +1328,9 @@ type ActivityUnion struct {
 	ActivitiesBugFiled                        *ActivitiesBugFiled                        `json:"-"`
 	ActivitiesCancelledDisclosureRequest      *ActivitiesCancelledDisclosureRequest      `json:"-"`
 	ActivitiesChangedScope                    *ActivitiesChangedScope                    `json:"-"`
+	ActivitiesChecklistCheckClaimed           *ActivitiesChecklistCheckClaimed           `json:"-"`
+	ActivitiesChecklistCheckReleased          *ActivitiesChecklistCheckReleased          `json:"-"`
+	ActivitiesChecklistCheckResponseCreated   *ActivitiesChecklistCheckResponseCreated   `json:"-"`
 	ActivitiesComment                         *ActivitiesComment                         `json:"-"`
 	ActivitiesCommentsClosed                  *ActivitiesCommentsClosed                  `json:"-"`
 	ActivitiesExternalUserInvitationCancelled *ActivitiesExternalUserInvitationCancelled `json:"-"`
@@ -2051,6 +1360,10 @@ type ActivityUnion struct {
 	ActivitiesNobodyAssignedToBug             *ActivitiesNobodyAssignedToBug             `json:"-"`
 	ActivitiesProgramInactive                 *ActivitiesProgramInactive                 `json:"-"`
 	ActivitiesUserCompletedRetest             *ActivitiesUserCompletedRetest             `json:"-"`
+	ActivitiesTeamBountyTableUpdated          *ActivitiesTeamBountyTableUpdated          `json:"-"`
+	ActivitiesTeamPostCreated                 *ActivitiesTeamPostCreated                 `json:"-"`
+	ActivitiesTeamPolicyUpdated               *ActivitiesTeamPolicyUpdated               `json:"-"`
+	ActivitiesTeamStructuredScopeUpdated      *ActivitiesTeamStructuredScopeUpdated      `json:"-"`
 }
 
 func (u *ActivityUnion) UnmarshalJSON(data []byte) (err error) {
@@ -2112,6 +1425,15 @@ func (u *ActivityUnion) UnmarshalJSON(data []byte) (err error) {
 	case "ActivitiesChangedScope":
 		u.ActivitiesChangedScope = &ActivitiesChangedScope{}
 		payload = u.ActivitiesChangedScope
+	case "ActivitiesChecklistCheckClaimed":
+		u.ActivitiesChecklistCheckClaimed = &ActivitiesChecklistCheckClaimed{}
+		payload = u.ActivitiesChecklistCheckClaimed
+	case "ActivitiesChecklistCheckReleased":
+		u.ActivitiesChecklistCheckReleased = &ActivitiesChecklistCheckReleased{}
+		payload = u.ActivitiesChecklistCheckReleased
+	case "ActivitiesChecklistCheckResponseCreated":
+		u.ActivitiesChecklistCheckResponseCreated = &ActivitiesChecklistCheckResponseCreated{}
+		payload = u.ActivitiesChecklistCheckResponseCreated
 	case "ActivitiesComment":
 		u.ActivitiesComment = &ActivitiesComment{}
 		payload = u.ActivitiesComment
@@ -2199,6 +1521,18 @@ func (u *ActivityUnion) UnmarshalJSON(data []byte) (err error) {
 	case "ActivitiesUserCompletedRetest":
 		u.ActivitiesUserCompletedRetest = &ActivitiesUserCompletedRetest{}
 		payload = u.ActivitiesUserCompletedRetest
+	case "ActivitiesTeamBountyTableUpdated":
+		u.ActivitiesTeamBountyTableUpdated = &ActivitiesTeamBountyTableUpdated{}
+		payload = u.ActivitiesTeamBountyTableUpdated
+	case "ActivitiesTeamPostCreated":
+		u.ActivitiesTeamPostCreated = &ActivitiesTeamPostCreated{}
+		payload = u.ActivitiesTeamPostCreated
+	case "ActivitiesTeamPolicyUpdated":
+		u.ActivitiesTeamPolicyUpdated = &ActivitiesTeamPolicyUpdated{}
+		payload = u.ActivitiesTeamPolicyUpdated
+	case "ActivitiesTeamStructuredScopeUpdated":
+		u.ActivitiesTeamStructuredScopeUpdated = &ActivitiesTeamStructuredScopeUpdated{}
+		payload = u.ActivitiesTeamStructuredScopeUpdated
 	default:
 		return nil
 	}
@@ -2218,14 +1552,15 @@ type ActivitiesAgreedOnGoingPublic struct {
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	FirstToAgree      *bool         `json:"first_to_agree,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A interface for the common fields on an HackerOne Activity
@@ -2234,6 +1569,7 @@ type ActivityInterface struct {
 	Actor                                     *ActorUnion                                `json:"actor,omitempty"`
 	CreatedAt                                 *DateTime                                  `json:"created_at,omitempty"`
 	ICanEdit                                  *bool                                      `json:"i_can_edit,omitempty"`
+	ID                                        *string                                    `json:"id,omitempty"`
 	Internal                                  *bool                                      `json:"internal,omitempty"`
 	MarkdownMessage                           *string                                    `json:"markdown_message,omitempty"`
 	Message                                   *string                                    `json:"message,omitempty"`
@@ -2256,6 +1592,9 @@ type ActivityInterface struct {
 	ActivitiesBugTriaged                      *ActivitiesBugTriaged                      `json:"-"`
 	ActivitiesCancelledDisclosureRequest      *ActivitiesCancelledDisclosureRequest      `json:"-"`
 	ActivitiesChangedScope                    *ActivitiesChangedScope                    `json:"-"`
+	ActivitiesChecklistCheckClaimed           *ActivitiesChecklistCheckClaimed           `json:"-"`
+	ActivitiesChecklistCheckReleased          *ActivitiesChecklistCheckReleased          `json:"-"`
+	ActivitiesChecklistCheckResponseCreated   *ActivitiesChecklistCheckResponseCreated   `json:"-"`
 	ActivitiesComment                         *ActivitiesComment                         `json:"-"`
 	ActivitiesCommentsClosed                  *ActivitiesCommentsClosed                  `json:"-"`
 	ActivitiesCVEIDAdded                      *ActivitiesCVEIDAdded                      `json:"-"`
@@ -2280,7 +1619,11 @@ type ActivityInterface struct {
 	ActivitiesReportTitleUpdated              *ActivitiesReportTitleUpdated              `json:"-"`
 	ActivitiesReportVulnerabilityTypesUpdated *ActivitiesReportVulnerabilityTypesUpdated `json:"-"`
 	ActivitiesSwagAwarded                     *ActivitiesSwagAwarded                     `json:"-"`
+	ActivitiesTeamBountyTableUpdated          *ActivitiesTeamBountyTableUpdated          `json:"-"`
+	ActivitiesTeamPolicyUpdated               *ActivitiesTeamPolicyUpdated               `json:"-"`
+	ActivitiesTeamPostCreated                 *ActivitiesTeamPostCreated                 `json:"-"`
 	ActivitiesTeamPublished                   *ActivitiesTeamPublished                   `json:"-"`
+	ActivitiesTeamStructuredScopeUpdated      *ActivitiesTeamStructuredScopeUpdated      `json:"-"`
 	ActivitiesUserAssignedToBug               *ActivitiesUserAssignedToBug               `json:"-"`
 	ActivitiesUserBannedFromProgram           *ActivitiesUserBannedFromProgram           `json:"-"`
 	ActivitiesUserCompletedRetest             *ActivitiesUserCompletedRetest             `json:"-"`
@@ -2346,6 +1689,15 @@ func (u *ActivityInterface) UnmarshalJSON(data []byte) (err error) {
 	case "ActivitiesChangedScope":
 		u.ActivitiesChangedScope = &ActivitiesChangedScope{}
 		payload = u.ActivitiesChangedScope
+	case "ActivitiesChecklistCheckClaimed":
+		u.ActivitiesChecklistCheckClaimed = &ActivitiesChecklistCheckClaimed{}
+		payload = u.ActivitiesChecklistCheckClaimed
+	case "ActivitiesChecklistCheckReleased":
+		u.ActivitiesChecklistCheckReleased = &ActivitiesChecklistCheckReleased{}
+		payload = u.ActivitiesChecklistCheckReleased
+	case "ActivitiesChecklistCheckResponseCreated":
+		u.ActivitiesChecklistCheckResponseCreated = &ActivitiesChecklistCheckResponseCreated{}
+		payload = u.ActivitiesChecklistCheckResponseCreated
 	case "ActivitiesComment":
 		u.ActivitiesComment = &ActivitiesComment{}
 		payload = u.ActivitiesComment
@@ -2418,9 +1770,21 @@ func (u *ActivityInterface) UnmarshalJSON(data []byte) (err error) {
 	case "ActivitiesSwagAwarded":
 		u.ActivitiesSwagAwarded = &ActivitiesSwagAwarded{}
 		payload = u.ActivitiesSwagAwarded
+	case "ActivitiesTeamBountyTableUpdated":
+		u.ActivitiesTeamBountyTableUpdated = &ActivitiesTeamBountyTableUpdated{}
+		payload = u.ActivitiesTeamBountyTableUpdated
+	case "ActivitiesTeamPolicyUpdated":
+		u.ActivitiesTeamPolicyUpdated = &ActivitiesTeamPolicyUpdated{}
+		payload = u.ActivitiesTeamPolicyUpdated
+	case "ActivitiesTeamPostCreated":
+		u.ActivitiesTeamPostCreated = &ActivitiesTeamPostCreated{}
+		payload = u.ActivitiesTeamPostCreated
 	case "ActivitiesTeamPublished":
 		u.ActivitiesTeamPublished = &ActivitiesTeamPublished{}
 		payload = u.ActivitiesTeamPublished
+	case "ActivitiesTeamStructuredScopeUpdated":
+		u.ActivitiesTeamStructuredScopeUpdated = &ActivitiesTeamStructuredScopeUpdated{}
+		payload = u.ActivitiesTeamStructuredScopeUpdated
 	case "ActivitiesUserAssignedToBug":
 		u.ActivitiesUserAssignedToBug = &ActivitiesUserAssignedToBug{}
 		payload = u.ActivitiesUserAssignedToBug
@@ -2480,7 +1844,9 @@ type ReportActivityInterface struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
 	GeniusExecutionID                         *string                                    `json:"genius_execution_id,omitempty"`
+	ID                                        *string                                    `json:"id,omitempty"`
 	Report                                    *Report                                    `json:"report,omitempty"`
+	TriageInboxItem                           *TriageInboxItem                           `json:"triage_inbox_item,omitempty"`
 	TypeName__                                string                                     `json:"__typename,omitempty"`
 	ActivitiesAgreedOnGoingPublic             *ActivitiesAgreedOnGoingPublic             `json:"-"`
 	ActivitiesBountyAwarded                   *ActivitiesBountyAwarded                   `json:"-"`
@@ -2678,33 +2044,43 @@ func (u *ReportActivityInterface) UnmarshalJSON(data []byte) (err error) {
 	return nil
 }
 
+// A Triage Inbox Item
+type TriageInboxItem struct {
+	ID_         *string        `json:"_id,omitempty"`
+	Activity    *ActivityUnion `json:"activity,omitempty"`
+	CreatedAt   *DateTime      `json:"created_at,omitempty"`
+	DismissedAt *DateTime      `json:"dismissed_at,omitempty"`
+	ID          *string        `json:"id,omitempty"`
+}
+
 // A HackerOne report
 type Report struct {
-	ID_                              *string             `json:"_id,omitempty"`
-	Activities                       *ActivityConnection `json:"activities,omitempty"`
-	AllowSingularDisclosureAfter     *string             `json:"allow_singular_disclosure_after,omitempty"`
-	AllowSingularDisclosureAt        *DateTime           `json:"allow_singular_disclosure_at,omitempty"`
-	AncReasons                       []*string           `json:"anc_reasons,omitempty"`
-	Assignee                         *AssigneeUnion      `json:"assignee,omitempty"`
-	Attachments                      []*Attachment       `json:"attachments,omitempty"`
-	Bounties                         []*Bounty           `json:"bounties,omitempty"`
-	BountyAwardedAt                  *DateTime           `json:"bounty_awarded_at,omitempty"`
-	BugReporterAgreedOnGoingPublicAt *DateTime           `json:"bug_reporter_agreed_on_going_public_at,omitempty"`
-	ClonedFrom                       *Report             `json:"cloned_from,omitempty"`
-	ClosedAt                         *DateTime           `json:"closed_at,omitempty"`
-	CommentsClosed                   *bool               `json:"comments_closed,omitempty"`
-	CreatedAt                        *DateTime           `json:"created_at,omitempty"`
-	CVEIds                           []*string           `json:"cve_ids,omitempty"`
-	DisclosedAt                      *DateTime           `json:"disclosed_at,omitempty"`
-	FirstProgramActivityAt           *DateTime           `json:"first_program_activity_at,omitempty"`
-	ICanAncReview                    *bool               `json:"i_can_anc_review,omitempty"`
-	ID                               *string             `json:"id,omitempty"`
-	LatestActivityAt                 *DateTime           `json:"latest_activity_at,omitempty"`
-	LatestPublicActivityAt           *DateTime           `json:"latest_public_activity_at,omitempty"`
-	LatestPublicActivityOfReporterAt *DateTime           `json:"latest_public_activity_of_reporter_at,omitempty"`
-	LatestPublicActivityOfTeamAt     *DateTime           `json:"latest_public_activity_of_team_at,omitempty"`
-	MediationRequestedAt             *DateTime           `json:"mediation_requested_at,omitempty"`
-	OriginalReport                   *Report             `json:"original_report,omitempty"`
+	ID_                              *string                     `json:"_id,omitempty"`
+	Activities                       *ActivityConnection         `json:"activities,omitempty"`
+	AllowSingularDisclosureAfter     *string                     `json:"allow_singular_disclosure_after,omitempty"`
+	AllowSingularDisclosureAt        *DateTime                   `json:"allow_singular_disclosure_at,omitempty"`
+	AncReasons                       []*string                   `json:"anc_reasons,omitempty"`
+	Assignee                         *AssigneeUnion              `json:"assignee,omitempty"`
+	Attachments                      []*Attachment               `json:"attachments,omitempty"`
+	Bounties                         []*Bounty                   `json:"bounties,omitempty"`
+	BountyAwardedAt                  *DateTime                   `json:"bounty_awarded_at,omitempty"`
+	BugReporterAgreedOnGoingPublicAt *DateTime                   `json:"bug_reporter_agreed_on_going_public_at,omitempty"`
+	ClonedFrom                       *Report                     `json:"cloned_from,omitempty"`
+	ClosedAt                         *DateTime                   `json:"closed_at,omitempty"`
+	CommentsClosed                   *bool                       `json:"comments_closed,omitempty"`
+	CreatedAt                        *DateTime                   `json:"created_at,omitempty"`
+	CustomFieldValues                *CustomFieldValueConnection `json:"custom_field_values,omitempty"`
+	CVEIds                           []*string                   `json:"cve_ids,omitempty"`
+	DisclosedAt                      *DateTime                   `json:"disclosed_at,omitempty"`
+	FirstProgramActivityAt           *DateTime                   `json:"first_program_activity_at,omitempty"`
+	ICanAncReview                    *bool                       `json:"i_can_anc_review,omitempty"`
+	ID                               *string                     `json:"id,omitempty"`
+	LatestActivityAt                 *DateTime                   `json:"latest_activity_at,omitempty"`
+	LatestPublicActivityAt           *DateTime                   `json:"latest_public_activity_at,omitempty"`
+	LatestPublicActivityOfReporterAt *DateTime                   `json:"latest_public_activity_of_reporter_at,omitempty"`
+	LatestPublicActivityOfTeamAt     *DateTime                   `json:"latest_public_activity_of_team_at,omitempty"`
+	MediationRequestedAt             *DateTime                   `json:"mediation_requested_at,omitempty"`
+	OriginalReport                   *Report                     `json:"original_report,omitempty"`
 	// A post-submission trigger that notified the hacker after submission. This field is only present for reports filed after February 14, 2016.
 	PostSubmissionTriggerLogTrigger *Trigger         `json:"post_submission_trigger_log_trigger,omitempty"`
 	PreSubmissionReviewState        *string          `json:"pre_submission_review_state,omitempty"`
@@ -2715,7 +2091,6 @@ type Report struct {
 	Severity                        *Severity        `json:"severity,omitempty"`
 	SingularDisclosureAllowed       *bool            `json:"singular_disclosure_allowed,omitempty"`
 	SingularDisclosureDisabled      *bool            `json:"singular_disclosure_disabled,omitempty"`
-	SLAFailsInHours                 *int32           `json:"sla_fails_in_hours,omitempty"`
 	Stage                           *string          `json:"stage,omitempty"`
 	State                           *string          `json:"state,omitempty"`
 	StructuredScope                 *StructuredScope `json:"structured_scope,omitempty"`
@@ -2735,6 +2110,86 @@ type Report struct {
 	VulnerabilityInformationHtml    *string          `json:"vulnerability_information_html,omitempty"`
 	Weakness                        *Weakness        `json:"weakness,omitempty"`
 }
+
+type ActivityOrderInput struct {
+	Direction *OrderDirection     `json:"direction,omitempty"`
+	Field     *ActivityOrderField `json:"field,omitempty"`
+}
+
+// Possible directions for sorting a collection
+type OrderDirection string
+
+const (
+	OrderDirectionASC  OrderDirection = "ASC"
+	OrderDirectionDESC OrderDirection = "DESC"
+)
+
+// Fields on which a collection of activities can be ordered
+type ActivityOrderField string
+
+const (
+	ActivityOrderFieldCreatedAt ActivityOrderField = "created_at"
+	ActivityOrderFieldUpdatedAt ActivityOrderField = "updated_at"
+)
+
+// Possible types for an activity
+type ActivityTypes string
+
+const (
+	ActivityTypesAgreedOnGoingPublic             ActivityTypes = "AgreedOnGoingPublic"
+	ActivityTypesBountyAwarded                   ActivityTypes = "BountyAwarded"
+	ActivityTypesBountySuggested                 ActivityTypes = "BountySuggested"
+	ActivityTypesBugCloned                       ActivityTypes = "BugCloned"
+	ActivityTypesBugDuplicate                    ActivityTypes = "BugDuplicate"
+	ActivityTypesBugInformative                  ActivityTypes = "BugInformative"
+	ActivityTypesBugNeedsMoreInfo                ActivityTypes = "BugNeedsMoreInfo"
+	ActivityTypesBugNew                          ActivityTypes = "BugNew"
+	ActivityTypesBugNotApplicable                ActivityTypes = "BugNotApplicable"
+	ActivityTypesBugInactive                     ActivityTypes = "BugInactive"
+	ActivityTypesBugReopened                     ActivityTypes = "BugReopened"
+	ActivityTypesBugResolved                     ActivityTypes = "BugResolved"
+	ActivityTypesBugSpam                         ActivityTypes = "BugSpam"
+	ActivityTypesBugTriaged                      ActivityTypes = "BugTriaged"
+	ActivityTypesBugFiled                        ActivityTypes = "BugFiled"
+	ActivityTypesCancelledDisclosureRequest      ActivityTypes = "CancelledDisclosureRequest"
+	ActivityTypesChangedScope                    ActivityTypes = "ChangedScope"
+	ActivityTypesChecklistCheckClaimed           ActivityTypes = "ChecklistCheckClaimed"
+	ActivityTypesChecklistCheckReleased          ActivityTypes = "ChecklistCheckReleased"
+	ActivityTypesChecklistCheckResponseCreated   ActivityTypes = "ChecklistCheckResponseCreated"
+	ActivityTypesComment                         ActivityTypes = "Comment"
+	ActivityTypesCommentsClosed                  ActivityTypes = "CommentsClosed"
+	ActivityTypesExternalUserInvitationCancelled ActivityTypes = "ExternalUserInvitationCancelled"
+	ActivityTypesExternalAdvisoryAdded           ActivityTypes = "ExternalAdvisoryAdded"
+	ActivityTypesExternalUserInvited             ActivityTypes = "ExternalUserInvited"
+	ActivityTypesExternalUserJoined              ActivityTypes = "ExternalUserJoined"
+	ActivityTypesExternalUserRemoved             ActivityTypes = "ExternalUserRemoved"
+	ActivityTypesGroupAssignedToBug              ActivityTypes = "GroupAssignedToBug"
+	ActivityTypesHackerRequestedMediation        ActivityTypes = "HackerRequestedMediation"
+	ActivityTypesManuallyDisclosed               ActivityTypes = "ManuallyDisclosed"
+	ActivityTypesMediationRequested              ActivityTypes = "MediationRequested"
+	ActivityTypesNotEligibleForBounty            ActivityTypes = "NotEligibleForBounty"
+	ActivityTypesReferenceIDAdded                ActivityTypes = "ReferenceIdAdded"
+	ActivityTypesCVEIDAdded                      ActivityTypes = "CveIdAdded"
+	ActivityTypesReassignedToTeam                ActivityTypes = "ReassignedToTeam"
+	ActivityTypesReportBecamePublic              ActivityTypes = "ReportBecamePublic"
+	ActivityTypesReportTitleUpdated              ActivityTypes = "ReportTitleUpdated"
+	ActivityTypesReportVulnerabilityTypesUpdated ActivityTypes = "ReportVulnerabilityTypesUpdated"
+	ActivityTypesReportSeverityUpdated           ActivityTypes = "ReportSeverityUpdated"
+	ActivityTypesReportCollaboratorInvited       ActivityTypes = "ReportCollaboratorInvited"
+	ActivityTypesReportCollaboratorJoined        ActivityTypes = "ReportCollaboratorJoined"
+	ActivityTypesSwagAwarded                     ActivityTypes = "SwagAwarded"
+	ActivityTypesTeamPublished                   ActivityTypes = "TeamPublished"
+	ActivityTypesUserAssignedToBug               ActivityTypes = "UserAssignedToBug"
+	ActivityTypesUserBannedFromProgram           ActivityTypes = "UserBannedFromProgram"
+	ActivityTypesUserJoined                      ActivityTypes = "UserJoined"
+	ActivityTypesNobodyAssignedToBug             ActivityTypes = "NobodyAssignedToBug"
+	ActivityTypesProgramInactive                 ActivityTypes = "ProgramInactive"
+	ActivityTypesUserCompletedRetest             ActivityTypes = "UserCompletedRetest"
+	ActivityTypesTeamBountyTableUpdated          ActivityTypes = "TeamBountyTableUpdated"
+	ActivityTypesTeamPostCreated                 ActivityTypes = "TeamPostCreated"
+	ActivityTypesTeamPolicyUpdated               ActivityTypes = "TeamPolicyUpdated"
+	ActivityTypesTeamStructuredScopeUpdated      ActivityTypes = "TeamStructuredScopeUpdated"
+)
 
 // Report can be assigned to either a user or a team member group
 type AssigneeUnion struct {
@@ -2797,6 +2252,17 @@ type Severity struct {
 	UserID             *int32                          `json:"user_id,omitempty"`
 	UserInteraction    *SeverityUserInteractionEnum    `json:"user_interaction,omitempty"`
 }
+
+// Severity rating
+type SeverityRatingEnum string
+
+const (
+	SeverityRatingEnumNone     SeverityRatingEnum = "none"
+	SeverityRatingEnumLow      SeverityRatingEnum = "low"
+	SeverityRatingEnumMedium   SeverityRatingEnum = "medium"
+	SeverityRatingEnumHigh     SeverityRatingEnum = "high"
+	SeverityRatingEnumCritical SeverityRatingEnum = "critical"
+)
 
 // Severity author
 type SeverityAuthorEnum string
@@ -2883,6 +2349,155 @@ type TriageMeta struct {
 	URL             *URI    `json:"url,omitempty"`
 }
 
+// The connection type for CustomFieldValue.
+type CustomFieldValueConnection struct {
+	// A list of edges.
+	Edges []*CustomFieldValueEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*CustomFieldValue `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type CustomFieldValueEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *CustomFieldValue `json:"node,omitempty"`
+}
+
+// A custom field value for a report
+type CustomFieldValue struct {
+	ID_                  *string               `json:"_id,omitempty"`
+	CreatedAt            *DateTime             `json:"created_at,omitempty"`
+	CustomFieldAttribute *CustomFieldAttribute `json:"custom_field_attribute,omitempty"`
+	ID                   *string               `json:"id,omitempty"`
+	UpdatedAt            *DateTime             `json:"updated_at,omitempty"`
+	Value                *string               `json:"value,omitempty"`
+}
+
+// A custom field attribute for a program
+type CustomFieldAttribute struct {
+	ID_               *string                     `json:"_id,omitempty"`
+	ArchivedAt        *DateTime                   `json:"archived_at,omitempty"`
+	Configuration     *string                     `json:"configuration,omitempty"`
+	CreatedAt         *DateTime                   `json:"created_at,omitempty"`
+	CustomFieldValues *CustomFieldValueConnection `json:"custom_field_values,omitempty"`
+	ID                *string                     `json:"id,omitempty"`
+	Items             []*string                   `json:"items,omitempty"`
+	Key               *string                     `json:"key,omitempty"`
+	Label             *string                     `json:"label,omitempty"`
+	Type              *string                     `json:"type,omitempty"`
+	UpdatedAt         *DateTime                   `json:"updated_at,omitempty"`
+}
+
+// The type of vulnerability on a HackerOne report
+type Weakness struct {
+	ID_ *string `json:"_id,omitempty"`
+	// A Resolver for Clusters
+	Clusters    *ClusterConnection `json:"clusters,omitempty"`
+	CreatedAt   *DateTime          `json:"created_at,omitempty"`
+	Description *string            `json:"description,omitempty"`
+	ExternalID  *string            `json:"external_id,omitempty"`
+	ID          *string            `json:"id,omitempty"`
+	Name        *string            `json:"name,omitempty"`
+	UpdatedAt   *DateTime          `json:"updated_at,omitempty"`
+}
+
+// The connection type for Cluster.
+type ClusterConnection struct {
+	// A list of edges.
+	Edges []*ClusterEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*Cluster `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type ClusterEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *Cluster `json:"node,omitempty"`
+}
+
+// A subset of weaknesses that share a common characteristic
+type Cluster struct {
+	CreatedAt   *DateTime                  `json:"created_at,omitempty"`
+	Description *string                    `json:"description,omitempty"`
+	ID          *string                    `json:"id,omitempty"`
+	Name        *string                    `json:"name,omitempty"`
+	UpdatedAt   *DateTime                  `json:"updated_at,omitempty"`
+	Weaknesses  *ClusterWeaknessConnection `json:"weaknesses,omitempty"`
+}
+
+// The connection type for Weakness.
+type ClusterWeaknessConnection struct {
+	// A list of edges.
+	Edges []*ClusterWeaknessEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*Weakness `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type ClusterWeaknessEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node         *Weakness     `json:"node,omitempty"`
+	TeamWeakness *TeamWeakness `json:"team_weakness,omitempty"`
+}
+
+// Team configuration of a weakness
+type TeamWeakness struct {
+	ID          *string             `json:"id,omitempty"`
+	Instruction *string             `json:"instruction,omitempty"`
+	ReportCount *int32              `json:"report_count,omitempty"`
+	State       *TeamWeaknessStates `json:"state,omitempty"`
+	Team        *Team               `json:"team,omitempty"`
+	Weakness    *Weakness           `json:"weakness,omitempty"`
+}
+
+// Possible states of how a weakness can be configured for a team
+type TeamWeaknessStates string
+
+const (
+	TeamWeaknessStatesDisabled TeamWeaknessStates = "disabled"
+	TeamWeaknessStatesEnabled  TeamWeaknessStates = "enabled"
+	TeamWeaknessStatesHidden   TeamWeaknessStates = "hidden"
+)
+
+type WeaknessOrder struct {
+	Direction *OrderDirection     `json:"direction,omitempty"`
+	Field     *WeaknessOrderField `json:"field,omitempty"`
+}
+
+// Fields on which a collection of weaknesses can be ordered
+type WeaknessOrderField string
+
+const (
+	WeaknessOrderFieldName WeaknessOrderField = "name"
+)
+
+type ClusterOrder struct {
+	Direction *OrderDirection    `json:"direction,omitempty"`
+	Field     *ClusterOrderField `json:"field,omitempty"`
+}
+
+// Fields on which a collection of Cluster can be ordered
+type ClusterOrderField string
+
+const (
+	ClusterOrderFieldBROWSINGFRIENDLY ClusterOrderField = "BROWSING_FRIENDLY"
+)
+
 // A defined scope of a HackerOne program
 type StructuredScope struct {
 	ID_                                  *string                           `json:"_id,omitempty"`
@@ -2910,6 +2525,24 @@ type StructuredScope struct {
 	UpdatedAt                            *DateTime                         `json:"updated_at,omitempty"`
 	URL                                  *URI                              `json:"url,omitempty"`
 }
+
+// Structured Scope asset type enum
+type StructuredScopeAssetTypeEnum string
+
+const (
+	StructuredScopeAssetTypeEnumCIDR                    StructuredScopeAssetTypeEnum = "CIDR"
+	StructuredScopeAssetTypeEnumURL                     StructuredScopeAssetTypeEnum = "URL"
+	StructuredScopeAssetTypeEnumAPPLESTOREAPPID         StructuredScopeAssetTypeEnum = "APPLE_STORE_APP_ID"
+	StructuredScopeAssetTypeEnumTESTFLIGHT              StructuredScopeAssetTypeEnum = "TESTFLIGHT"
+	StructuredScopeAssetTypeEnumOTHERIPA                StructuredScopeAssetTypeEnum = "OTHER_IPA"
+	StructuredScopeAssetTypeEnumGOOGLEPLAYAPPID         StructuredScopeAssetTypeEnum = "GOOGLE_PLAY_APP_ID"
+	StructuredScopeAssetTypeEnumOTHERAPK                StructuredScopeAssetTypeEnum = "OTHER_APK"
+	StructuredScopeAssetTypeEnumWINDOWSAPPSTOREAPPID    StructuredScopeAssetTypeEnum = "WINDOWS_APP_STORE_APP_ID"
+	StructuredScopeAssetTypeEnumSOURCECODE              StructuredScopeAssetTypeEnum = "SOURCE_CODE"
+	StructuredScopeAssetTypeEnumDOWNLOADABLEEXECUTABLES StructuredScopeAssetTypeEnum = "DOWNLOADABLE_EXECUTABLES"
+	StructuredScopeAssetTypeEnumHARDWARE                StructuredScopeAssetTypeEnum = "HARDWARE"
+	StructuredScopeAssetTypeEnumOTHER                   StructuredScopeAssetTypeEnum = "OTHER"
+)
 
 // Severity security requirement rating
 type SeveritySecurityRequirementEnum string
@@ -2990,6 +2623,36 @@ type FiltersReportFilterInput struct {
 	Weakness                 *FiltersWeaknessFilterInput    `json:"weakness,omitempty"`
 }
 
+type IntPredicateInput struct {
+	Eq_     *int32   `json:"_eq,omitempty"`
+	Neq_    *int32   `json:"_neq,omitempty"`
+	Gt_     *int32   `json:"_gt,omitempty"`
+	Lt_     *int32   `json:"_lt,omitempty"`
+	Gte_    *int32   `json:"_gte,omitempty"`
+	Lte_    *int32   `json:"_lte,omitempty"`
+	In_     []*int32 `json:"_in,omitempty"`
+	Nin_    []*int32 `json:"_nin,omitempty"`
+	IsNull_ *bool    `json:"_is_null,omitempty"`
+}
+
+type StringPredicateInput struct {
+	Eq_       *string   `json:"_eq,omitempty"`
+	Neq_      *string   `json:"_neq,omitempty"`
+	Gt_       *string   `json:"_gt,omitempty"`
+	Lt_       *string   `json:"_lt,omitempty"`
+	Gte_      *string   `json:"_gte,omitempty"`
+	Lte_      *string   `json:"_lte,omitempty"`
+	In_       []*string `json:"_in,omitempty"`
+	Nin_      []*string `json:"_nin,omitempty"`
+	Like_     *string   `json:"_like,omitempty"`
+	Nlike_    *string   `json:"_nlike,omitempty"`
+	Ilike_    *string   `json:"_ilike,omitempty"`
+	Nilike_   *string   `json:"_nilike,omitempty"`
+	Similar_  *string   `json:"_similar,omitempty"`
+	Nsimilar_ *string   `json:"_nsimilar,omitempty"`
+	IsNull_   *bool     `json:"_is_null,omitempty"`
+}
+
 type ReportStateEnumPredicateInput struct {
 	Eq_     *ReportStateEnum   `json:"_eq,omitempty"`
 	Neq_    *ReportStateEnum   `json:"_neq,omitempty"`
@@ -3019,6 +2682,12 @@ const (
 	ReportStateEnumPreSubmission ReportStateEnum = "pre_submission"
 )
 
+type BooleanPredicateInput struct {
+	Eq_     *bool `json:"_eq,omitempty"`
+	Neq_    *bool `json:"_neq,omitempty"`
+	IsNull_ *bool `json:"_is_null,omitempty"`
+}
+
 type DateTimePredicateInput struct {
 	Eq_     *DateTime   `json:"_eq,omitempty"`
 	Neq_    *DateTime   `json:"_neq,omitempty"`
@@ -3029,6 +2698,116 @@ type DateTimePredicateInput struct {
 	In_     []*DateTime `json:"_in,omitempty"`
 	Nin_    []*DateTime `json:"_nin,omitempty"`
 	IsNull_ *bool       `json:"_is_null,omitempty"`
+}
+
+type FiltersTeamFilterInput struct {
+	Or_                          []*FiltersTeamFilterInput             `json:"_or,omitempty"`
+	And_                         []*FiltersTeamFilterInput             `json:"_and,omitempty"`
+	ID                           *IntPredicateInput                    `json:"id,omitempty"`
+	Name                         *StringPredicateInput                 `json:"name,omitempty"`
+	Handle                       *StringPredicateInput                 `json:"handle,omitempty"`
+	State                        *TeamStatePredicateInput              `json:"state,omitempty"`
+	Policy                       *StringPredicateInput                 `json:"policy,omitempty"`
+	OffersBounties               *BooleanPredicateInput                `json:"offers_bounties,omitempty"`
+	InternetBugBounty            *BooleanPredicateInput                `json:"internet_bug_bounty,omitempty"`
+	Website                      *StringPredicateInput                 `json:"website,omitempty"`
+	SubmissionState              *SubmissionStateEnumPredicateInput    `json:"submission_state,omitempty"`
+	ResponseEfficiencyPercentage *IntPredicateInput                    `json:"response_efficiency_percentage,omitempty"`
+	ExternalProgram              *FiltersExternalProgramFilterInput    `json:"external_program,omitempty"`
+	StructuredScopes             *FiltersStructuredScopeFilterInput    `json:"structured_scopes,omitempty"`
+	BookmarkedTeamUsers          *FiltersUserFilterInput               `json:"bookmarked_team_users,omitempty"`
+	TriageSubscriptions          *FiltersTriageSubscriptionFilterInput `json:"triage_subscriptions,omitempty"`
+	WhitelistedHackers           *FiltersUserFilterInput               `json:"whitelisted_hackers,omitempty"`
+	Reporters                    *FiltersUserFilterInput               `json:"reporters,omitempty"`
+}
+
+type TeamStatePredicateInput struct {
+	Eq_     *TeamState   `json:"_eq,omitempty"`
+	Neq_    *TeamState   `json:"_neq,omitempty"`
+	Gt_     *TeamState   `json:"_gt,omitempty"`
+	Lt_     *TeamState   `json:"_lt,omitempty"`
+	Gte_    *TeamState   `json:"_gte,omitempty"`
+	Lte_    *TeamState   `json:"_lte,omitempty"`
+	In_     []*TeamState `json:"_in,omitempty"`
+	Nin_    []*TeamState `json:"_nin,omitempty"`
+	IsNull_ *bool        `json:"_is_null,omitempty"`
+}
+
+// Different possible team states
+type TeamState string
+
+const (
+	TeamStateInactive     TeamState = "inactive"
+	TeamStateSandboxed    TeamState = "sandboxed"
+	TeamStateDaMode       TeamState = "da_mode"
+	TeamStateSoftLaunched TeamState = "soft_launched"
+	TeamStatePublicMode   TeamState = "public_mode"
+)
+
+type SubmissionStateEnumPredicateInput struct {
+	Eq_     *SubmissionStateEnum   `json:"_eq,omitempty"`
+	Neq_    *SubmissionStateEnum   `json:"_neq,omitempty"`
+	Gt_     *SubmissionStateEnum   `json:"_gt,omitempty"`
+	Lt_     *SubmissionStateEnum   `json:"_lt,omitempty"`
+	Gte_    *SubmissionStateEnum   `json:"_gte,omitempty"`
+	Lte_    *SubmissionStateEnum   `json:"_lte,omitempty"`
+	In_     []*SubmissionStateEnum `json:"_in,omitempty"`
+	Nin_    []*SubmissionStateEnum `json:"_nin,omitempty"`
+	IsNull_ *bool                  `json:"_is_null,omitempty"`
+}
+
+// Submission states
+type SubmissionStateEnum string
+
+const (
+	SubmissionStateEnumOpen     SubmissionStateEnum = "open"
+	SubmissionStateEnumPaused   SubmissionStateEnum = "paused"
+	SubmissionStateEnumDisabled SubmissionStateEnum = "disabled"
+)
+
+type FiltersExternalProgramFilterInput struct {
+	Or_           []*FiltersExternalProgramFilterInput `json:"_or,omitempty"`
+	And_          []*FiltersExternalProgramFilterInput `json:"_and,omitempty"`
+	ID            *IntPredicateInput                   `json:"id,omitempty"`
+	OffersRewards *BooleanPredicateInput               `json:"offers_rewards,omitempty"`
+	Policy        *StringPredicateInput                `json:"policy,omitempty"`
+	Name          *StringPredicateInput                `json:"name,omitempty"`
+	Website       *StringPredicateInput                `json:"website,omitempty"`
+}
+
+type FiltersStructuredScopeFilterInput struct {
+	Or_             []*FiltersStructuredScopeFilterInput        `json:"_or,omitempty"`
+	And_            []*FiltersStructuredScopeFilterInput        `json:"_and,omitempty"`
+	ID              *IntPredicateInput                          `json:"id,omitempty"`
+	AssetIdentifier *StringPredicateInput                       `json:"asset_identifier,omitempty"`
+	AssetType       *StructuredScopeAssetTypeEnumPredicateInput `json:"asset_type,omitempty"`
+}
+
+type StructuredScopeAssetTypeEnumPredicateInput struct {
+	Eq_     *StructuredScopeAssetTypeEnum   `json:"_eq,omitempty"`
+	Neq_    *StructuredScopeAssetTypeEnum   `json:"_neq,omitempty"`
+	Gt_     *StructuredScopeAssetTypeEnum   `json:"_gt,omitempty"`
+	Lt_     *StructuredScopeAssetTypeEnum   `json:"_lt,omitempty"`
+	Gte_    *StructuredScopeAssetTypeEnum   `json:"_gte,omitempty"`
+	Lte_    *StructuredScopeAssetTypeEnum   `json:"_lte,omitempty"`
+	In_     []*StructuredScopeAssetTypeEnum `json:"_in,omitempty"`
+	Nin_    []*StructuredScopeAssetTypeEnum `json:"_nin,omitempty"`
+	IsNull_ *bool                           `json:"_is_null,omitempty"`
+}
+
+type FiltersUserFilterInput struct {
+	Or_      []*FiltersUserFilterInput `json:"_or,omitempty"`
+	And_     []*FiltersUserFilterInput `json:"_and,omitempty"`
+	ID       *IntPredicateInput        `json:"id,omitempty"`
+	Username *StringPredicateInput     `json:"username,omitempty"`
+	IsMe     *bool                     `json:"is_me,omitempty"`
+}
+
+type FiltersTriageSubscriptionFilterInput struct {
+	Or_      []*FiltersTriageSubscriptionFilterInput `json:"_or,omitempty"`
+	And_     []*FiltersTriageSubscriptionFilterInput `json:"_and,omitempty"`
+	ID       *IntPredicateInput                      `json:"id,omitempty"`
+	IsActive *bool                                   `json:"is_active,omitempty"`
 }
 
 type FiltersWeaknessFilterInput struct {
@@ -3060,7 +2839,6 @@ const (
 	ReportOrderFieldID                     ReportOrderField = "id"
 	ReportOrderFieldCreatedAt              ReportOrderField = "created_at"
 	ReportOrderFieldLatestActivityAt       ReportOrderField = "latest_activity_at"
-	ReportOrderFieldSLAFailsAt             ReportOrderField = "sla_fails_at"
 	ReportOrderFieldSwagAwardedAt          ReportOrderField = "swag_awarded_at"
 	ReportOrderFieldBountyAwardedAt        ReportOrderField = "bounty_awarded_at"
 	ReportOrderFieldLastReporterActivityAt ReportOrderField = "last_reporter_activity_at"
@@ -3084,40 +2862,54 @@ const (
 	FiltersReportFilterOrderFieldID FiltersReportFilterOrderField = "id"
 )
 
+// Possible directions for sorting a collection
+type FilterOrderDirectionEnum string
+
+const (
+	FilterOrderDirectionEnumASC  FilterOrderDirectionEnum = "ASC"
+	FilterOrderDirectionEnumDESC FilterOrderDirectionEnum = "DESC"
+)
+
 type ReportFilterInput struct {
-	Program                    []*string          `json:"program,omitempty"`
-	Reporter                   []*string          `json:"reporter,omitempty"`
-	Assignee                   []*string          `json:"assignee,omitempty"`
-	State                      []*ReportStateEnum `json:"state,omitempty"`
-	ID                         []*int32           `json:"id,omitempty"`
-	CreatedAtGt                *DateTime          `json:"created_at__gt,omitempty"`
-	CreatedAtLt                *DateTime          `json:"created_at__lt,omitempty"`
-	TriagedAtGt                *DateTime          `json:"triaged_at__gt,omitempty"`
-	TriagedAtLt                *DateTime          `json:"triaged_at__lt,omitempty"`
-	TriagedAtNull              *bool              `json:"triaged_at__null,omitempty"`
-	ClosedAtGt                 *DateTime          `json:"closed_at__gt,omitempty"`
-	ClosedAtLt                 *DateTime          `json:"closed_at__lt,omitempty"`
-	ClosedAtNull               *bool              `json:"closed_at__null,omitempty"`
-	DisclosedAtGt              *DateTime          `json:"disclosed_at__gt,omitempty"`
-	DisclosedAtLt              *DateTime          `json:"disclosed_at__lt,omitempty"`
-	DisclosedAtNull            *bool              `json:"disclosed_at__null,omitempty"`
-	BountyAwardedAtGt          *DateTime          `json:"bounty_awarded_at__gt,omitempty"`
-	BountyAwardedAtLt          *DateTime          `json:"bounty_awarded_at__lt,omitempty"`
-	BountyAwardedAtNull        *bool              `json:"bounty_awarded_at__null,omitempty"`
-	SwagAwardedAtGt            *DateTime          `json:"swag_awarded_at__gt,omitempty"`
-	SwagAwardedAtLt            *DateTime          `json:"swag_awarded_at__lt,omitempty"`
-	SwagAwardedAtNull          *bool              `json:"swag_awarded_at__null,omitempty"`
-	LastReporterActivityAtGt   *DateTime          `json:"last_reporter_activity_at__gt,omitempty"`
-	LastReporterActivityAtLt   *DateTime          `json:"last_reporter_activity_at__lt,omitempty"`
-	FirstProgramActivityAtGt   *DateTime          `json:"first_program_activity_at__gt,omitempty"`
-	FirstProgramActivityAtLt   *DateTime          `json:"first_program_activity_at__lt,omitempty"`
-	FirstProgramActivityAtNull *bool              `json:"first_program_activity_at__null,omitempty"`
-	LastProgramActivityAtGt    *DateTime          `json:"last_program_activity_at__gt,omitempty"`
-	LastProgramActivityAtLt    *DateTime          `json:"last_program_activity_at__lt,omitempty"`
-	LastActivityAtGt           *DateTime          `json:"last_activity_at__gt,omitempty"`
-	LastActivityAtLt           *DateTime          `json:"last_activity_at__lt,omitempty"`
-	LastPublicActivityAtGt     *DateTime          `json:"last_public_activity_at__gt,omitempty"`
-	LastPublicActivityAtLt     *DateTime          `json:"last_public_activity_at__lt,omitempty"`
+	Program                    []*string           `json:"program,omitempty"`
+	Reporter                   []*string           `json:"reporter,omitempty"`
+	Assignee                   []*string           `json:"assignee,omitempty"`
+	State                      []*ReportStateEnum  `json:"state,omitempty"`
+	ID                         []*int32            `json:"id,omitempty"`
+	CreatedAtGt                *DateTime           `json:"created_at__gt,omitempty"`
+	CreatedAtLt                *DateTime           `json:"created_at__lt,omitempty"`
+	TriagedAtGt                *DateTime           `json:"triaged_at__gt,omitempty"`
+	TriagedAtLt                *DateTime           `json:"triaged_at__lt,omitempty"`
+	TriagedAtNull              *bool               `json:"triaged_at__null,omitempty"`
+	ClosedAtGt                 *DateTime           `json:"closed_at__gt,omitempty"`
+	ClosedAtLt                 *DateTime           `json:"closed_at__lt,omitempty"`
+	ClosedAtNull               *bool               `json:"closed_at__null,omitempty"`
+	DisclosedAtGt              *DateTime           `json:"disclosed_at__gt,omitempty"`
+	DisclosedAtLt              *DateTime           `json:"disclosed_at__lt,omitempty"`
+	DisclosedAtNull            *bool               `json:"disclosed_at__null,omitempty"`
+	BountyAwardedAtGt          *DateTime           `json:"bounty_awarded_at__gt,omitempty"`
+	BountyAwardedAtLt          *DateTime           `json:"bounty_awarded_at__lt,omitempty"`
+	BountyAwardedAtNull        *bool               `json:"bounty_awarded_at__null,omitempty"`
+	SwagAwardedAtGt            *DateTime           `json:"swag_awarded_at__gt,omitempty"`
+	SwagAwardedAtLt            *DateTime           `json:"swag_awarded_at__lt,omitempty"`
+	SwagAwardedAtNull          *bool               `json:"swag_awarded_at__null,omitempty"`
+	LastReporterActivityAtGt   *DateTime           `json:"last_reporter_activity_at__gt,omitempty"`
+	LastReporterActivityAtLt   *DateTime           `json:"last_reporter_activity_at__lt,omitempty"`
+	FirstProgramActivityAtGt   *DateTime           `json:"first_program_activity_at__gt,omitempty"`
+	FirstProgramActivityAtLt   *DateTime           `json:"first_program_activity_at__lt,omitempty"`
+	FirstProgramActivityAtNull *bool               `json:"first_program_activity_at__null,omitempty"`
+	LastProgramActivityAtGt    *DateTime           `json:"last_program_activity_at__gt,omitempty"`
+	LastProgramActivityAtLt    *DateTime           `json:"last_program_activity_at__lt,omitempty"`
+	LastActivityAtGt           *DateTime           `json:"last_activity_at__gt,omitempty"`
+	LastActivityAtLt           *DateTime           `json:"last_activity_at__lt,omitempty"`
+	LastPublicActivityAtGt     *DateTime           `json:"last_public_activity_at__gt,omitempty"`
+	LastPublicActivityAtLt     *DateTime           `json:"last_public_activity_at__lt,omitempty"`
+	CustomFields               []*CustomFieldInput `json:"custom_fields,omitempty"`
+}
+
+type CustomFieldInput struct {
+	LabelEq *string `json:"label__eq,omitempty"`
+	ValueEq *string `json:"value__eq,omitempty"`
 }
 
 // A HackerOne swag awarded for a report
@@ -3260,71 +3052,6 @@ type TriggerActionLog struct {
 	ID  *string `json:"id,omitempty"`
 }
 
-type ActivityOrderInput struct {
-	Direction *OrderDirection     `json:"direction,omitempty"`
-	Field     *ActivityOrderField `json:"field,omitempty"`
-}
-
-// Fields on which a collection of activities can be ordered
-type ActivityOrderField string
-
-const (
-	ActivityOrderFieldCreatedAt ActivityOrderField = "created_at"
-	ActivityOrderFieldUpdatedAt ActivityOrderField = "updated_at"
-)
-
-// Possible types for an activity
-type ActivityTypes string
-
-const (
-	ActivityTypesAgreedOnGoingPublic             ActivityTypes = "AgreedOnGoingPublic"
-	ActivityTypesBountyAwarded                   ActivityTypes = "BountyAwarded"
-	ActivityTypesBountySuggested                 ActivityTypes = "BountySuggested"
-	ActivityTypesBugCloned                       ActivityTypes = "BugCloned"
-	ActivityTypesBugDuplicate                    ActivityTypes = "BugDuplicate"
-	ActivityTypesBugInformative                  ActivityTypes = "BugInformative"
-	ActivityTypesBugNeedsMoreInfo                ActivityTypes = "BugNeedsMoreInfo"
-	ActivityTypesBugNew                          ActivityTypes = "BugNew"
-	ActivityTypesBugNotApplicable                ActivityTypes = "BugNotApplicable"
-	ActivityTypesBugInactive                     ActivityTypes = "BugInactive"
-	ActivityTypesBugReopened                     ActivityTypes = "BugReopened"
-	ActivityTypesBugResolved                     ActivityTypes = "BugResolved"
-	ActivityTypesBugSpam                         ActivityTypes = "BugSpam"
-	ActivityTypesBugTriaged                      ActivityTypes = "BugTriaged"
-	ActivityTypesBugFiled                        ActivityTypes = "BugFiled"
-	ActivityTypesCancelledDisclosureRequest      ActivityTypes = "CancelledDisclosureRequest"
-	ActivityTypesChangedScope                    ActivityTypes = "ChangedScope"
-	ActivityTypesComment                         ActivityTypes = "Comment"
-	ActivityTypesCommentsClosed                  ActivityTypes = "CommentsClosed"
-	ActivityTypesExternalUserInvitationCancelled ActivityTypes = "ExternalUserInvitationCancelled"
-	ActivityTypesExternalAdvisoryAdded           ActivityTypes = "ExternalAdvisoryAdded"
-	ActivityTypesExternalUserInvited             ActivityTypes = "ExternalUserInvited"
-	ActivityTypesExternalUserJoined              ActivityTypes = "ExternalUserJoined"
-	ActivityTypesExternalUserRemoved             ActivityTypes = "ExternalUserRemoved"
-	ActivityTypesGroupAssignedToBug              ActivityTypes = "GroupAssignedToBug"
-	ActivityTypesHackerRequestedMediation        ActivityTypes = "HackerRequestedMediation"
-	ActivityTypesManuallyDisclosed               ActivityTypes = "ManuallyDisclosed"
-	ActivityTypesMediationRequested              ActivityTypes = "MediationRequested"
-	ActivityTypesNotEligibleForBounty            ActivityTypes = "NotEligibleForBounty"
-	ActivityTypesReferenceIDAdded                ActivityTypes = "ReferenceIdAdded"
-	ActivityTypesCVEIDAdded                      ActivityTypes = "CveIdAdded"
-	ActivityTypesReassignedToTeam                ActivityTypes = "ReassignedToTeam"
-	ActivityTypesReportBecamePublic              ActivityTypes = "ReportBecamePublic"
-	ActivityTypesReportTitleUpdated              ActivityTypes = "ReportTitleUpdated"
-	ActivityTypesReportVulnerabilityTypesUpdated ActivityTypes = "ReportVulnerabilityTypesUpdated"
-	ActivityTypesReportSeverityUpdated           ActivityTypes = "ReportSeverityUpdated"
-	ActivityTypesReportCollaboratorInvited       ActivityTypes = "ReportCollaboratorInvited"
-	ActivityTypesReportCollaboratorJoined        ActivityTypes = "ReportCollaboratorJoined"
-	ActivityTypesSwagAwarded                     ActivityTypes = "SwagAwarded"
-	ActivityTypesTeamPublished                   ActivityTypes = "TeamPublished"
-	ActivityTypesUserAssignedToBug               ActivityTypes = "UserAssignedToBug"
-	ActivityTypesUserBannedFromProgram           ActivityTypes = "UserBannedFromProgram"
-	ActivityTypesUserJoined                      ActivityTypes = "UserJoined"
-	ActivityTypesNobodyAssignedToBug             ActivityTypes = "NobodyAssignedToBug"
-	ActivityTypesProgramInactive                 ActivityTypes = "ProgramInactive"
-	ActivityTypesUserCompletedRetest             ActivityTypes = "UserCompletedRetest"
-)
-
 // The connection type for Vote.
 type VoteConnection struct {
 	// A list of edges.
@@ -3365,14 +3092,15 @@ type ActivitiesBountyAwarded struct {
 	BountyCurrency    *string       `json:"bounty_currency,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BountySuggested activity for a report
@@ -3386,14 +3114,15 @@ type ActivitiesBountySuggested struct {
 	BountyCurrency    *string       `json:"bounty_currency,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugCloned activity for a report
@@ -3412,9 +3141,10 @@ type ActivitiesBugCloned struct {
 	Message           *string `json:"message,omitempty"`
 	OriginalReport    *Report `json:"original_report,omitempty"`
 	// DEPRECATED: Deprecated in favor of .original_report
-	OriginalReportID *int32    `json:"original_report_id,omitempty"`
-	Report           *Report   `json:"report,omitempty"`
-	UpdatedAt        *DateTime `json:"updated_at,omitempty"`
+	OriginalReportID *int32           `json:"original_report_id,omitempty"`
+	Report           *Report          `json:"report,omitempty"`
+	TriageInboxItem  *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt        *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugDuplicate activity for a report
@@ -3433,9 +3163,10 @@ type ActivitiesBugDuplicate struct {
 	Message           *string `json:"message,omitempty"`
 	OriginalReport    *Report `json:"original_report,omitempty"`
 	// DEPRECATED: Deprecated in favor of .original_report
-	OriginalReportID *int32    `json:"original_report_id,omitempty"`
-	Report           *Report   `json:"report,omitempty"`
-	UpdatedAt        *DateTime `json:"updated_at,omitempty"`
+	OriginalReportID *int32           `json:"original_report_id,omitempty"`
+	Report           *Report          `json:"report,omitempty"`
+	TriageInboxItem  *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt        *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugInformative activity for a report
@@ -3446,14 +3177,15 @@ type ActivitiesBugInformative struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugNeedsMoreInfo activity for a report
@@ -3464,14 +3196,15 @@ type ActivitiesBugNeedsMoreInfo struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugNew activity for a report
@@ -3482,14 +3215,15 @@ type ActivitiesBugNew struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugNotApplicable activity for a report
@@ -3500,14 +3234,15 @@ type ActivitiesBugNotApplicable struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugInactive activity for a report
@@ -3518,14 +3253,15 @@ type ActivitiesBugInactive struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugReopened activity for a report
@@ -3536,14 +3272,15 @@ type ActivitiesBugReopened struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugResolved activity for a report
@@ -3554,14 +3291,15 @@ type ActivitiesBugResolved struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugSpam activity for a report
@@ -3572,14 +3310,15 @@ type ActivitiesBugSpam struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugTriaged activity for a report
@@ -3590,14 +3329,15 @@ type ActivitiesBugTriaged struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::BugFiled activity for a report
@@ -3608,14 +3348,15 @@ type ActivitiesBugFiled struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::CancelledDisclosureRequest activity for a report
@@ -3626,14 +3367,15 @@ type ActivitiesCancelledDisclosureRequest struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ChangedScope activity for a report
@@ -3653,7 +3395,47 @@ type ActivitiesChangedScope struct {
 	NewScope          *StructuredScope `json:"new_scope,omitempty"`
 	OldScope          *StructuredScope `json:"old_scope,omitempty"`
 	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
 	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
+}
+
+// A Activities::ChecklistCheckClaimed activity for a checklist_check
+type ActivitiesChecklistCheckClaimed struct {
+	ID_             *string     `json:"_id,omitempty"`
+	Actor           *ActorUnion `json:"actor,omitempty"`
+	CreatedAt       *DateTime   `json:"created_at,omitempty"`
+	ICanEdit        *bool       `json:"i_can_edit,omitempty"`
+	ID              *string     `json:"id,omitempty"`
+	Internal        *bool       `json:"internal,omitempty"`
+	MarkdownMessage *string     `json:"markdown_message,omitempty"`
+	Message         *string     `json:"message,omitempty"`
+	UpdatedAt       *DateTime   `json:"updated_at,omitempty"`
+}
+
+// A Activities::ChecklistCheckReleased activity for a checklist_check
+type ActivitiesChecklistCheckReleased struct {
+	ID_             *string     `json:"_id,omitempty"`
+	Actor           *ActorUnion `json:"actor,omitempty"`
+	CreatedAt       *DateTime   `json:"created_at,omitempty"`
+	ICanEdit        *bool       `json:"i_can_edit,omitempty"`
+	ID              *string     `json:"id,omitempty"`
+	Internal        *bool       `json:"internal,omitempty"`
+	MarkdownMessage *string     `json:"markdown_message,omitempty"`
+	Message         *string     `json:"message,omitempty"`
+	UpdatedAt       *DateTime   `json:"updated_at,omitempty"`
+}
+
+// A Activities::ChecklistCheckResponseCreated activity for a checklist_check
+type ActivitiesChecklistCheckResponseCreated struct {
+	ID_             *string     `json:"_id,omitempty"`
+	Actor           *ActorUnion `json:"actor,omitempty"`
+	CreatedAt       *DateTime   `json:"created_at,omitempty"`
+	ICanEdit        *bool       `json:"i_can_edit,omitempty"`
+	ID              *string     `json:"id,omitempty"`
+	Internal        *bool       `json:"internal,omitempty"`
+	MarkdownMessage *string     `json:"markdown_message,omitempty"`
+	Message         *string     `json:"message,omitempty"`
+	UpdatedAt       *DateTime   `json:"updated_at,omitempty"`
 }
 
 // A Activities::Comment activity for a report
@@ -3664,14 +3446,15 @@ type ActivitiesComment struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::CommentsClosed activity for a report
@@ -3682,14 +3465,15 @@ type ActivitiesCommentsClosed struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ExternalUserInvitationCancelled activity for a report
@@ -3701,14 +3485,15 @@ type ActivitiesExternalUserInvitationCancelled struct {
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	Email             *string       `json:"email,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ExternalAdvisoryAdded activity for a report
@@ -3719,14 +3504,15 @@ type ActivitiesExternalAdvisoryAdded struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ExternalUserInvited activity for a report
@@ -3738,14 +3524,15 @@ type ActivitiesExternalUserInvited struct {
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	Email             *string       `json:"email,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ExternalUserJoined activity for a report
@@ -3759,14 +3546,15 @@ type ActivitiesExternalUserJoined struct {
 	// DEPRECATED: Deprecated in favor of .duplicate_report
 	DuplicateReportID *int32 `json:"duplicate_report_id,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ExternalUserRemoved activity for a report
@@ -3777,15 +3565,16 @@ type ActivitiesExternalUserRemoved struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	RemovedUser       *User     `json:"removed_user,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	RemovedUser       *User            `json:"removed_user,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::GroupAssignedToBug activity for a report
@@ -3806,6 +3595,7 @@ type ActivitiesGroupAssignedToBug struct {
 	MarkdownMessage *string          `json:"markdown_message,omitempty"`
 	Message         *string          `json:"message,omitempty"`
 	Report          *Report          `json:"report,omitempty"`
+	TriageInboxItem *TriageInboxItem `json:"triage_inbox_item,omitempty"`
 	UpdatedAt       *DateTime        `json:"updated_at,omitempty"`
 }
 
@@ -3817,14 +3607,15 @@ type ActivitiesHackerRequestedMediation struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ManuallyDisclosed activity for a report
@@ -3835,14 +3626,15 @@ type ActivitiesManuallyDisclosed struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::MediationRequested activity for a report
@@ -3853,14 +3645,15 @@ type ActivitiesMediationRequested struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::NotEligibleForBounty activity for a report
@@ -3871,14 +3664,15 @@ type ActivitiesNotEligibleForBounty struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ReferenceIdAdded activity for a report
@@ -3889,16 +3683,17 @@ type ActivitiesReferenceIDAdded struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Reference         *string   `json:"reference,omitempty"`
-	ReferenceURL      *string   `json:"reference_url,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Reference         *string          `json:"reference,omitempty"`
+	ReferenceURL      *string          `json:"reference_url,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::CveIdAdded activity for a report
@@ -3910,14 +3705,15 @@ type ActivitiesCVEIDAdded struct {
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	CVEIds            []*string     `json:"cve_ids,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ReassignedToTeam activity for a report
@@ -3928,14 +3724,15 @@ type ActivitiesReassignedToTeam struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ReportBecamePublic activity for a report
@@ -3946,14 +3743,15 @@ type ActivitiesReportBecamePublic struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ReportTitleUpdated activity for a report
@@ -3964,16 +3762,17 @@ type ActivitiesReportTitleUpdated struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	NewTitle          *string   `json:"new_title,omitempty"`
-	OldTitle          *string   `json:"old_title,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	NewTitle          *string          `json:"new_title,omitempty"`
+	OldTitle          *string          `json:"old_title,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ReportVulnerabilityTypesUpdated activity for a report
@@ -3984,16 +3783,17 @@ type ActivitiesReportVulnerabilityTypesUpdated struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	NewWeakness       *Weakness `json:"new_weakness,omitempty"`
-	OldWeakness       *Weakness `json:"old_weakness,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	NewWeakness       *Weakness        `json:"new_weakness,omitempty"`
+	OldWeakness       *Weakness        `json:"old_weakness,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ReportSeverityUpdated activity for a report
@@ -4004,14 +3804,15 @@ type ActivitiesReportSeverityUpdated struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ReportCollaboratorInvited activity for a report
@@ -4022,14 +3823,15 @@ type ActivitiesReportCollaboratorInvited struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ReportCollaboratorJoined activity for a report
@@ -4040,14 +3842,15 @@ type ActivitiesReportCollaboratorJoined struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::SwagAwarded activity for a report
@@ -4058,15 +3861,16 @@ type ActivitiesSwagAwarded struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	Swag              *Swag     `json:"swag,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	Swag              *Swag            `json:"swag,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::TeamPublished activity for a team
@@ -4091,14 +3895,15 @@ type ActivitiesUserAssignedToBug struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::UserBannedFromProgram activity for a report
@@ -4109,15 +3914,16 @@ type ActivitiesUserBannedFromProgram struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	RemovedUser       *User     `json:"removed_user,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	RemovedUser       *User            `json:"removed_user,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::UserJoined activity for a user
@@ -4141,14 +3947,15 @@ type ActivitiesNobodyAssignedToBug struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::ProgramInactive activity for a report
@@ -4159,14 +3966,15 @@ type ActivitiesProgramInactive struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
 }
 
 // A Activities::UserCompletedRetest activity for a report
@@ -4177,14 +3985,603 @@ type ActivitiesUserCompletedRetest struct {
 	AutomatedResponse *bool         `json:"automated_response,omitempty"`
 	CreatedAt         *DateTime     `json:"created_at,omitempty"`
 	// DEPRECATED: This is about to be replaced by .genius_execution
-	GeniusExecutionID *string   `json:"genius_execution_id,omitempty"`
-	ICanEdit          *bool     `json:"i_can_edit,omitempty"`
-	ID                *string   `json:"id,omitempty"`
-	Internal          *bool     `json:"internal,omitempty"`
-	MarkdownMessage   *string   `json:"markdown_message,omitempty"`
-	Message           *string   `json:"message,omitempty"`
-	Report            *Report   `json:"report,omitempty"`
-	UpdatedAt         *DateTime `json:"updated_at,omitempty"`
+	GeniusExecutionID *string          `json:"genius_execution_id,omitempty"`
+	ICanEdit          *bool            `json:"i_can_edit,omitempty"`
+	ID                *string          `json:"id,omitempty"`
+	Internal          *bool            `json:"internal,omitempty"`
+	MarkdownMessage   *string          `json:"markdown_message,omitempty"`
+	Message           *string          `json:"message,omitempty"`
+	Report            *Report          `json:"report,omitempty"`
+	TriageInboxItem   *TriageInboxItem `json:"triage_inbox_item,omitempty"`
+	UpdatedAt         *DateTime        `json:"updated_at,omitempty"`
+}
+
+// A Activities::TeamBountyTableUpdated activity for a team
+type ActivitiesTeamBountyTableUpdated struct {
+	ID_             *string     `json:"_id,omitempty"`
+	Actor           *ActorUnion `json:"actor,omitempty"`
+	CreatedAt       *DateTime   `json:"created_at,omitempty"`
+	ICanEdit        *bool       `json:"i_can_edit,omitempty"`
+	ID              *string     `json:"id,omitempty"`
+	Internal        *bool       `json:"internal,omitempty"`
+	MarkdownMessage *string     `json:"markdown_message,omitempty"`
+	Message         *string     `json:"message,omitempty"`
+	UpdatedAt       *DateTime   `json:"updated_at,omitempty"`
+}
+
+// A Activities::TeamPostCreated activity for a team
+type ActivitiesTeamPostCreated struct {
+	ID_             *string     `json:"_id,omitempty"`
+	Actor           *ActorUnion `json:"actor,omitempty"`
+	CreatedAt       *DateTime   `json:"created_at,omitempty"`
+	ICanEdit        *bool       `json:"i_can_edit,omitempty"`
+	ID              *string     `json:"id,omitempty"`
+	Internal        *bool       `json:"internal,omitempty"`
+	MarkdownMessage *string     `json:"markdown_message,omitempty"`
+	Message         *string     `json:"message,omitempty"`
+	UpdatedAt       *DateTime   `json:"updated_at,omitempty"`
+}
+
+// A Activities::TeamPolicyUpdated activity for a team
+type ActivitiesTeamPolicyUpdated struct {
+	ID_             *string     `json:"_id,omitempty"`
+	Actor           *ActorUnion `json:"actor,omitempty"`
+	CreatedAt       *DateTime   `json:"created_at,omitempty"`
+	ICanEdit        *bool       `json:"i_can_edit,omitempty"`
+	ID              *string     `json:"id,omitempty"`
+	Internal        *bool       `json:"internal,omitempty"`
+	MarkdownMessage *string     `json:"markdown_message,omitempty"`
+	Message         *string     `json:"message,omitempty"`
+	UpdatedAt       *DateTime   `json:"updated_at,omitempty"`
+}
+
+// A Activities::TeamStructuredScopeUpdated activity for a team
+type ActivitiesTeamStructuredScopeUpdated struct {
+	ID_             *string     `json:"_id,omitempty"`
+	Actor           *ActorUnion `json:"actor,omitempty"`
+	CreatedAt       *DateTime   `json:"created_at,omitempty"`
+	ICanEdit        *bool       `json:"i_can_edit,omitempty"`
+	ID              *string     `json:"id,omitempty"`
+	Internal        *bool       `json:"internal,omitempty"`
+	MarkdownMessage *string     `json:"markdown_message,omitempty"`
+	Message         *string     `json:"message,omitempty"`
+	UpdatedAt       *DateTime   `json:"updated_at,omitempty"`
+}
+
+// Product Edition of a Team
+type ProductEdition struct {
+	DisplayName              *string `json:"display_name,omitempty"`
+	HackerInvitationsEnabled *bool   `json:"hacker_invitations_enabled,omitempty"`
+	ID                       *string `json:"id,omitempty"`
+	SaasDeal                 *bool   `json:"saas_deal,omitempty"`
+}
+
+// The connection type for CustomFieldAttribute.
+type CustomFieldAttributeConnection struct {
+	// A list of edges.
+	Edges []*CustomFieldAttributeEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*CustomFieldAttribute `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type CustomFieldAttributeEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *CustomFieldAttribute `json:"node,omitempty"`
+}
+
+// The connection type for User.
+type UserConnection struct {
+	// A list of edges.
+	Edges []*UserEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*User `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo *PageInfo `json:"pageInfo,omitempty"`
+	// Int
+	TotalCount *int32 `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type UserEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *User `json:"node,omitempty"`
+}
+
+// A policy section of a HackerOne program
+type StructuredPolicy struct {
+	BrandPromise *string `json:"brand_promise,omitempty"`
+	ID           *string `json:"id,omitempty"`
+	Preferences  *string `json:"preferences,omitempty"`
+	Process      *string `json:"process,omitempty"`
+	SafeHarbor   *string `json:"safe_harbor,omitempty"`
+	Scope        *string `json:"scope,omitempty"`
+	URL          *URI    `json:"url,omitempty"`
+}
+
+// A Slack integration for a team
+type SlackIntegration struct {
+	// DEPRECATED: this field is not used in our new Slack integration
+	Channel                  *string         `json:"channel,omitempty"`
+	Channels                 []*SlackChannel `json:"channels,omitempty"`
+	ID                       *string         `json:"id,omitempty"`
+	ShouldFetchSlackChannels *bool           `json:"should_fetch_slack_channels,omitempty"`
+	ShouldFetchSlackUsers    *bool           `json:"should_fetch_slack_users,omitempty"`
+	Team                     *Team           `json:"team,omitempty"`
+	TeamURL                  *string         `json:"team_url,omitempty"`
+	Users                    []*SlackUser    `json:"users,omitempty"`
+}
+
+// Slack channel
+type SlackChannel struct {
+	ID   *string `json:"id,omitempty"`
+	Name *string `json:"name,omitempty"`
+}
+
+// Slack user
+type SlackUser struct {
+	// The id provided by Slack
+	ID_      *string `json:"_id,omitempty"`
+	Deleted  *bool   `json:"deleted,omitempty"`
+	ID       *string `json:"id,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	RealName *string `json:"real_name,omitempty"`
+}
+
+// A JIRA integration for a team
+type JiraIntegration struct {
+	Assignee                      *string                                 `json:"assignee,omitempty"`
+	BaseURL                       *string                                 `json:"base_url,omitempty"`
+	CreatedAt                     *DateTime                               `json:"created_at,omitempty"`
+	Custom                        *string                                 `json:"custom,omitempty"`
+	Description                   *string                                 `json:"description,omitempty"`
+	ID                            *string                                 `json:"id,omitempty"`
+	IssueStatuses                 []*string                               `json:"issue_statuses,omitempty"`
+	IssueType                     *int32                                  `json:"issue_type,omitempty"`
+	JiraPriorityToSeverityRatings *JiraPriorityToSeverityRatingConnection `json:"jira_priority_to_severity_ratings,omitempty"`
+	Labels                        *string                                 `json:"labels,omitempty"`
+	Pid                           *int32                                  `json:"pid,omitempty"`
+	ProjectSelectionEnabled       *bool                                   `json:"project_selection_enabled,omitempty"`
+	Summary                       *string                                 `json:"summary,omitempty"`
+	Team                          *Team                                   `json:"team,omitempty"`
+	UpdatedAt                     *DateTime                               `json:"updated_at,omitempty"`
+}
+
+// The connection type for JiraPriorityToSeverityRating.
+type JiraPriorityToSeverityRatingConnection struct {
+	// A list of edges.
+	Edges []*JiraPriorityToSeverityRatingEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*JiraPriorityToSeverityRating `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo *PageInfo `json:"pageInfo,omitempty"`
+	// Int
+	TotalCount *int32 `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type JiraPriorityToSeverityRatingEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *JiraPriorityToSeverityRating `json:"node,omitempty"`
+}
+
+// A map of JIRA Priority to HackerOne Severity Rating
+type JiraPriorityToSeverityRating struct {
+	CreatedAt       *DateTime           `json:"created_at,omitempty"`
+	ID              *string             `json:"id,omitempty"`
+	JiraIntegration *JiraIntegration    `json:"jira_integration,omitempty"`
+	PriorityID      *string             `json:"priority_id,omitempty"`
+	SeverityRating  *SeverityRatingEnum `json:"severity_rating,omitempty"`
+	UpdatedAt       *DateTime           `json:"updated_at,omitempty"`
+}
+
+// A Phabricator integration for a team
+type PhabricatorIntegration struct {
+	BaseURL                        *string   `json:"base_url,omitempty"`
+	CreatedAt                      *DateTime `json:"created_at,omitempty"`
+	Description                    *string   `json:"description,omitempty"`
+	ID                             *string   `json:"id,omitempty"`
+	ProcessH1CommentAdded          *bool     `json:"process_h1_comment_added,omitempty"`
+	ProcessH1StatusChange          *bool     `json:"process_h1_status_change,omitempty"`
+	ProcessPhabricatorCommentAdded *bool     `json:"process_phabricator_comment_added,omitempty"`
+	ProcessPhabricatorStatusChange *bool     `json:"process_phabricator_status_change,omitempty"`
+	ProjectTags                    *string   `json:"project_tags,omitempty"`
+	Team                           *Team     `json:"team,omitempty"`
+	Title                          *string   `json:"title,omitempty"`
+	UpdatedAt                      *DateTime `json:"updated_at,omitempty"`
+}
+
+// Configuration for the events sent from HackerOne to JIRA
+type HackeroneToJiraEventsConfiguration struct {
+	AssigneeChanges   *bool   `json:"assignee_changes,omitempty"`
+	Attachments       *bool   `json:"attachments,omitempty"`
+	Comments          *bool   `json:"comments,omitempty"`
+	ID                *string `json:"id,omitempty"`
+	PublicDisclosures *bool   `json:"public_disclosures,omitempty"`
+	Rewards           *bool   `json:"rewards,omitempty"`
+	StateChanges      *bool   `json:"state_changes,omitempty"`
+	Team              *Team   `json:"team,omitempty"`
+}
+
+// A JIRA webhook for a team
+type JiraWebhook struct {
+	CloseStatusID           *string   `json:"close_status_id,omitempty"`
+	CreatedAt               *DateTime `json:"created_at,omitempty"`
+	ID                      *string   `json:"id,omitempty"`
+	LastEventReceivedAt     *DateTime `json:"last_event_received_at,omitempty"`
+	LastTokenIssuedAt       *DateTime `json:"last_token_issued_at,omitempty"`
+	ProcessAssigneeChange   *bool     `json:"process_assignee_change,omitempty"`
+	ProcessCommentAdd       *bool     `json:"process_comment_add,omitempty"`
+	ProcessPriorityChange   *bool     `json:"process_priority_change,omitempty"`
+	ProcessResolutionChange *bool     `json:"process_resolution_change,omitempty"`
+	ProcessStatusChange     *bool     `json:"process_status_change,omitempty"`
+	Team                    *Team     `json:"team,omitempty"`
+	UpdatedAt               *DateTime `json:"updated_at,omitempty"`
+}
+
+// A JIRA Oauth for a team
+type JiraOauth struct {
+	// Assignables for a project
+	Assignables []*string `json:"assignables,omitempty"`
+	Configured  *bool     `json:"configured,omitempty"`
+	CreatedAt   *DateTime `json:"created_at,omitempty"`
+	ID          *string   `json:"id,omitempty"`
+	IssueTypes  []*string `json:"issue_types,omitempty"`
+	Jwt         *bool     `json:"jwt,omitempty"`
+	Priorities  []*string `json:"priorities,omitempty"`
+	Projects    []*string `json:"projects,omitempty"`
+	Site        *string   `json:"site,omitempty"`
+	Team        *Team     `json:"team,omitempty"`
+	UpdatedAt   *DateTime `json:"updated_at,omitempty"`
+}
+
+// The connection type for Team.
+type TeamConnection struct {
+	// A list of edges.
+	Edges []*TeamEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*Team `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type TeamEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *Team `json:"node,omitempty"`
+}
+
+// All available permissions
+type PermissionEnum string
+
+const (
+	PermissionEnumProgramManagement PermissionEnum = "program_management"
+)
+
+type TeamOrderInput struct {
+	Direction *OrderDirection `json:"direction,omitempty"`
+	Field     *TeamOrderField `json:"field,omitempty"`
+}
+
+// Fields on which a collection of Teams can be ordered
+type TeamOrderField string
+
+const (
+	TeamOrderFieldName                        TeamOrderField = "name"
+	TeamOrderFieldReportsResolved             TeamOrderField = "reports_resolved"
+	TeamOrderFieldAverageBountyAmount         TeamOrderField = "average_bounty_amount"
+	TeamOrderFieldMinimumBounty               TeamOrderField = "minimum_bounty"
+	TeamOrderFieldLastInvitationAcceptedAt    TeamOrderField = "last_invitation_accepted_at"
+	TeamOrderFieldReportsSubmittedByUser      TeamOrderField = "reports_submitted_by_user"
+	TeamOrderFieldValidReportsSubmittedByUser TeamOrderField = "valid_reports_submitted_by_user"
+	TeamOrderFieldBountyEarnedByUser          TeamOrderField = "bounty_earned_by_user"
+)
+
+type FiltersTeamFilterOrder struct {
+	Field     *FiltersTeamFilterOrderField `json:"field,omitempty"`
+	Direction *FilterOrderDirectionEnum    `json:"direction,omitempty"`
+}
+
+type FiltersTeamFilterOrderField string
+
+const (
+	FiltersTeamFilterOrderFieldID                                 FiltersTeamFilterOrderField = "id"
+	FiltersTeamFilterOrderFieldStartedAcceptingAt                 FiltersTeamFilterOrderField = "started_accepting_at"
+	FiltersTeamFilterOrderFieldCachedResponseEfficiencyPercentage FiltersTeamFilterOrderField = "cached_response_efficiency_percentage"
+)
+
+// Challenge setting of a Team
+type ChallengeSetting struct {
+	ID         *string `json:"id,omitempty"`
+	NotStarted *bool   `json:"not_started,omitempty"`
+	Policy     *string `json:"policy,omitempty"`
+}
+
+// The connection type for EmbeddedSubmissionDomain.
+type EmbeddedSubmissionDomainConnection struct {
+	// A list of edges.
+	Edges []*EmbeddedSubmissionDomainEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*EmbeddedSubmissionDomain `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type EmbeddedSubmissionDomainEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *EmbeddedSubmissionDomain `json:"node,omitempty"`
+}
+
+// Allowed domains for embedded submission forms
+type EmbeddedSubmissionDomain struct {
+	ID_       *string `json:"_id,omitempty"`
+	CreatedBy *User   `json:"created_by,omitempty"`
+	Domain    *string `json:"domain,omitempty"`
+	ID        *string `json:"id,omitempty"`
+	Team      *Team   `json:"team,omitempty"`
+}
+
+// The connection type for EmbeddedSubmissionForm.
+type EmbeddedSubmissionFormConnection struct {
+	// A list of edges.
+	Edges []*EmbeddedSubmissionFormEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*EmbeddedSubmissionForm `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type EmbeddedSubmissionFormEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *EmbeddedSubmissionForm `json:"node,omitempty"`
+}
+
+// Embedded submission form
+type EmbeddedSubmissionForm struct {
+	ID   *string `json:"id,omitempty"`
+	Team *Team   `json:"team,omitempty"`
+	Uuid *string `json:"uuid,omitempty"`
+}
+
+// The connection type for Credential.
+type CredentialConnection struct {
+	// A list of edges.
+	Edges []*CredentialEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*Credential `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type CredentialEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *Credential `json:"node,omitempty"`
+}
+
+// Credentials of a team
+type Credential struct {
+	ID_            *string `json:"_id,omitempty"`
+	AccountDetails *string `json:"account_details,omitempty"`
+	Credentials    *string `json:"credentials,omitempty"`
+	ID             *string `json:"id,omitempty"`
+	Revoked        *bool   `json:"revoked,omitempty"`
+	User           *User   `json:"user,omitempty"`
+}
+
+// SLA Status of a Team
+type SLAStatus struct {
+	ID                     *string `json:"id,omitempty"`
+	Team                   *Team   `json:"team,omitempty"`
+	TriageSLAFailInHours   *int32  `json:"triage_sla_fail_in_hours,omitempty"`
+	TriageSLAFailuresCount *int32  `json:"triage_sla_failures_count,omitempty"`
+	TriageSLAMissesCount   *int32  `json:"triage_sla_misses_count,omitempty"`
+	TriageSLAOkCount       *int32  `json:"triage_sla_ok_count,omitempty"`
+	UserID                 *int32  `json:"user_id,omitempty"`
+}
+
+// The connection type for ProgramStatistic.
+type ProgramStatisticConnection struct {
+	// A list of edges.
+	Edges []*ProgramStatisticEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*ProgramStatistic `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo *PageInfo `json:"pageInfo,omitempty"`
+}
+
+// An edge in a connection.
+type ProgramStatisticEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *ProgramStatistic `json:"node,omitempty"`
+}
+
+// Statistics for a certain interval for a certain team
+type ProgramStatistic struct {
+	DuplicateReports             *int32                             `json:"duplicate_reports,omitempty"`
+	ID                           *string                            `json:"id,omitempty"`
+	InformativeReports           *int32                             `json:"informative_reports,omitempty"`
+	Interval                     *ProgramStatisticIntervalEnum      `json:"interval,omitempty"`
+	IntervalStart                *Date                              `json:"interval_start,omitempty"`
+	IsComplete                   *bool                              `json:"is_complete,omitempty"`
+	NotApplicableReports         *int32                             `json:"not_applicable_reports,omitempty"`
+	ResolvedReports              *int32                             `json:"resolved_reports,omitempty"`
+	SpamReports                  *int32                             `json:"spam_reports,omitempty"`
+	SubmittedReports             *int32                             `json:"submitted_reports,omitempty"`
+	TriagedReports               *int32                             `json:"triaged_reports,omitempty"`
+	ValidCriticalSeverityReports *int32                             `json:"valid_critical_severity_reports,omitempty"`
+	ValidHighSeverityReports     *int32                             `json:"valid_high_severity_reports,omitempty"`
+	ValidLowSeverityReports      *int32                             `json:"valid_low_severity_reports,omitempty"`
+	ValidMediumSeverityReports   *int32                             `json:"valid_medium_severity_reports,omitempty"`
+	ValidNoneSeverityReports     *int32                             `json:"valid_none_severity_reports,omitempty"`
+	ValidReports                 *int32                             `json:"valid_reports,omitempty"`
+	ValidReportsPerScope         *ReportsCountPerScopeConnection    `json:"valid_reports_per_scope,omitempty"`
+	ValidReportsPerWeakness      *ReportsCountPerWeaknessConnection `json:"valid_reports_per_weakness,omitempty"`
+	ValidReportsWithoutScope     *int32                             `json:"valid_reports_without_scope,omitempty"`
+	ValidReportsWithoutWeakness  *int32                             `json:"valid_reports_without_weakness,omitempty"`
+	ValidWithoutSeverityReports  *int32                             `json:"valid_without_severity_reports,omitempty"`
+}
+
+// Intervals that program statistics can be grouped by
+type ProgramStatisticIntervalEnum string
+
+const (
+	ProgramStatisticIntervalEnumDay     ProgramStatisticIntervalEnum = "day"
+	ProgramStatisticIntervalEnumMonth   ProgramStatisticIntervalEnum = "month"
+	ProgramStatisticIntervalEnumQuarter ProgramStatisticIntervalEnum = "quarter"
+	ProgramStatisticIntervalEnumYear    ProgramStatisticIntervalEnum = "year"
+)
+
+// The connection type for ReportsCountPerScope.
+type ReportsCountPerScopeConnection struct {
+	// A list of edges.
+	Edges []*ReportsCountPerScopeEdge `json:"edges,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type ReportsCountPerScopeEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *ReportsCountPerScope `json:"node,omitempty"`
+}
+
+// Number of reports per scope of specific program
+type ReportsCountPerScope struct {
+	AssetIdentifier *string `json:"asset_identifier,omitempty"`
+	ID              *string `json:"id,omitempty"`
+	ReportsCount    *int32  `json:"reports_count,omitempty"`
+}
+
+// The connection type for ReportsCountPerWeakness.
+type ReportsCountPerWeaknessConnection struct {
+	// A list of edges.
+	Edges []*ReportsCountPerWeaknessEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*ReportsCountPerWeakness `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type ReportsCountPerWeaknessEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *ReportsCountPerWeakness `json:"node,omitempty"`
+}
+
+// Number of reports per weakness of specific program
+type ReportsCountPerWeakness struct {
+	ID           *string   `json:"id,omitempty"`
+	ReportsCount *int32    `json:"reports_count,omitempty"`
+	Weakness     *Weakness `json:"weakness,omitempty"`
+}
+
+// The connection type for SlaSnapshot.
+type SLASnapshotConnection struct {
+	// A list of edges.
+	Edges   []*SLASnapshotEdge       `json:"edges,omitempty"`
+	GroupBy []*AggregatedSLASnapshot `json:"group_by,omitempty"`
+	// A list of nodes.
+	Nodes []*SLASnapshot `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo *PageInfo `json:"pageInfo,omitempty"`
+}
+
+// An edge in a connection.
+type SLASnapshotEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *SLASnapshot `json:"node,omitempty"`
+}
+
+// SLA snapshot of a Team
+type SLASnapshot struct {
+	AverageTimeToBountyAwarded           *float64  `json:"average_time_to_bounty_awarded,omitempty"`
+	AverageTimeToFirstProgramResponse    *float64  `json:"average_time_to_first_program_response,omitempty"`
+	AverageTimeToReportResolved          *float64  `json:"average_time_to_report_resolved,omitempty"`
+	AverageTimeToReportTriage            *float64  `json:"average_time_to_report_triage,omitempty"`
+	BountyAwardedSLAMissesCount          *int32    `json:"bounty_awarded_sla_misses_count,omitempty"`
+	CreatedAt                            *DateTime `json:"created_at,omitempty"`
+	FirstProgramResponseSLAFailuresCount *int32    `json:"first_program_response_sla_failures_count,omitempty"`
+	FirstProgramResponseSLAMissesCount   *int32    `json:"first_program_response_sla_misses_count,omitempty"`
+	ID                                   *string   `json:"id,omitempty"`
+	ReportResolvedSLAMissesCount         *int32    `json:"report_resolved_sla_misses_count,omitempty"`
+	ReportTriageSLAFailuresCount         *int32    `json:"report_triage_sla_failures_count,omitempty"`
+	ReportTriageSLAMissesCount           *int32    `json:"report_triage_sla_misses_count,omitempty"`
+	SLAFailuresCount                     *int32    `json:"sla_failures_count,omitempty"`
+	SLAMissesCount                       *int32    `json:"sla_misses_count,omitempty"`
+	SLAOnTargetCount                     *int32    `json:"sla_on_target_count,omitempty"`
+	Team                                 *Team     `json:"team,omitempty"`
+}
+
+// An SLA snapshot aggregate
+type AggregatedSLASnapshot struct {
+	AverageTimeToBountyAwarded        *float64  `json:"average_time_to_bounty_awarded,omitempty"`
+	AverageTimeToFirstProgramResponse *float64  `json:"average_time_to_first_program_response,omitempty"`
+	AverageTimeToReportResolved       *float64  `json:"average_time_to_report_resolved,omitempty"`
+	AverageTimeToReportTriage         *float64  `json:"average_time_to_report_triage,omitempty"`
+	Timestamp                         *DateTime `json:"timestamp,omitempty"`
+}
+
+// Time intervals sla snapshots can be grouped by
+type SLASnapshotIntervalEnum string
+
+const (
+	SLASnapshotIntervalEnumDay   SLASnapshotIntervalEnum = "day"
+	SLASnapshotIntervalEnumWeek  SLASnapshotIntervalEnum = "week"
+	SLASnapshotIntervalEnumMonth SLASnapshotIntervalEnum = "month"
+)
+
+// Fields on which a collection of SLA snapshots can be filtered
+type SLASnapshotFilterField string
+
+const (
+	SLASnapshotFilterFieldPREVIOUSWEEK SLASnapshotFilterField = "PREVIOUS_WEEK"
+)
+
+// Cached metrics of a Team
+type TeamCachedProfile struct {
+	ID_                               *string   `json:"_id,omitempty"`
+	DisclosedReportsInLastYearCount   *int32    `json:"disclosed_reports_in_last_year_count,omitempty"`
+	HackersAcceptedAllTimeCount       *int32    `json:"hackers_accepted_all_time_count,omitempty"`
+	HackersInvitedAllTimeCount        *int32    `json:"hackers_invited_all_time_count,omitempty"`
+	ID                                *string   `json:"id,omitempty"`
+	LatestReportCreatedAt             *DateTime `json:"latest_report_created_at,omitempty"`
+	LatestSeriousReportTriagedAt      *DateTime `json:"latest_serious_report_triaged_at,omitempty"`
+	RecentlyParticipatingHackersCount *int32    `json:"recently_participating_hackers_count,omitempty"`
+	ReportsReceivedInThreeMonthsCount *int32    `json:"reports_received_in_three_months_count,omitempty"`
 }
 
 // The connection type for SlackPipeline.
@@ -4898,17 +5295,18 @@ type SubmissionRequirements struct {
 
 // BountyTable
 type BountyTable struct {
-	ID_             *string                   `json:"_id,omitempty"`
-	BountyTableRows *BountyTableRowConnection `json:"bounty_table_rows,omitempty"`
-	CriticalLabel   *string                   `json:"critical_label,omitempty"`
-	Description     *string                   `json:"description,omitempty"`
-	DescriptionHtml *string                   `json:"description_html,omitempty"`
-	HighLabel       *string                   `json:"high_label,omitempty"`
-	ID              *string                   `json:"id,omitempty"`
-	LowLabel        *string                   `json:"low_label,omitempty"`
-	MediumLabel     *string                   `json:"medium_label,omitempty"`
-	Team            *Team                     `json:"team,omitempty"`
-	URL             *URI                      `json:"url,omitempty"`
+	ID_                  *string                       `json:"_id,omitempty"`
+	BountyTableHistories *BountyTableHistoryConnection `json:"bounty_table_histories,omitempty"`
+	BountyTableRows      *BountyTableRowConnection     `json:"bounty_table_rows,omitempty"`
+	CriticalLabel        *string                       `json:"critical_label,omitempty"`
+	Description          *string                       `json:"description,omitempty"`
+	DescriptionHtml      *string                       `json:"description_html,omitempty"`
+	HighLabel            *string                       `json:"high_label,omitempty"`
+	ID                   *string                       `json:"id,omitempty"`
+	LowLabel             *string                       `json:"low_label,omitempty"`
+	MediumLabel          *string                       `json:"medium_label,omitempty"`
+	Team                 *Team                         `json:"team,omitempty"`
+	URL                  *URI                          `json:"url,omitempty"`
 }
 
 // The connection type for BountyTableRow.
@@ -4932,14 +5330,89 @@ type BountyTableRowEdge struct {
 
 // BountyTableRow
 type BountyTableRow struct {
-	ID_             *string          `json:"_id,omitempty"`
-	Critical        *int32           `json:"critical,omitempty"`
-	High            *int32           `json:"high,omitempty"`
-	ID              *string          `json:"id,omitempty"`
-	Low             *int32           `json:"low,omitempty"`
-	Medium          *int32           `json:"medium,omitempty"`
-	StructuredScope *StructuredScope `json:"structured_scope,omitempty"`
-	URL             *URI             `json:"url,omitempty"`
+	ID_                     *string                          `json:"_id,omitempty"`
+	BountyTableRowHistories *BountyTableRowHistoryConnection `json:"bounty_table_row_histories,omitempty"`
+	Critical                *int32                           `json:"critical,omitempty"`
+	High                    *int32                           `json:"high,omitempty"`
+	ID                      *string                          `json:"id,omitempty"`
+	Low                     *int32                           `json:"low,omitempty"`
+	Medium                  *int32                           `json:"medium,omitempty"`
+	StructuredScope         *StructuredScope                 `json:"structured_scope,omitempty"`
+	URL                     *URI                             `json:"url,omitempty"`
+}
+
+// The connection type for BountyTableRowHistory.
+type BountyTableRowHistoryConnection struct {
+	// A list of edges.
+	Edges []*BountyTableRowHistoryEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*BountyTableRowHistory `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type BountyTableRowHistoryEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *BountyTableRowHistory `json:"node,omitempty"`
+}
+
+// A versioned log of a bounty table row of a bounty table
+type BountyTableRowHistory struct {
+	ID_            *string         `json:"_id,omitempty"`
+	Action         *string         `json:"action,omitempty"`
+	BountyTableRow *BountyTableRow `json:"bounty_table_row,omitempty"`
+	CreatedAt      *DateTime       `json:"created_at,omitempty"`
+	CriticalAfter  *int32          `json:"critical_after,omitempty"`
+	CriticalBefore *int32          `json:"critical_before,omitempty"`
+	HighAfter      *int32          `json:"high_after,omitempty"`
+	HighBefore     *int32          `json:"high_before,omitempty"`
+	ID             *string         `json:"id,omitempty"`
+	LowAfter       *int32          `json:"low_after,omitempty"`
+	LowBefore      *int32          `json:"low_before,omitempty"`
+	MaximumAfter   *int32          `json:"maximum_after,omitempty"`
+	MaximumBefore  *int32          `json:"maximum_before,omitempty"`
+	MediumAfter    *int32          `json:"medium_after,omitempty"`
+	MediumBefore   *int32          `json:"medium_before,omitempty"`
+	Team           *Team           `json:"team,omitempty"`
+	UpdatedAt      *DateTime       `json:"updated_at,omitempty"`
+	URL            *URI            `json:"url,omitempty"`
+}
+
+// The connection type for BountyTableHistory.
+type BountyTableHistoryConnection struct {
+	// A list of edges.
+	Edges []*BountyTableHistoryEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*BountyTableHistory `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type BountyTableHistoryEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *BountyTableHistory `json:"node,omitempty"`
+}
+
+// A versioned log of a bounty table of a program
+type BountyTableHistory struct {
+	ID_               *string      `json:"_id,omitempty"`
+	Action            *string      `json:"action,omitempty"`
+	BountyTable       *BountyTable `json:"bounty_table,omitempty"`
+	CreatedAt         *DateTime    `json:"created_at,omitempty"`
+	DescriptionAfter  *string      `json:"description_after,omitempty"`
+	DescriptionBefore *string      `json:"description_before,omitempty"`
+	ID                *string      `json:"id,omitempty"`
+	Team              *Team        `json:"team,omitempty"`
+	UpdatedAt         *DateTime    `json:"updated_at,omitempty"`
+	URL               *URI         `json:"url,omitempty"`
 }
 
 // The connection type for Trigger.
@@ -5026,6 +5499,71 @@ const (
 	CVERequestStateEnumCancelled                CVERequestStateEnum = "cancelled"
 )
 
+// A checklist
+type Checklist struct {
+	ChecklistChecks *ChecklistCheckConnection `json:"checklist_checks,omitempty"`
+	ID              *string                   `json:"id,omitempty"`
+	Team            *Team                     `json:"team,omitempty"`
+}
+
+// The connection type for ChecklistCheck.
+type ChecklistCheckConnection struct {
+	// A list of edges.
+	Edges []*ChecklistCheckEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*ChecklistCheck `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo *PageInfo `json:"pageInfo,omitempty"`
+	// Int
+	TotalCount *int32 `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type ChecklistCheckEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *ChecklistCheck `json:"node,omitempty"`
+}
+
+// A checklist check
+type ChecklistCheck struct {
+	Checklist                       *Checklist               `json:"checklist,omitempty"`
+	Cluster                         *Cluster                 `json:"cluster,omitempty"`
+	ID                              *string                  `json:"id,omitempty"`
+	State                           *ChecklistCheckStateEnum `json:"state,omitempty"`
+	SubmittedChecklistCheckResponse *ChecklistCheckResponse  `json:"submitted_checklist_check_response,omitempty"`
+	User                            *User                    `json:"user,omitempty"`
+}
+
+// A checklist check response
+type ChecklistCheckResponse struct {
+	ChecklistCheck     *ChecklistCheck                  `json:"checklist_check,omitempty"`
+	ID                 *string                          `json:"id,omitempty"`
+	State              *ChecklistCheckResponseStateEnum `json:"state,omitempty"`
+	User               *User                            `json:"user,omitempty"`
+	VulnerabilityFound *bool                            `json:"vulnerability_found,omitempty"`
+}
+
+// ChecklistCheckResponse state enum
+type ChecklistCheckResponseStateEnum string
+
+const (
+	ChecklistCheckResponseStateEnumPending  ChecklistCheckResponseStateEnum = "pending"
+	ChecklistCheckResponseStateEnumApproved ChecklistCheckResponseStateEnum = "approved"
+	ChecklistCheckResponseStateEnumRejected ChecklistCheckResponseStateEnum = "rejected"
+)
+
+// ChackelistCheck state enum
+type ChecklistCheckStateEnum string
+
+const (
+	ChecklistCheckStateEnumNotClaimed ChecklistCheckStateEnum = "not_claimed"
+	ChecklistCheckStateEnumClaimed    ChecklistCheckStateEnum = "claimed"
+	ChecklistCheckStateEnumResponded  ChecklistCheckStateEnum = "responded"
+	ChecklistCheckStateEnumCompleted  ChecklistCheckStateEnum = "completed"
+)
+
 // Types of authentication methods for users
 type AuthenticationServiceEnum string
 
@@ -5083,13 +5621,6 @@ type BountyEdge struct {
 	Node *Bounty `json:"node,omitempty"`
 }
 
-type FiltersBountyFilterInput struct {
-	Or_       []*FiltersBountyFilterInput `json:"_or,omitempty"`
-	And_      []*FiltersBountyFilterInput `json:"_and,omitempty"`
-	ID        *IntPredicateInput          `json:"id,omitempty"`
-	CreatedAt *DateTimePredicateInput     `json:"created_at,omitempty"`
-}
-
 // Possible currencies codes for bounties
 type CurrencyCode string
 
@@ -5098,31 +5629,11 @@ const (
 	CurrencyCodeUSD CurrencyCode = "USD"
 )
 
-// The connection type for Team.
-type WhitelistedTeamConnection struct {
-	// A list of edges.
-	Edges []*WhitelistedTeamInformationEdgeType `json:"edges,omitempty"`
-	// A list of nodes.
-	Nodes []*Team `json:"nodes,omitempty"`
-	// Information to aid in pagination.
-	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
-	TotalCount *int32    `json:"total_count,omitempty"`
-}
-
-// An edge in a connection.
-type WhitelistedTeamInformationEdgeType struct {
-	// The participant's total bounty earned within the team
-	BountyEarned *float64 `json:"bounty_earned,omitempty"`
-	// A cursor for use in pagination.
-	Cursor *string `json:"cursor,omitempty"`
-	// The participant's date of accepted the teams invitation
-	LastInvitationAcceptedAt *DateTime `json:"last_invitation_accepted_at,omitempty"`
-	// The item at the end of the edge.
-	Node *Team `json:"node,omitempty"`
-	// The participant's number of reports within the team
-	NumberOfReports *int32 `json:"number_of_reports,omitempty"`
-	// The participant's number of valid reports within the team
-	NumberOfValidReports *int32 `json:"number_of_valid_reports,omitempty"`
+type FiltersBountyFilterInput struct {
+	Or_       []*FiltersBountyFilterInput `json:"_or,omitempty"`
+	And_      []*FiltersBountyFilterInput `json:"_and,omitempty"`
+	ID        *IntPredicateInput          `json:"id,omitempty"`
+	CreatedAt *DateTimePredicateInput     `json:"created_at,omitempty"`
 }
 
 type MembershipOrderInput struct {
@@ -5368,6 +5879,37 @@ type InvitationsRetest struct {
 	Token      *string   `json:"token,omitempty"`
 }
 
+// A subscription to team updates
+type TeamPolicySubscription struct {
+	ID_            *string   `json:"_id,omitempty"`
+	CreatedAt      *DateTime `json:"created_at,omitempty"`
+	ID             *string   `json:"id,omitempty"`
+	Team           *Team     `json:"team,omitempty"`
+	UnsubscribedAt *DateTime `json:"unsubscribed_at,omitempty"`
+	UpdatedAt      *DateTime `json:"updated_at,omitempty"`
+	URL            *URI      `json:"url,omitempty"`
+	User           *User     `json:"user,omitempty"`
+}
+
+// The connection type for TeamPolicySubscription.
+type TeamPolicySubscriptionConnection struct {
+	// A list of edges.
+	Edges []*TeamPolicySubscriptionEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*TeamPolicySubscription `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo   *PageInfo `json:"pageInfo,omitempty"`
+	TotalCount *int32    `json:"total_count,omitempty"`
+}
+
+// An edge in a connection.
+type TeamPolicySubscriptionEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *TeamPolicySubscription `json:"node,omitempty"`
+}
+
 // Global accessible information about the HackerOne application
 type Application struct {
 	ID         *string   `json:"id,omitempty"`
@@ -5396,6 +5938,24 @@ type ExternalProgramEdge struct {
 	Cursor *string `json:"cursor,omitempty"`
 	// The item at the end of the edge.
 	Node *ExternalProgram `json:"node,omitempty"`
+}
+
+// The connection type for TriageInboxItem.
+type TriageInboxItemConnection struct {
+	// A list of edges.
+	Edges []*TriageInboxItemEdge `json:"edges,omitempty"`
+	// A list of nodes.
+	Nodes []*TriageInboxItem `json:"nodes,omitempty"`
+	// Information to aid in pagination.
+	PageInfo *PageInfo `json:"pageInfo,omitempty"`
+}
+
+// An edge in a connection.
+type TriageInboxItemEdge struct {
+	// A cursor for use in pagination.
+	Cursor *string `json:"cursor,omitempty"`
+	// The item at the end of the edge.
+	Node *TriageInboxItem `json:"node,omitempty"`
 }
 
 // The connection type for SlaStatus.
@@ -5745,6 +6305,7 @@ type TaskEdge struct {
 type Task struct {
 	ID_         *string      `json:"_id,omitempty"`
 	Completed   *bool        `json:"completed,omitempty"`
+	CompletedAt *DateTime    `json:"completed_at,omitempty"`
 	Description *string      `json:"description,omitempty"`
 	ID          *string      `json:"id,omitempty"`
 	Key         *TaskKeyEnum `json:"key,omitempty"`
@@ -5766,6 +6327,7 @@ type Mutation struct {
 	AcknowledgeProgramHealthAcknowledgement          *AcknowledgeProgramHealthAcknowledgementPayload          `json:"acknowledgeProgramHealthAcknowledgement,omitempty"`
 	ArchiveStructuredScope                           *ArchiveStructuredScopePayload                           `json:"archiveStructuredScope,omitempty"`
 	CancelTwoFactorAuthenticationReset               *CancelTwoFactorAuthenticationResetPayload               `json:"cancelTwoFactorAuthenticationReset,omitempty"`
+	ClaimChecklistCheck                              *ClaimChecklistCheckPayload                              `json:"claimChecklistCheck,omitempty"`
 	ClaimCredential                                  *ClaimCredentialPayload                                  `json:"claimCredential,omitempty"`
 	ClaimReport                                      *ClaimReportPayload                                      `json:"claimReport,omitempty"`
 	CompleteReportRetestUser                         *CompleteReportRetestUserPayload                         `json:"completeReportRetestUser,omitempty"`
@@ -5774,6 +6336,7 @@ type Mutation struct {
 	CreateBountySuggestion                           *CreateBountySuggestionPayload                           `json:"createBountySuggestion,omitempty"`
 	CreateCoinbasePayoutPreference                   *CreateCoinbasePayoutPreferencePayload                   `json:"createCoinbasePayoutPreference,omitempty"`
 	CreateCurrencycloudBankTransferPayoutPreference  *CreateCurrencycloudBankTransferPayoutPreferencePayload  `json:"createCurrencycloudBankTransferPayoutPreference,omitempty"`
+	CreateCustomFieldAttribute                       *CreateCustomFieldAttributePayload                       `json:"createCustomFieldAttribute,omitempty"`
 	CreateCVERequest                                 *CreateCVERequestPayload                                 `json:"createCveRequest,omitempty"`
 	CreateExternalReport                             *CreateExternalReportPayload                             `json:"createExternalReport,omitempty"`
 	CreateIssueTrackerReferenceID                    *CreateIssueTrackerReferenceIDPayload                    `json:"createIssueTrackerReferenceId,omitempty"`
@@ -5788,6 +6351,7 @@ type Mutation struct {
 	CreateRejectionSurveyAnswer                      *CreateRejectionSurveyAnswerPayload                      `json:"createRejectionSurveyAnswer,omitempty"`
 	CreateReport                                     *CreateReportPayload                                     `json:"createReport,omitempty"`
 	CreateReportSummary                              *CreateReportSummaryPayload                              `json:"createReportSummary,omitempty"`
+	CreateSeverity                                   *CreateSeverityPayload                                   `json:"createSeverity,omitempty"`
 	CreateSlackPipeline                              *CreateSlackPipelinePayload                              `json:"createSlackPipeline,omitempty"`
 	CreateStructuredScope                            *CreateStructuredScopePayload                            `json:"createStructuredScope,omitempty"`
 	CreateSwag                                       *CreateSwagPayload                                       `json:"createSwag,omitempty"`
@@ -5811,6 +6375,7 @@ type Mutation struct {
 	DestroyTwoFactorAuthenticationCredentials        *DestroyTwoFactorAuthenticationCredentialsPayload        `json:"destroyTwoFactorAuthenticationCredentials,omitempty"`
 	DestroyUpvote                                    *DestroyUpvotePayload                                    `json:"destroyUpvote,omitempty"`
 	DismissProgramHealthAcknowledgement              *DismissProgramHealthAcknowledgementPayload              `json:"dismissProgramHealthAcknowledgement,omitempty"`
+	DismissTriageInboxItems                          *DismissTriageInboxItemsPayload                          `json:"dismissTriageInboxItems,omitempty"`
 	EnableUser                                       *EnableUserPayload                                       `json:"enableUser,omitempty"`
 	ExportLifetimeReports                            *ExportLifetimeReportsPayload                            `json:"exportLifetimeReports,omitempty"`
 	ForgetFacebookCredentials                        *ForgetFacebookCredentialPayload                         `json:"forgetFacebookCredentials,omitempty"`
@@ -5830,6 +6395,7 @@ type Mutation struct {
 	RevokeCredential                                 *RevokeCredentialPayload                                 `json:"revokeCredential,omitempty"`
 	StartVpnInstance                                 *StartVpnInstancePayload                                 `json:"startVpnInstance,omitempty"`
 	StopVpnInstance                                  *StopVpnInstancePayload                                  `json:"stopVpnInstance,omitempty"`
+	ToggleTeamUpdatesSubscription                    *ToggleTeamUpdatesSubscriptionPayload                    `json:"toggleTeamUpdatesSubscription,omitempty"`
 	UnclaimReport                                    *UnclaimReportPayload                                    `json:"unclaimReport,omitempty"`
 	UnsubscribeMailingList                           *UnsubscribeMailingListPayload                           `json:"unsubscribeMailingList,omitempty"`
 	UpdateAccountRecoveryPhoneNumber                 *UpdateAccountRecoveryPhoneNumberPayload                 `json:"updateAccountRecoveryPhoneNumber,omitempty"`
@@ -5842,6 +6408,7 @@ type Mutation struct {
 	UpdateChallengeSetting                           *UpdateChallengeSettingPayload                           `json:"updateChallengeSetting,omitempty"`
 	UpdateCredentialAccountDetails                   *UpdateCredentialAccountDetailPayload                    `json:"updateCredentialAccountDetails,omitempty"`
 	UpdateCredentialInstruction                      *UpdateCredentialInstructionPayload                      `json:"updateCredentialInstruction,omitempty"`
+	UpdateCustomFieldAttribute                       *UpdateCustomFieldAttributePayload                       `json:"updateCustomFieldAttribute,omitempty"`
 	UpdateCVERequest                                 *UpdateCVERequestPayload                                 `json:"updateCveRequest,omitempty"`
 	UpdateEmbeddedSubmissionDomains                  *UpdateEmbeddedSubmissionDomainPayload                   `json:"updateEmbeddedSubmissionDomains,omitempty"`
 	UpdateFacebookUserID                             *UpdateFacebookUserIDPayload                             `json:"updateFacebookUserId,omitempty"`
@@ -5851,6 +6418,7 @@ type Mutation struct {
 	UpdateMe                                         *UpdateMePayload                                         `json:"updateMe,omitempty"`
 	UpdatePhabricatorIntegration                     *UpdatePhabricatorIntegrationPayload                     `json:"updatePhabricatorIntegration,omitempty"`
 	UpdateReportCloseComments                        *UpdateReportCloseCommentsPayload                        `json:"updateReportCloseComments,omitempty"`
+	UpdateReportCustomFieldValues                    *UpdateReportCustomFieldValuesPayload                    `json:"updateReportCustomFieldValues,omitempty"`
 	UpdateReportStateToDuplicate                     *UpdateReportStateToDuplicatePayload                     `json:"updateReportStateToDuplicate,omitempty"`
 	UpdateReportStateToInformative                   *UpdateReportStateToInformativePayload                   `json:"updateReportStateToInformative,omitempty"`
 	UpdateReportStateToNeedsMoreInfo                 *UpdateReportStateToNeedsMoreInfoPayload                 `json:"updateReportStateToNeedsMoreInfo,omitempty"`
@@ -5889,13 +6457,13 @@ type Mutation struct {
 	VerifyAccountRecoveryPhoneNumber                 *VerifyAccountRecoveryPhoneNumberPayload                 `json:"verifyAccountRecoveryPhoneNumber,omitempty"`
 }
 
-// Autogenerated return type of UpdateUserType
-type UpdateUserTypePayload struct {
+// Autogenerated return type of UpdateCustomFieldAttribute
+type UpdateCustomFieldAttributePayload struct {
 	// A unique identifier for the client performing the mutation.
-	ClientMutationID *string          `json:"clientMutationId,omitempty"`
-	Errors           *ErrorConnection `json:"errors,omitempty"`
-	Me               *User            `json:"me,omitempty"`
-	WasSuccessful    *bool            `json:"was_successful,omitempty"`
+	ClientMutationID     *string               `json:"clientMutationId,omitempty"`
+	CustomFieldAttribute *CustomFieldAttribute `json:"custom_field_attribute,omitempty"`
+	Errors               *ErrorConnection      `json:"errors,omitempty"`
+	WasSuccessful        *bool                 `json:"was_successful,omitempty"`
 }
 
 type MutationResult struct {
@@ -5905,6 +6473,7 @@ type MutationResult struct {
 	AcknowledgeProgramHealthAcknowledgementPayload         *AcknowledgeProgramHealthAcknowledgementPayload         `json:"-"`
 	ArchiveStructuredScopePayload                          *ArchiveStructuredScopePayload                          `json:"-"`
 	CancelTwoFactorAuthenticationResetPayload              *CancelTwoFactorAuthenticationResetPayload              `json:"-"`
+	ClaimChecklistCheckPayload                             *ClaimChecklistCheckPayload                             `json:"-"`
 	ClaimCredentialPayload                                 *ClaimCredentialPayload                                 `json:"-"`
 	ClaimReportPayload                                     *ClaimReportPayload                                     `json:"-"`
 	CompleteReportRetestUserPayload                        *CompleteReportRetestUserPayload                        `json:"-"`
@@ -5912,6 +6481,7 @@ type MutationResult struct {
 	CreateBountyPayload                                    *CreateBountyPayload                                    `json:"-"`
 	CreateCoinbasePayoutPreferencePayload                  *CreateCoinbasePayoutPreferencePayload                  `json:"-"`
 	CreateCurrencycloudBankTransferPayoutPreferencePayload *CreateCurrencycloudBankTransferPayoutPreferencePayload `json:"-"`
+	CreateCustomFieldAttributePayload                      *CreateCustomFieldAttributePayload                      `json:"-"`
 	CreateCVERequestPayload                                *CreateCVERequestPayload                                `json:"-"`
 	CreateExternalReportPayload                            *CreateExternalReportPayload                            `json:"-"`
 	CreateLeaveProgramSurveyAnswerPayload                  *CreateLeaveProgramSurveyAnswerPayload                  `json:"-"`
@@ -5921,6 +6491,7 @@ type MutationResult struct {
 	CreateRejectionSurveyAnswerPayload                     *CreateRejectionSurveyAnswerPayload                     `json:"-"`
 	CreateReportPayload                                    *CreateReportPayload                                    `json:"-"`
 	CreateReportSummaryPayload                             *CreateReportSummaryPayload                             `json:"-"`
+	CreateSeverityPayload                                  *CreateSeverityPayload                                  `json:"-"`
 	CreateSlackPipelinePayload                             *CreateSlackPipelinePayload                             `json:"-"`
 	CreateStructuredScopePayload                           *CreateStructuredScopePayload                           `json:"-"`
 	CreateTaxFormPayload                                   *CreateTaxFormPayload                                   `json:"-"`
@@ -5936,6 +6507,7 @@ type MutationResult struct {
 	DestroyTwoFactorAuthenticationCredentialsPayload       *DestroyTwoFactorAuthenticationCredentialsPayload       `json:"-"`
 	DestroyUpvotePayload                                   *DestroyUpvotePayload                                   `json:"-"`
 	DismissProgramHealthAcknowledgementPayload             *DismissProgramHealthAcknowledgementPayload             `json:"-"`
+	DismissTriageInboxItemsPayload                         *DismissTriageInboxItemsPayload                         `json:"-"`
 	ExportLifetimeReportsPayload                           *ExportLifetimeReportsPayload                           `json:"-"`
 	ForgetFacebookCredentialPayload                        *ForgetFacebookCredentialPayload                        `json:"-"`
 	LaunchTeamPayload                                      *LaunchTeamPayload                                      `json:"-"`
@@ -5952,6 +6524,7 @@ type MutationResult struct {
 	RevokeCredentialPayload                                *RevokeCredentialPayload                                `json:"-"`
 	StartVpnInstancePayload                                *StartVpnInstancePayload                                `json:"-"`
 	StopVpnInstancePayload                                 *StopVpnInstancePayload                                 `json:"-"`
+	ToggleTeamUpdatesSubscriptionPayload                   *ToggleTeamUpdatesSubscriptionPayload                   `json:"-"`
 	UnclaimReportPayload                                   *UnclaimReportPayload                                   `json:"-"`
 	UnsubscribeMailingListPayload                          *UnsubscribeMailingListPayload                          `json:"-"`
 	UpdateAccountRecoveryPhoneNumberPayload                *UpdateAccountRecoveryPhoneNumberPayload                `json:"-"`
@@ -5960,12 +6533,14 @@ type MutationResult struct {
 	UpdateChallengeSettingPayload                          *UpdateChallengeSettingPayload                          `json:"-"`
 	UpdateCredentialAccountDetailPayload                   *UpdateCredentialAccountDetailPayload                   `json:"-"`
 	UpdateCredentialInstructionPayload                     *UpdateCredentialInstructionPayload                     `json:"-"`
+	UpdateCustomFieldAttributePayload                      *UpdateCustomFieldAttributePayload                      `json:"-"`
 	UpdateCVERequestPayload                                *UpdateCVERequestPayload                                `json:"-"`
 	UpdateEmbeddedSubmissionDomainPayload                  *UpdateEmbeddedSubmissionDomainPayload                  `json:"-"`
 	UpdateFacebookUserIDPayload                            *UpdateFacebookUserIDPayload                            `json:"-"`
 	UpdateInvitationPreferencesPayload                     *UpdateInvitationPreferencesPayload                     `json:"-"`
 	UpdateLastViewedNewFeaturesAtPayload                   *UpdateLastViewedNewFeaturesAtPayload                   `json:"-"`
 	UpdateMePayload                                        *UpdateMePayload                                        `json:"-"`
+	UpdateReportCustomFieldValuesPayload                   *UpdateReportCustomFieldValuesPayload                   `json:"-"`
 	UpdateSingleBookmarkedTeamPayload                      *UpdateSingleBookmarkedTeamPayload                      `json:"-"`
 	UpdateStructuredPolicyPayload                          *UpdateStructuredPolicyPayload                          `json:"-"`
 	UpdateStructuredScopePayload                           *UpdateStructuredScopePayload                           `json:"-"`
@@ -6002,6 +6577,9 @@ func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
 	case "CancelTwoFactorAuthenticationResetPayload":
 		u.CancelTwoFactorAuthenticationResetPayload = &CancelTwoFactorAuthenticationResetPayload{}
 		payload = u.CancelTwoFactorAuthenticationResetPayload
+	case "ClaimChecklistCheckPayload":
+		u.ClaimChecklistCheckPayload = &ClaimChecklistCheckPayload{}
+		payload = u.ClaimChecklistCheckPayload
 	case "ClaimCredentialPayload":
 		u.ClaimCredentialPayload = &ClaimCredentialPayload{}
 		payload = u.ClaimCredentialPayload
@@ -6023,6 +6601,9 @@ func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
 	case "CreateCurrencycloudBankTransferPayoutPreferencePayload":
 		u.CreateCurrencycloudBankTransferPayoutPreferencePayload = &CreateCurrencycloudBankTransferPayoutPreferencePayload{}
 		payload = u.CreateCurrencycloudBankTransferPayoutPreferencePayload
+	case "CreateCustomFieldAttributePayload":
+		u.CreateCustomFieldAttributePayload = &CreateCustomFieldAttributePayload{}
+		payload = u.CreateCustomFieldAttributePayload
 	case "CreateCVERequestPayload":
 		u.CreateCVERequestPayload = &CreateCVERequestPayload{}
 		payload = u.CreateCVERequestPayload
@@ -6050,6 +6631,9 @@ func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
 	case "CreateReportSummaryPayload":
 		u.CreateReportSummaryPayload = &CreateReportSummaryPayload{}
 		payload = u.CreateReportSummaryPayload
+	case "CreateSeverityPayload":
+		u.CreateSeverityPayload = &CreateSeverityPayload{}
+		payload = u.CreateSeverityPayload
 	case "CreateSlackPipelinePayload":
 		u.CreateSlackPipelinePayload = &CreateSlackPipelinePayload{}
 		payload = u.CreateSlackPipelinePayload
@@ -6095,6 +6679,9 @@ func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
 	case "DismissProgramHealthAcknowledgementPayload":
 		u.DismissProgramHealthAcknowledgementPayload = &DismissProgramHealthAcknowledgementPayload{}
 		payload = u.DismissProgramHealthAcknowledgementPayload
+	case "DismissTriageInboxItemsPayload":
+		u.DismissTriageInboxItemsPayload = &DismissTriageInboxItemsPayload{}
+		payload = u.DismissTriageInboxItemsPayload
 	case "ExportLifetimeReportsPayload":
 		u.ExportLifetimeReportsPayload = &ExportLifetimeReportsPayload{}
 		payload = u.ExportLifetimeReportsPayload
@@ -6143,6 +6730,9 @@ func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
 	case "StopVpnInstancePayload":
 		u.StopVpnInstancePayload = &StopVpnInstancePayload{}
 		payload = u.StopVpnInstancePayload
+	case "ToggleTeamUpdatesSubscriptionPayload":
+		u.ToggleTeamUpdatesSubscriptionPayload = &ToggleTeamUpdatesSubscriptionPayload{}
+		payload = u.ToggleTeamUpdatesSubscriptionPayload
 	case "UnclaimReportPayload":
 		u.UnclaimReportPayload = &UnclaimReportPayload{}
 		payload = u.UnclaimReportPayload
@@ -6167,6 +6757,9 @@ func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
 	case "UpdateCredentialInstructionPayload":
 		u.UpdateCredentialInstructionPayload = &UpdateCredentialInstructionPayload{}
 		payload = u.UpdateCredentialInstructionPayload
+	case "UpdateCustomFieldAttributePayload":
+		u.UpdateCustomFieldAttributePayload = &UpdateCustomFieldAttributePayload{}
+		payload = u.UpdateCustomFieldAttributePayload
 	case "UpdateCVERequestPayload":
 		u.UpdateCVERequestPayload = &UpdateCVERequestPayload{}
 		payload = u.UpdateCVERequestPayload
@@ -6185,6 +6778,9 @@ func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
 	case "UpdateMePayload":
 		u.UpdateMePayload = &UpdateMePayload{}
 		payload = u.UpdateMePayload
+	case "UpdateReportCustomFieldValuesPayload":
+		u.UpdateReportCustomFieldValuesPayload = &UpdateReportCustomFieldValuesPayload{}
+		payload = u.UpdateReportCustomFieldValuesPayload
 	case "UpdateSingleBookmarkedTeamPayload":
 		u.UpdateSingleBookmarkedTeamPayload = &UpdateSingleBookmarkedTeamPayload{}
 		payload = u.UpdateSingleBookmarkedTeamPayload
@@ -6281,6 +6877,54 @@ const (
 	ErrorTypeEnumAUTHORIZATION ErrorTypeEnum = "AUTHORIZATION"
 	ErrorTypeEnumTHROTTLE      ErrorTypeEnum = "THROTTLE"
 )
+
+// Autogenerated input type of UpdateCustomFieldAttribute
+type UpdateCustomFieldAttributeInput struct {
+	ID            *string `json:"id,omitempty"`
+	Archived      *bool   `json:"archived,omitempty"`
+	Label         *string `json:"label,omitempty"`
+	Configuration *string `json:"configuration,omitempty"`
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string `json:"clientMutationId,omitempty"`
+}
+
+// Autogenerated return type of CreateCustomFieldAttribute
+type CreateCustomFieldAttributePayload struct {
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string                         `json:"clientMutationId,omitempty"`
+	CustomFields     *CustomFieldAttributeConnection `json:"custom_fields,omitempty"`
+	Errors           *ErrorConnection                `json:"errors,omitempty"`
+	NewCustomField   *CustomFieldAttributeEdge       `json:"new_custom_field,omitempty"`
+	Team             *Team                           `json:"team,omitempty"`
+	WasSuccessful    *bool                           `json:"was_successful,omitempty"`
+}
+
+// Autogenerated input type of CreateCustomFieldAttribute
+type CreateCustomFieldAttributeInput struct {
+	TeamID        *string              `json:"team_id,omitempty"`
+	Label         *string              `json:"label,omitempty"`
+	Type          *CustomFieldTypeEnum `json:"type,omitempty"`
+	Configuration *string              `json:"configuration,omitempty"`
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string `json:"clientMutationId,omitempty"`
+}
+
+// A simple name that reflects the type of a custom field
+type CustomFieldTypeEnum string
+
+const (
+	CustomFieldTypeEnumCustomFieldAttributesText CustomFieldTypeEnum = "custom_field_attributes_text"
+	CustomFieldTypeEnumCustomFieldAttributesList CustomFieldTypeEnum = "custom_field_attributes_list"
+)
+
+// Autogenerated return type of UpdateUserType
+type UpdateUserTypePayload struct {
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string          `json:"clientMutationId,omitempty"`
+	Errors           *ErrorConnection `json:"errors,omitempty"`
+	Me               *User            `json:"me,omitempty"`
+	WasSuccessful    *bool            `json:"was_successful,omitempty"`
+}
 
 // Autogenerated input type of UpdateUserType
 type UpdateUserTypeInput struct {
@@ -6755,7 +7399,8 @@ type ClaimReportPayload struct {
 
 // Autogenerated input type of ClaimReport
 type ClaimReportInput struct {
-	ReportID *string `json:"report_id,omitempty"`
+	ReportID   *string `json:"report_id,omitempty"`
+	ForceClaim *bool   `json:"force_claim,omitempty"`
 	// A unique identifier for the client performing the mutation.
 	ClientMutationID *string `json:"clientMutationId,omitempty"`
 }
@@ -6817,6 +7462,22 @@ type StopVpnInstancePayload struct {
 
 // Autogenerated input type of StopVpnInstance
 type StopVpnInstanceInput struct {
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string `json:"clientMutationId,omitempty"`
+}
+
+// Autogenerated return type of DismissTriageInboxItems
+type DismissTriageInboxItemsPayload struct {
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string          `json:"clientMutationId,omitempty"`
+	Errors           *ErrorConnection `json:"errors,omitempty"`
+	Query            *Query           `json:"query,omitempty"`
+	WasSuccessful    *bool            `json:"was_successful,omitempty"`
+}
+
+// Autogenerated input type of DismissTriageInboxItems
+type DismissTriageInboxItemsInput struct {
+	TriageInboxItemIds []*string `json:"triage_inbox_item_ids,omitempty"`
 	// A unique identifier for the client performing the mutation.
 	ClientMutationID *string `json:"clientMutationId,omitempty"`
 }
@@ -8272,8 +8933,70 @@ type UpdateTeamBountySplittingSettingPayload struct {
 
 // Autogenerated input type of UpdateTeamBountySplittingSetting
 type UpdateTeamBountySplittingSettingInput struct {
-	TeamID                 *string `json:"team_id,omitempty"`
-	BountySplittingEnabled *bool   `json:"bounty_splitting_enabled,omitempty"`
+	TeamID *string `json:"team_id,omitempty"`
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string `json:"clientMutationId,omitempty"`
+}
+
+// Autogenerated return type of CreateSeverity
+type CreateSeverityPayload struct {
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string          `json:"clientMutationId,omitempty"`
+	Errors           *ErrorConnection `json:"errors,omitempty"`
+	Severity         *Severity        `json:"severity,omitempty"`
+	WasSuccessful    *bool            `json:"was_successful,omitempty"`
+}
+
+// Autogenerated input type of CreateSeverity
+type CreateSeverityInput struct {
+	ReportID           *int32  `json:"report_id,omitempty"`
+	Rating             *string `json:"rating,omitempty"`
+	AttackComplexity   *string `json:"attack_complexity,omitempty"`
+	AttackVector       *string `json:"attack_vector,omitempty"`
+	Availability       *string `json:"availability,omitempty"`
+	Confidentiality    *string `json:"confidentiality,omitempty"`
+	Integrity          *string `json:"integrity,omitempty"`
+	PrivilegesRequired *string `json:"privileges_required,omitempty"`
+	Scope              *string `json:"scope,omitempty"`
+	UserInteraction    *string `json:"user_interaction,omitempty"`
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string `json:"clientMutationId,omitempty"`
+}
+
+// Autogenerated return type of UpdateReportCustomFieldValues
+type UpdateReportCustomFieldValuesPayload struct {
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string          `json:"clientMutationId,omitempty"`
+	Errors           *ErrorConnection `json:"errors,omitempty"`
+	Report           *Report          `json:"report,omitempty"`
+	WasSuccessful    *bool            `json:"was_successful,omitempty"`
+}
+
+// Autogenerated input type of UpdateReportCustomFieldValues
+type UpdateReportCustomFieldValuesInput struct {
+	ReportID          *string                  `json:"report_id,omitempty"`
+	CustomFieldValues []*CustomFieldValueInput `json:"custom_field_values,omitempty"`
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string `json:"clientMutationId,omitempty"`
+}
+
+type CustomFieldValueInput struct {
+	CustomFieldAttributeID *string `json:"custom_field_attribute_id,omitempty"`
+	Value                  *string `json:"value,omitempty"`
+}
+
+// Autogenerated return type of ToggleTeamUpdatesSubscription
+type ToggleTeamUpdatesSubscriptionPayload struct {
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string          `json:"clientMutationId,omitempty"`
+	Errors           *ErrorConnection `json:"errors,omitempty"`
+	Team             *Team            `json:"team,omitempty"`
+	WasSuccessful    *bool            `json:"was_successful,omitempty"`
+}
+
+// Autogenerated input type of ToggleTeamUpdatesSubscription
+type ToggleTeamUpdatesSubscriptionInput struct {
+	Handle *string `json:"handle,omitempty"`
 	// A unique identifier for the client performing the mutation.
 	ClientMutationID *string `json:"clientMutationId,omitempty"`
 }
@@ -8564,6 +9287,22 @@ type CancelTwoFactorAuthenticationResetPayload struct {
 // Autogenerated input type of CancelTwoFactorAuthenticationReset
 type CancelTwoFactorAuthenticationResetInput struct {
 	Token *string `json:"token,omitempty"`
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string `json:"clientMutationId,omitempty"`
+}
+
+// Autogenerated return type of ClaimChecklistCheck
+type ClaimChecklistCheckPayload struct {
+	ChecklistCheck *ChecklistCheck `json:"checklist_check,omitempty"`
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string          `json:"clientMutationId,omitempty"`
+	Errors           *ErrorConnection `json:"errors,omitempty"`
+	WasSuccessful    *bool            `json:"was_successful,omitempty"`
+}
+
+// Autogenerated input type of ClaimChecklistCheck
+type ClaimChecklistCheckInput struct {
+	ChecklistCheckID *string `json:"checklist_check_id,omitempty"`
 	// A unique identifier for the client performing the mutation.
 	ClientMutationID *string `json:"clientMutationId,omitempty"`
 }

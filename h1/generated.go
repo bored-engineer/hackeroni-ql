@@ -140,6 +140,7 @@ type Node struct {
 	InvitationQueue                               *InvitationQueue                               `json:"-"`
 	InvitationsRetest                             *InvitationsRetest                             `json:"-"`
 	InvitationsSoftLaunch                         *InvitationsSoftLaunch                         `json:"-"`
+	JiraField                                     *JiraField                                     `json:"-"`
 	JiraIntegration                               *JiraIntegration                               `json:"-"`
 	JiraOauth                                     *JiraOauth                                     `json:"-"`
 	JiraPriorityToSeverityRating                  *JiraPriorityToSeverityRating                  `json:"-"`
@@ -487,6 +488,9 @@ func (u *Node) UnmarshalJSON(data []byte) (err error) {
 	case "InvitationsSoftLaunch":
 		u.InvitationsSoftLaunch = &InvitationsSoftLaunch{}
 		payload = u.InvitationsSoftLaunch
+	case "JiraField":
+		u.JiraField = &JiraField{}
+		payload = u.JiraField
 	case "JiraIntegration":
 		u.JiraIntegration = &JiraIntegration{}
 		payload = u.JiraIntegration
@@ -714,38 +718,39 @@ type User struct {
 	PayoutPreferences                    []*PayoutPreferenceUnion      `json:"payout_preferences,omitempty"`
 	ProfilePicture                       *string                       `json:"profile_picture,omitempty"`
 	// DEPRECATED: Returns all the possible profile pictures instead of just the one you want use .profile_picture instead.
-	ProfilePictures               *string                                 `json:"profile_pictures,omitempty"`
-	ProgramHealthAcknowledgements *ProgramHealthAcknowledgementConnection `json:"program_health_acknowledgements,omitempty"`
-	Rank                          *int32                                  `json:"rank,omitempty"`
-	RemainingReports              *int32                                  `json:"remaining_reports,omitempty"`
-	ReportRetestUsers             *ReportRetestUserConnection             `json:"report_retest_users,omitempty"`
-	Reports                       *ReportConnection                       `json:"reports,omitempty"`
-	Reputation                    *int32                                  `json:"reputation,omitempty"`
-	SamlEnabled                   *bool                                   `json:"saml_enabled,omitempty"`
-	Sessions                      *UserSessionConnection                  `json:"sessions,omitempty"`
-	Signal                        *float64                                `json:"signal,omitempty"`
-	SignalPercentile              *float64                                `json:"signal_percentile,omitempty"`
-	SoftLaunchInvitations         *SoftLaunchConnection                   `json:"soft_launch_invitations,omitempty"`
-	SubscribedForMonthlyDigest    *bool                                   `json:"subscribed_for_monthly_digest,omitempty"`
-	SubscribedForTeamMessages     *bool                                   `json:"subscribed_for_team_messages,omitempty"`
-	Swag                          *SwagConnection                         `json:"swag,omitempty"`
-	TaxForm                       *TaxForm                                `json:"tax_form,omitempty"`
-	TeamPolicySubscription        *TeamPolicySubscription                 `json:"team_policy_subscription,omitempty"`
-	TeamPolicySubscriptions       *TeamPolicySubscriptionConnection       `json:"team_policy_subscriptions,omitempty"`
-	Teams                         *TeamConnection                         `json:"teams,omitempty"`
-	TOTPEnabled                   *bool                                   `json:"totp_enabled,omitempty"`
-	TOTPSupported                 *bool                                   `json:"totp_supported,omitempty"`
-	TriageUser                    *bool                                   `json:"triage_user,omitempty"`
-	TshirtSize                    *TshirtSizeEnum                         `json:"tshirt_size,omitempty"`
-	UnconfirmedEmail              *string                                 `json:"unconfirmed_email,omitempty"`
-	URL                           *URI                                    `json:"url,omitempty"`
-	UserType                      *string                                 `json:"user_type,omitempty"`
-	Username                      *string                                 `json:"username,omitempty"`
-	VpnCredentials                []*VpnCredential                        `json:"vpn_credentials,omitempty"`
-	VpnInstances                  []*VpnInstance                          `json:"vpn_instances,omitempty"`
-	Website                       *string                                 `json:"website,omitempty"`
-	WhitelistedTeams              *TeamConnection                         `json:"whitelisted_teams,omitempty"`
-	YearInReviewPublishedAt       *DateTime                               `json:"year_in_review_published_at,omitempty"`
+	ProfilePictures                *string                                 `json:"profile_pictures,omitempty"`
+	ProgramHealthAcknowledgements  *ProgramHealthAcknowledgementConnection `json:"program_health_acknowledgements,omitempty"`
+	Rank                           *int32                                  `json:"rank,omitempty"`
+	RemainingReports               *int32                                  `json:"remaining_reports,omitempty"`
+	ReportRetestUsers              *ReportRetestUserConnection             `json:"report_retest_users,omitempty"`
+	Reports                        *ReportConnection                       `json:"reports,omitempty"`
+	Reputation                     *int32                                  `json:"reputation,omitempty"`
+	ReputationsGroupedByLastMonths []*LabeledIntegerPair                   `json:"reputations_grouped_by_last_months,omitempty"`
+	SamlEnabled                    *bool                                   `json:"saml_enabled,omitempty"`
+	Sessions                       *UserSessionConnection                  `json:"sessions,omitempty"`
+	Signal                         *float64                                `json:"signal,omitempty"`
+	SignalPercentile               *float64                                `json:"signal_percentile,omitempty"`
+	SoftLaunchInvitations          *SoftLaunchConnection                   `json:"soft_launch_invitations,omitempty"`
+	SubscribedForMonthlyDigest     *bool                                   `json:"subscribed_for_monthly_digest,omitempty"`
+	SubscribedForTeamMessages      *bool                                   `json:"subscribed_for_team_messages,omitempty"`
+	Swag                           *SwagConnection                         `json:"swag,omitempty"`
+	TaxForm                        *TaxForm                                `json:"tax_form,omitempty"`
+	TeamPolicySubscription         *TeamPolicySubscription                 `json:"team_policy_subscription,omitempty"`
+	TeamPolicySubscriptions        *TeamPolicySubscriptionConnection       `json:"team_policy_subscriptions,omitempty"`
+	Teams                          *TeamConnection                         `json:"teams,omitempty"`
+	TOTPEnabled                    *bool                                   `json:"totp_enabled,omitempty"`
+	TOTPSupported                  *bool                                   `json:"totp_supported,omitempty"`
+	TriageUser                     *bool                                   `json:"triage_user,omitempty"`
+	TshirtSize                     *TshirtSizeEnum                         `json:"tshirt_size,omitempty"`
+	UnconfirmedEmail               *string                                 `json:"unconfirmed_email,omitempty"`
+	URL                            *URI                                    `json:"url,omitempty"`
+	UserType                       *string                                 `json:"user_type,omitempty"`
+	Username                       *string                                 `json:"username,omitempty"`
+	VpnCredentials                 []*VpnCredential                        `json:"vpn_credentials,omitempty"`
+	VpnInstances                   []*VpnInstance                          `json:"vpn_instances,omitempty"`
+	Website                        *string                                 `json:"website,omitempty"`
+	WhitelistedTeams               *TeamConnection                         `json:"whitelisted_teams,omitempty"`
+	YearInReviewPublishedAt        *DateTime                               `json:"year_in_review_published_at,omitempty"`
 }
 
 // Represents a type that can be retrieved by a URL.
@@ -1123,12 +1128,10 @@ type Team struct {
 	CVERequests                        *CVERequestsConnection              `json:"cve_requests,omitempty"`
 	CweFieldHidden                     *bool                               `json:"cwe_field_hidden,omitempty"`
 	EmbeddedSubmissionDomains          *EmbeddedSubmissionDomainConnection `json:"embedded_submission_domains,omitempty"`
-	EmbeddedSubmissionFormEnabled      *bool                               `json:"embedded_submission_form_enabled,omitempty"`
 	EmbeddedSubmissionForms            *EmbeddedSubmissionFormConnection   `json:"embedded_submission_forms,omitempty"`
 	ExternalProgram                    *ExternalProgram                    `json:"external_program,omitempty"`
 	ExternalURL                        *string                             `json:"external_url,omitempty"`
 	FancySlackIntegration              *bool                               `json:"fancy_slack_integration,omitempty"`
-	FancySlackIntegrationEnabled       *bool                               `json:"fancy_slack_integration_enabled,omitempty"`
 	FirstResponseTime                  *float64                            `json:"first_response_time,omitempty"`
 	GoalValidReports                   *int32                              `json:"goal_valid_reports,omitempty"`
 	GracePeriodRemainingInDays         *int32                              `json:"grace_period_remaining_in_days,omitempty"`
@@ -2051,6 +2054,7 @@ type TriageInboxItem struct {
 	CreatedAt   *DateTime      `json:"created_at,omitempty"`
 	DismissedAt *DateTime      `json:"dismissed_at,omitempty"`
 	ID          *string        `json:"id,omitempty"`
+	Report      *Report        `json:"report,omitempty"`
 }
 
 // A HackerOne report
@@ -2590,7 +2594,8 @@ type ReportConnection struct {
 	// Groups and counts reports by the severity rating
 	CountBySeverity []*int32 `json:"count_by_severity,omitempty"`
 	// A list of edges.
-	Edges []*ReportEdge `json:"edges,omitempty"`
+	Edges                     []*ReportEdge         `json:"edges,omitempty"`
+	GroupByResolvedLastMonths []*LabeledIntegerPair `json:"group_by_resolved_last_months,omitempty"`
 	// A list of nodes.
 	Nodes []*Report `json:"nodes,omitempty"`
 	// Information to aid in pagination.
@@ -2605,6 +2610,12 @@ type ReportEdge struct {
 	Cursor *string `json:"cursor,omitempty"`
 	// The item at the end of the edge.
 	Node *Report `json:"node,omitempty"`
+}
+
+// A pair of a label and an integer
+type LabeledIntegerPair struct {
+	Label *string `json:"label,omitempty"`
+	Value *int32  `json:"value,omitempty"`
 }
 
 type FiltersReportFilterInput struct {
@@ -2852,15 +2863,12 @@ const (
 )
 
 type FiltersReportFilterOrder struct {
-	Field     *FiltersReportFilterOrderField `json:"field,omitempty"`
-	Direction *FilterOrderDirectionEnum      `json:"direction,omitempty"`
+	ID *FilterOrderPredicateInput `json:"id,omitempty"`
 }
 
-type FiltersReportFilterOrderField string
-
-const (
-	FiltersReportFilterOrderFieldID FiltersReportFilterOrderField = "id"
-)
+type FilterOrderPredicateInput struct {
+	Direction_ *FilterOrderDirectionEnum `json:"_direction,omitempty"`
+}
 
 // Possible directions for sorting a collection
 type FilterOrderDirectionEnum string
@@ -2908,7 +2916,7 @@ type ReportFilterInput struct {
 }
 
 type CustomFieldInput struct {
-	LabelEq *string `json:"label__eq,omitempty"`
+	IDEq    *string `json:"id__eq,omitempty"`
 	ValueEq *string `json:"value__eq,omitempty"`
 }
 
@@ -4145,6 +4153,7 @@ type JiraIntegration struct {
 	ID                            *string                                 `json:"id,omitempty"`
 	IssueStatuses                 []*string                               `json:"issue_statuses,omitempty"`
 	IssueType                     *int32                                  `json:"issue_type,omitempty"`
+	JiraFields                    []*JiraField                            `json:"jira_fields,omitempty"`
 	JiraPriorityToSeverityRatings *JiraPriorityToSeverityRatingConnection `json:"jira_priority_to_severity_ratings,omitempty"`
 	Labels                        *string                                 `json:"labels,omitempty"`
 	Pid                           *int32                                  `json:"pid,omitempty"`
@@ -4152,6 +4161,14 @@ type JiraIntegration struct {
 	Summary                       *string                                 `json:"summary,omitempty"`
 	Team                          *Team                                   `json:"team,omitempty"`
 	UpdatedAt                     *DateTime                               `json:"updated_at,omitempty"`
+}
+
+// A field of JIRA issue type
+type JiraField struct {
+	FieldType *string `json:"field_type,omitempty"`
+	ID        *string `json:"id,omitempty"`
+	Name      *string `json:"name,omitempty"`
+	Value     *string `json:"value,omitempty"`
 }
 
 // The connection type for JiraPriorityToSeverityRating.
@@ -4234,6 +4251,7 @@ type JiraOauth struct {
 	Assignables []*string `json:"assignables,omitempty"`
 	Configured  *bool     `json:"configured,omitempty"`
 	CreatedAt   *DateTime `json:"created_at,omitempty"`
+	Fields      []*string `json:"fields,omitempty"`
 	ID          *string   `json:"id,omitempty"`
 	IssueTypes  []*string `json:"issue_types,omitempty"`
 	Jwt         *bool     `json:"jwt,omitempty"`
@@ -4279,10 +4297,6 @@ type TeamOrderInput struct {
 type TeamOrderField string
 
 const (
-	TeamOrderFieldName                        TeamOrderField = "name"
-	TeamOrderFieldReportsResolved             TeamOrderField = "reports_resolved"
-	TeamOrderFieldAverageBountyAmount         TeamOrderField = "average_bounty_amount"
-	TeamOrderFieldMinimumBounty               TeamOrderField = "minimum_bounty"
 	TeamOrderFieldLastInvitationAcceptedAt    TeamOrderField = "last_invitation_accepted_at"
 	TeamOrderFieldReportsSubmittedByUser      TeamOrderField = "reports_submitted_by_user"
 	TeamOrderFieldValidReportsSubmittedByUser TeamOrderField = "valid_reports_submitted_by_user"
@@ -4290,17 +4304,29 @@ const (
 )
 
 type FiltersTeamFilterOrder struct {
-	Field     *FiltersTeamFilterOrderField `json:"field,omitempty"`
-	Direction *FilterOrderDirectionEnum    `json:"direction,omitempty"`
+	ID                           *FilterOrderPredicateInput                        `json:"id,omitempty"`
+	Name                         *FilterOrderPredicateInput                        `json:"name,omitempty"`
+	StartedAcceptingAt           *FilterOrderPredicateInput                        `json:"started_accepting_at,omitempty"`
+	ResponseEfficiencyPercentage *FilterOrderPredicateInput                        `json:"response_efficiency_percentage,omitempty"`
+	AverageBounties              *FiltersDerivedTeamAverageBountyAmountFilterOrder `json:"average_bounties,omitempty"`
+	MinimumBounties              *FiltersDerivedTeamMinimumBountyFilterOrder       `json:"minimum_bounties,omitempty"`
+	Reports                      *FiltersDerivedTeamReportResolvedCountFilterOrder `json:"reports,omitempty"`
 }
 
-type FiltersTeamFilterOrderField string
+type FiltersDerivedTeamAverageBountyAmountFilterOrder struct {
+	TeamID *FilterOrderPredicateInput `json:"team_id,omitempty"`
+	Amount *FilterOrderPredicateInput `json:"amount,omitempty"`
+}
 
-const (
-	FiltersTeamFilterOrderFieldID                                 FiltersTeamFilterOrderField = "id"
-	FiltersTeamFilterOrderFieldStartedAcceptingAt                 FiltersTeamFilterOrderField = "started_accepting_at"
-	FiltersTeamFilterOrderFieldCachedResponseEfficiencyPercentage FiltersTeamFilterOrderField = "cached_response_efficiency_percentage"
-)
+type FiltersDerivedTeamMinimumBountyFilterOrder struct {
+	TeamID *FilterOrderPredicateInput `json:"team_id,omitempty"`
+	Amount *FilterOrderPredicateInput `json:"amount,omitempty"`
+}
+
+type FiltersDerivedTeamReportResolvedCountFilterOrder struct {
+	TeamID        *FilterOrderPredicateInput `json:"team_id,omitempty"`
+	ResolvedCount *FilterOrderPredicateInput `json:"resolved_count,omitempty"`
+}
 
 // Challenge setting of a Team
 type ChallengeSetting struct {
@@ -4423,28 +4449,36 @@ type ProgramStatisticEdge struct {
 
 // Statistics for a certain interval for a certain team
 type ProgramStatistic struct {
-	DuplicateReports             *int32                             `json:"duplicate_reports,omitempty"`
-	ID                           *string                            `json:"id,omitempty"`
-	InformativeReports           *int32                             `json:"informative_reports,omitempty"`
-	Interval                     *ProgramStatisticIntervalEnum      `json:"interval,omitempty"`
-	IntervalStart                *Date                              `json:"interval_start,omitempty"`
-	IsComplete                   *bool                              `json:"is_complete,omitempty"`
-	NotApplicableReports         *int32                             `json:"not_applicable_reports,omitempty"`
-	ResolvedReports              *int32                             `json:"resolved_reports,omitempty"`
-	SpamReports                  *int32                             `json:"spam_reports,omitempty"`
-	SubmittedReports             *int32                             `json:"submitted_reports,omitempty"`
-	TriagedReports               *int32                             `json:"triaged_reports,omitempty"`
-	ValidCriticalSeverityReports *int32                             `json:"valid_critical_severity_reports,omitempty"`
-	ValidHighSeverityReports     *int32                             `json:"valid_high_severity_reports,omitempty"`
-	ValidLowSeverityReports      *int32                             `json:"valid_low_severity_reports,omitempty"`
-	ValidMediumSeverityReports   *int32                             `json:"valid_medium_severity_reports,omitempty"`
-	ValidNoneSeverityReports     *int32                             `json:"valid_none_severity_reports,omitempty"`
-	ValidReports                 *int32                             `json:"valid_reports,omitempty"`
-	ValidReportsPerScope         *ReportsCountPerScopeConnection    `json:"valid_reports_per_scope,omitempty"`
-	ValidReportsPerWeakness      *ReportsCountPerWeaknessConnection `json:"valid_reports_per_weakness,omitempty"`
-	ValidReportsWithoutScope     *int32                             `json:"valid_reports_without_scope,omitempty"`
-	ValidReportsWithoutWeakness  *int32                             `json:"valid_reports_without_weakness,omitempty"`
-	ValidWithoutSeverityReports  *int32                             `json:"valid_without_severity_reports,omitempty"`
+	ClosedReports                        *int32                             `json:"closed_reports,omitempty"`
+	DuplicateReports                     *int32                             `json:"duplicate_reports,omitempty"`
+	ID                                   *string                            `json:"id,omitempty"`
+	InformativeReports                   *int32                             `json:"informative_reports,omitempty"`
+	Interval                             *ProgramStatisticIntervalEnum      `json:"interval,omitempty"`
+	IntervalStart                        *Date                              `json:"interval_start,omitempty"`
+	IsComplete                           *bool                              `json:"is_complete,omitempty"`
+	NotApplicableReports                 *int32                             `json:"not_applicable_reports,omitempty"`
+	ResolvedReports                      *int32                             `json:"resolved_reports,omitempty"`
+	SpamReports                          *int32                             `json:"spam_reports,omitempty"`
+	SubmittedReports                     *int32                             `json:"submitted_reports,omitempty"`
+	TriagedReports                       *int32                             `json:"triaged_reports,omitempty"`
+	ValidCriticalSeverityReports         *int32                             `json:"valid_critical_severity_reports,omitempty"`
+	ValidCriticalSeverityReportsBounties *int32                             `json:"valid_critical_severity_reports_bounties,omitempty"`
+	ValidHighSeverityReports             *int32                             `json:"valid_high_severity_reports,omitempty"`
+	ValidHighSeverityReportsBounties     *int32                             `json:"valid_high_severity_reports_bounties,omitempty"`
+	ValidLowSeverityReports              *int32                             `json:"valid_low_severity_reports,omitempty"`
+	ValidLowSeverityReportsBounties      *int32                             `json:"valid_low_severity_reports_bounties,omitempty"`
+	ValidMediumSeverityReports           *int32                             `json:"valid_medium_severity_reports,omitempty"`
+	ValidMediumSeverityReportsBounties   *int32                             `json:"valid_medium_severity_reports_bounties,omitempty"`
+	ValidNoneSeverityReports             *int32                             `json:"valid_none_severity_reports,omitempty"`
+	ValidNoneSeverityReportsBounties     *int32                             `json:"valid_none_severity_reports_bounties,omitempty"`
+	ValidReports                         *int32                             `json:"valid_reports,omitempty"`
+	ValidReportsBounties                 *int32                             `json:"valid_reports_bounties,omitempty"`
+	ValidReportsPerScope                 *ReportsCountPerScopeConnection    `json:"valid_reports_per_scope,omitempty"`
+	ValidReportsPerWeakness              *ReportsCountPerWeaknessConnection `json:"valid_reports_per_weakness,omitempty"`
+	ValidReportsWithoutScope             *int32                             `json:"valid_reports_without_scope,omitempty"`
+	ValidReportsWithoutWeakness          *int32                             `json:"valid_reports_without_weakness,omitempty"`
+	ValidWithoutSeverityReports          *int32                             `json:"valid_without_severity_reports,omitempty"`
+	ValidWithoutSeverityReportsBounties  *int32                             `json:"valid_without_severity_reports_bounties,omitempty"`
 }
 
 // Intervals that program statistics can be grouped by
@@ -4452,6 +4486,7 @@ type ProgramStatisticIntervalEnum string
 
 const (
 	ProgramStatisticIntervalEnumDay     ProgramStatisticIntervalEnum = "day"
+	ProgramStatisticIntervalEnumWeek    ProgramStatisticIntervalEnum = "week"
 	ProgramStatisticIntervalEnumMonth   ProgramStatisticIntervalEnum = "month"
 	ProgramStatisticIntervalEnumQuarter ProgramStatisticIntervalEnum = "quarter"
 	ProgramStatisticIntervalEnumYear    ProgramStatisticIntervalEnum = "year"
@@ -4477,6 +4512,7 @@ type ReportsCountPerScopeEdge struct {
 // Number of reports per scope of specific program
 type ReportsCountPerScope struct {
 	AssetIdentifier *string `json:"asset_identifier,omitempty"`
+	Bounties        *int32  `json:"bounties,omitempty"`
 	ID              *string `json:"id,omitempty"`
 	ReportsCount    *int32  `json:"reports_count,omitempty"`
 }
@@ -4502,6 +4538,7 @@ type ReportsCountPerWeaknessEdge struct {
 
 // Number of reports per weakness of specific program
 type ReportsCountPerWeakness struct {
+	Bounties     *int32    `json:"bounties,omitempty"`
 	ID           *string   `json:"id,omitempty"`
 	ReportsCount *int32    `json:"reports_count,omitempty"`
 	Weakness     *Weakness `json:"weakness,omitempty"`
@@ -5603,7 +5640,8 @@ type HackerInvitationsProfile struct {
 type BountyConnection struct {
 	AverageAmount *float64 `json:"average_amount,omitempty"`
 	// A list of edges.
-	Edges []*BountyEdge `json:"edges,omitempty"`
+	Edges             []*BountyEdge         `json:"edges,omitempty"`
+	GroupByLastMonths []*LabeledIntegerPair `json:"group_by_last_months,omitempty"`
 	// A list of nodes.
 	Nodes []*Bounty `json:"nodes,omitempty"`
 	// Information to aid in pagination.
@@ -6262,16 +6300,9 @@ const (
 )
 
 type FiltersHacktivityItemFilterOrder struct {
-	Field     *FiltersHacktivityItemFilterOrderField `json:"field,omitempty"`
-	Direction *FilterOrderDirectionEnum              `json:"direction,omitempty"`
+	ID                          *FilterOrderPredicateInput `json:"id,omitempty"`
+	LatestDisclosableActivityAt *FilterOrderPredicateInput `json:"latest_disclosable_activity_at,omitempty"`
 }
-
-type FiltersHacktivityItemFilterOrderField string
-
-const (
-	FiltersHacktivityItemFilterOrderFieldID                          FiltersHacktivityItemFilterOrderField = "id"
-	FiltersHacktivityItemFilterOrderFieldLatestDisclosableActivityAt FiltersHacktivityItemFilterOrderField = "latest_disclosable_activity_at"
-)
 
 type FiltersHacktivityItemFilterInput struct {
 	Or_                []*FiltersHacktivityItemFilterInput `json:"_or,omitempty"`
@@ -6392,6 +6423,7 @@ type Mutation struct {
 	RegenerateCalendarToken                          *RegenerateCalendarTokenPayload                          `json:"regenerateCalendarToken,omitempty"`
 	RejectInvitation                                 *RejectInvitationPayload                                 `json:"rejectInvitation,omitempty"`
 	RemoveBountyTable                                *RemoveBountyTablePayload                                `json:"removeBountyTable,omitempty"`
+	ResetTriageInbox                                 *ResetTriageInboxPayload                                 `json:"resetTriageInbox,omitempty"`
 	RevokeCredential                                 *RevokeCredentialPayload                                 `json:"revokeCredential,omitempty"`
 	StartVpnInstance                                 *StartVpnInstancePayload                                 `json:"startVpnInstance,omitempty"`
 	StopVpnInstance                                  *StopVpnInstancePayload                                  `json:"stopVpnInstance,omitempty"`
@@ -6521,6 +6553,7 @@ type MutationResult struct {
 	PublishPolicyPayload                                   *PublishPolicyPayload                                   `json:"-"`
 	RegenerateCalendarTokenPayload                         *RegenerateCalendarTokenPayload                         `json:"-"`
 	RemoveBountyTablePayload                               *RemoveBountyTablePayload                               `json:"-"`
+	ResetTriageInboxPayload                                *ResetTriageInboxPayload                                `json:"-"`
 	RevokeCredentialPayload                                *RevokeCredentialPayload                                `json:"-"`
 	StartVpnInstancePayload                                *StartVpnInstancePayload                                `json:"-"`
 	StopVpnInstancePayload                                 *StopVpnInstancePayload                                 `json:"-"`
@@ -6721,6 +6754,9 @@ func (u *MutationResult) UnmarshalJSON(data []byte) (err error) {
 	case "RemoveBountyTablePayload":
 		u.RemoveBountyTablePayload = &RemoveBountyTablePayload{}
 		payload = u.RemoveBountyTablePayload
+	case "ResetTriageInboxPayload":
+		u.ResetTriageInboxPayload = &ResetTriageInboxPayload{}
+		payload = u.ResetTriageInboxPayload
 	case "RevokeCredentialPayload":
 		u.RevokeCredentialPayload = &RevokeCredentialPayload{}
 		payload = u.RevokeCredentialPayload
@@ -7478,6 +7514,21 @@ type DismissTriageInboxItemsPayload struct {
 // Autogenerated input type of DismissTriageInboxItems
 type DismissTriageInboxItemsInput struct {
 	TriageInboxItemIds []*string `json:"triage_inbox_item_ids,omitempty"`
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string `json:"clientMutationId,omitempty"`
+}
+
+// Autogenerated return type of ResetTriageInbox
+type ResetTriageInboxPayload struct {
+	// A unique identifier for the client performing the mutation.
+	ClientMutationID *string          `json:"clientMutationId,omitempty"`
+	Errors           *ErrorConnection `json:"errors,omitempty"`
+	Query            *Query           `json:"query,omitempty"`
+	WasSuccessful    *bool            `json:"was_successful,omitempty"`
+}
+
+// Autogenerated input type of ResetTriageInbox
+type ResetTriageInboxInput struct {
 	// A unique identifier for the client performing the mutation.
 	ClientMutationID *string `json:"clientMutationId,omitempty"`
 }
@@ -8271,6 +8322,7 @@ type CreateOrUpdateJiraIntegrationInput struct {
 	Pid                                 *int32                     `json:"pid,omitempty"`
 	ProjectSelectionEnabled             *bool                      `json:"project_selection_enabled,omitempty"`
 	IssueType                           *int32                     `json:"issue_type,omitempty"`
+	IssueFields                         []*JiraFieldInputType      `json:"issue_fields,omitempty"`
 	BaseURL                             *string                    `json:"base_url,omitempty"`
 	Summary                             *string                    `json:"summary,omitempty"`
 	Description                         *string                    `json:"description,omitempty"`
@@ -8281,6 +8333,12 @@ type CreateOrUpdateJiraIntegrationInput struct {
 	PriorityRatingIds                   *JiraPrioritySeverityInput `json:"priority_rating_ids,omitempty"`
 	// A unique identifier for the client performing the mutation.
 	ClientMutationID *string `json:"clientMutationId,omitempty"`
+}
+
+type JiraFieldInputType struct {
+	Name      *string `json:"name,omitempty"`
+	Value     *string `json:"value,omitempty"`
+	FieldType *string `json:"field_type,omitempty"`
 }
 
 type JiraPrioritySeverityInput struct {
